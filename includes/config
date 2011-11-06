@@ -1,0 +1,7 @@
+SERVER=localhost
+
+#DocumentRoot
+WWW=/Users/$USER/Sites
+
+#Apache directory
+APACHEDIR=/etc/apache2

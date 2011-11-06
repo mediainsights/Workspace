@@ -1,0 +1,63 @@
+#!/bin/bash
+
+#Usage check
+: ${1?"Usage: $0 ARGUMENT"}
+
+source includes/config
+
+#Check vhost exist
+if [ -f $APACHEDIR/other/$1.$SERVER.conf ]; then
+  echo vhost $1.$SERVER is already existed
+  exit
+fi
+
+#Check project directory exist
+if [ -d $WWW/$1 ]; then
+  echo Folder $1 is already existed
+#  exit
+fi
+
+#Check drush settings
+if [ ! -d /Users/$USER/.drush ]; then
+	echo ".drush folder not found"
+	exit
+fi
+
+############
+# Pass all tests
+############
+
+
+#Add vhost
+ echo "<VirtualHost *:80>
+    DocumentRoot $WWW/$1 
+    ServerName $1.localhost
+    <Directory $WWW/$1>
+        AllowOverride All
+    </Directory>
+</VirtualHost>
+" | sudo tee -a $APACHEDIR/other/$1.$SERVER.conf
+
+sudo apachectl restart
+
+#Add host alias
+if [ ! $(grep -q "$1.$SERVER" /etc/hosts) ]; then
+  echo -e "127.0.0.1	$1.$SERVER" | sudo tee -a /etc/hosts
+fi
+
+#drush alias
+echo "<?php
+\$aliases['$1'] = array(
+    'uri' => '$1.$SERVER',
+    'root' => '$WWW/$1',
+  );" > /Users/$USER/.drush/$1.aliases.drushrc.php 
+
+
+#Clone INprofile from github
+git clone --branch stable git@github.com:mediainsights/IP.git $WWW/$1
+
+
+#chown -R user $WWW/$1
+
+#Deploy
+$WWW/$1/deploy $1

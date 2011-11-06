@@ -1,0 +1,34 @@
+#!/bin/bash
+
+#Usage check
+: ${1?"Usage: $0 ARGUMENT"}
+
+source includes/config
+
+############
+# Pass all tests
+############
+
+#Reset
+$WWW/$1/reset $1
+
+#remove vhost file
+sudo rm -f $APACHEDIR/other/$1.$SERVER.conf
+echo vhost removed.
+
+sudo apachectl restart
+echo apache restarted.
+
+#remove site directory
+sudo rm -rf $WWW/$1
+echo site directory removed.
+
+#remove host alias
+sed "/$1.$SERVER/d" /etc/hosts > tmp/hosts
+sudo mv tmp/hosts /etc/hosts
+echo updated etc/hosts.
+
+
+#remove drush alias
+rm -f /Users/$USER/.drush/$1.aliases.drushrc.php
+echo drush alias removed.
