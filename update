@@ -1,0 +1,32 @@
+#!/bin/bash
+
+#Usage check
+: ${2?"Usage: $0 sitec-code version-number"}
+
+
+#check site exist
+dd=$(drush @$1 dd)
+
+if [ -d "$dd" ]; then
+  currentversion=$dd/version|grep "update-schema"|awk '{ print $2 }'
+else
+  echo Site $1 not found
+  exit
+fi
+
+
+############
+# Pass all tests
+############
+
+function update_1 {
+	drush @$1 dis overlay -y
+}
+
+
+# Do all require updates
+let c=currentversion
+while [  $c -lt $2 ]; do
+  update_$((c+1)) $1
+  let c=c+1 
+done
