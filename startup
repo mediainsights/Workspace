@@ -54,8 +54,13 @@ echo "<?php
 
 
 #Clone INprofile from github
-git clone --branch stable git@github.com:mediainsights/IP.git $WWW/$1
-
+if [ $2 = "test" ]; then
+  echo "Clone test branch"
+  git clone --branch test git@github.com:mediainsights/IP.git $WWW/$1	
+else	
+  echo "Clone stable branch"
+  git clone --branch stable git@github.com:mediainsights/IP.git $WWW/$1
+fi
 
 #chown -R user $WWW/$1
 
