@@ -1,13 +1,11 @@
 #!/bin/bash
 
 #Usage check
-: ${1?"Usage: $0 ARGUMENT"}
+: ${1?"Usage: $0 SITE"}
 
 source includes/config
 
-############
 # Pass all tests
-############
 
 #Reset
 $WWW/$1/reset $1
