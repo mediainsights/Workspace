@@ -20,11 +20,12 @@ echo "Checking updates..."
 cd IP
 silent=$(git pull)
 
-if [ $2 = "test" ]; then
-  silent=$(git co test)
+if [ -z "$2" ]; then 
+	branch="stable"
 else
-  silent=$(git co stage)
+	branch=$2
 fi
+silent=$(git co $branch)
 
 let latest_version=$(cat version|grep "update-schema"|awk '{ print $2 }')
 

@@ -1,7 +1,6 @@
 #!/bin/bash
-#PATH="/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin:$PATH" >> ~/.bash_profile
-source ~/.bash_profile
 
+source ~/.bash_profile
 
 #Usage check
 : ${1?"Usage: $0 SITE"}
@@ -14,9 +13,10 @@ if [ -f $APACHEDIR/other/$1.$SERVER.conf ]; then
   exit
 fi
 
-#Check project directory exist
-if [ -d $WWW/$1 ]; then
-  echo Folder $1 is already existed
+
+#Check site directory exist
+if [ -d $WWW/$MSITES/sites/$1.$SERVER ]; then
+  echo site $1.localhost is already existed
 #  exit
 fi
 
@@ -27,6 +27,13 @@ if [ ! -d /Users/$USER/.drush ]; then
 fi
 
 ######## Pass all tests ########
+
+#default to msites
+if [ -z "$2" ]; then 
+	MSITES=msites
+else
+	MSITES=$2
+fi
 
 function check_db_exist {
 	DBS=`mysql -uroot -p$rootpass -Bse 'show databases'| egrep -v 'information_schema|mysql'`
@@ -41,31 +48,11 @@ function check_db_exist {
 
 }
 
-#Argument check
-if [ -z "$2" ]; then 
-
-	read -p "Do you want to use the latest dev or the latest stable release? (dev/stable):" dev_stable
-	
-	while [ "$dev_stable" != "dev" ] && [ "$dev_stable" != "stable" ]; do
-	       read -p "dev or stable ?: " dev_stable
-	done
-
-else
-	dev_stable=$2
-fi
-
-branch=$(cat version|grep "branch"|awk '{ print $2 }')
-#branch=master
-
-if [ $dev_stable == stable ]; then
-	tag=$(cat version|grep "stable"|awk '{ print $2 }')
-fi
-
 #Add vhost
  echo "<VirtualHost *:80>
-    DocumentRoot $WWW/$1 
+    DocumentRoot $WWW/$MSITES
     ServerName $1.localhost
-    <Directory $WWW/$1>
+    <Directory $WWW/$MSITES>
         AllowOverride All
     </Directory>
 </VirtualHost>
@@ -78,24 +65,17 @@ if [ ! $(grep -q "$1.$SERVER" /etc/hosts) ]; then
   echo -e "127.0.0.1	$1.$SERVER" | sudo tee -a /etc/hosts
 fi
 
+
 #Add drush alias
 echo "<?php
 \$aliases['$1'] = array(
     'uri' => '$1.$SERVER',
-    'root' => '$WWW/$1',
+    'root' => '$WWW/$MSITES',
   );" > /Users/$USER/.drush/$1.aliases.drushrc.php 
 
 
-#Clone INprofile from github
-echo Clone $branch branch
-git clone --branch $branch $REPOS $WWW/$1	
-
-#checkout tag for stable
-if [ $dev_stable == stable ]; then
-	cd $WWW/$1
-	git co $tag
-	git co -b $tag
-fi
+#Create site folder
+cp -pRva $WWW/$MSITES/sites/default $WWW/$MSITES/sites/$1.$SERVER
 
 #Create Database
 read -s -p "Enter mysql root password: " rootpass
@@ -134,18 +114,14 @@ SQL="${Q1}${Q2}"
 
 mysql -uroot -p$rootpass -e "$SQL"
 
-# Get ready for Drupal installation
-chmod 755 $WWW/$1/sites/default
-
 #Optional settings for manual druapl install
-#mkdir $WWW/$1/sites/default/files
-#chmod 777 $WWW/$1/sites/default/files
-#cp $WWW/$1/sites/default/default.settings.php $WWW/$1/sites/default/settings.php
-#chmod 777 $WWW/$1/sites/default/settings.php
-
+#mkdir $WWW/$MSITES/sites/$1.$SERVER/files
+#chmod 777 $WWW/$MSITES/sites/$1.$SERVER/files
+#cp $WWW/$MSITES/sites/$1.$SERVER/default.settings.php $WWW/$MSITES/sites/$1.$SERVER/settings.php
+#chmod 777 $WWW/$MSITES/sites/$1.$SERVER/settings.php
 
 #INSTALL DRUPAL
-drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass --sites-subdir=$1.$SERVER -y
+drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass  --sites-subdir=$1.$SERVER -y
 
 #Check if Drupal install successfully
 status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
@@ -157,7 +133,6 @@ if [ "$status" = "Successful" ]; then
 
 	#Make files directory writable
 	chmod -R 777 `drush @$1 dd files`
-	chmod 755 $dd/sites/default
 	chmod 755 $dd/sites/$1.$SERVER
 	
 	#Enable ipdeploy

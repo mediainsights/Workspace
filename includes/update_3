@@ -1,0 +1,12 @@
+function update_3 {
+	echo update_3
+	dd=$(drush @$1 dd)
+	
+	mv $dd/sites/all/modules/themes/zen $dd/sites/all/themes/
+	
+	mv -f $dd/sites/all/modules/modules/* $dd/sites/all/modules/
+	
+	rm -rf 	$dd/sites/all/modules/libraries
+	
+	rm -rf 	$dd/sites/all/modules/modules	
+}

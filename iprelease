@@ -1,0 +1,27 @@
+#!/bin/bash
+
+source includes/config
+
+
+#Usage check
+: ${1?"Usage: $0 VERSION"}
+
+#check ip exist
+if [ ! -d $DEV ]; then
+  echo $DEV not found
+  exit
+fi
+
+# Pass all tests
+
+cd $DEV
+git co NEXTRELEASE
+version=$(cat version|grep "version"|awk '{ print $2 }')
+update_schema=$(cat version|grep "update-schema"|awk '{ print $2 }')
+
+git co STABLE
+git merge NEXTRELEASE
+git tag -a $version -m "version: $version, update-schema: $update_schema"
+
+git push insights STABLE
+git push insights tag $version

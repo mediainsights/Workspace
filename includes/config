@@ -5,3 +5,11 @@ WWW=/Users/$USER/Sites
 
 #Apache directory
 APACHEDIR=/etc/apache2
+
+#dev git repository
+REPOS=git@github.com:KelvinWong/IP.git
+#REPOS=git@github.com:mediainsights/IP.git
+#REPOS=ssh://apo/srv/vcs/apo.git
+
+#dev space
+DEV=$WWW/kelvin

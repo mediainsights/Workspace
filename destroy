@@ -1,14 +1,44 @@
 #!/bin/bash
+source ~/.bash_profile
+source includes/config
 
 #Usage check
 : ${1?"Usage: $0 SITE"}
 
-source includes/config
+# Mysql login
+read -s -p "Enter mysql root password: " rootpass
+
+#Test mysql connection
+while ! mysql -u root -p$rootpass  -e ";" ; do
+       read -s -p "Can't connect, please retry: " rootpass
+done
+
+echo "";
+
 
 # Pass all tests
 
-#Reset
-$WWW/$1/reset $1
+#REMOVE DB AND USER
+
+dbname=$(drush @$1 status|grep "Database name"|awk '{ print $4 }')
+dbuser=$(drush @$1 status|grep "Database username"|awk '{ print $4 }')
+
+if [ -n "$dbname" ] 
+then
+  mysqladmin -uroot -p$rootpass -f DROP $dbname;
+else
+  echo "No database detected"
+fi
+
+
+if [ -n "$dbuser" ]
+then
+  mysql -uroot -p$rootpass -e "DROP USER $dbuser@localhost;";
+  echo "User \"$dbuser\" is removed."
+else
+  echo "No user detected"
+fi
+
 
 #remove vhost file
 sudo rm -f $APACHEDIR/other/$1.$SERVER.conf
@@ -17,8 +47,14 @@ echo vhost removed.
 sudo apachectl restart
 echo apache restarted.
 
+
+#drupal directory
+dd=$(drush @$1 dd)
+
 #remove site directory
 sudo rm -rf $WWW/$1
+#remove multi-site directory in msites
+sudo rm -rf $dd/sites/$1.$SERVER
 echo site directory removed.
 
 #remove host alias
