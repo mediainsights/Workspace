@@ -41,6 +41,31 @@ function check_db_exist {
 
 }
 
+
+#Add remote repositries if not exists.
+for index in ${!REPOS[*]}
+do
+	repo_exist=$(git remote|grep ${REPOS_SHORTNAME[$index]})
+	
+	if [ -z "$repo_exist" ]; then 
+		git remote add ${REPOS_SHORTNAME[$index]} ${REPOS[$index]}
+		
+	fi
+done
+
+#Fetch remote repositries
+echo "Updating remote repositries"
+for index in ${!REPOS[*]}
+do
+	git fetch ${REPOS_SHORTNAME[$index]}
+done
+
+echo "Which repositry do you want to use?"
+for index in ${!REPOS[*]}
+do
+    printf "%4s: %s - %s\n" $index ${REPOS_SHORTNAME[$index]} ${REPOS[$index]}
+done
+
 #Argument check
 if [ -z "$2" ]; then 
 
