@@ -1,0 +1,14 @@
+#!/bin/bash
+
+function check_db_exist {
+	DBS=`mysql -uroot -p$rootpass -Bse 'show databases'| egrep -v 'information_schema|mysql'`
+	for db in $DBS; do
+		if [ "$db" = $1 ]; then
+		    echo 1
+			return
+		fi
+	done
+
+	echo 0
+
+}

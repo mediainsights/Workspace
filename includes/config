@@ -7,13 +7,19 @@ WWW=/Users/$USER/Sites
 APACHEDIR=/etc/apache2
 
 #dev git repository
-REPOS[0]=git@github.com:KelvinWong/IP.git
-REPOS[1]=git@github.com:mediainsights/IP.git
+REPOS[0]=git@github.com:mediainsights/IP.git
+REPOS[1]=git@github.com:KelvinWong/IP.git
 
-REPOS_SHORTNAME[0]=kw
-REPOS_SHORTNAME[1]=mi
+REPOS_SHORTNAME[0]=mi
+REPOS_SHORTNAME[1]=kw
+
 
 #REPOS=ssh://apo/srv/vcs/apo.git
+
+#preset
+PRESET=1
+PRESET_REPO_INDEX=1
+PRESET_BRANCH=7.x-2.x
 
 #dev space
 DEV=$WWW/kelvin

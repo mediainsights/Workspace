@@ -7,6 +7,7 @@ source ~/.bash_profile
 : ${1?"Usage: $0 SITE"}
 
 source includes/config
+source includes/functions
 
 #Check vhost exist
 if [ -f $APACHEDIR/other/$1.$SERVER.conf ]; then
@@ -28,63 +29,47 @@ fi
 
 ######## Pass all tests ########
 
-function check_db_exist {
-	DBS=`mysql -uroot -p$rootpass -Bse 'show databases'| egrep -v 'information_schema|mysql'`
-	for db in $DBS; do
-		if [ "$db" = $1 ]; then
-		    echo 1
-			return
-		fi
-	done
+#Load preset value
+if [ $PRESET == 1 ]; then
+	repo_index=$PRESET_REPO_INDEX
+	branch=$PRESET_BRANCH
 
-	echo 0
-
-}
-
-
-#Add remote repositries if not exists.
-for index in ${!REPOS[*]}
-do
-	repo_exist=$(git remote|grep ${REPOS_SHORTNAME[$index]})
-	
-	if [ -z "$repo_exist" ]; then 
-		git remote add ${REPOS_SHORTNAME[$index]} ${REPOS[$index]}
-		
-	fi
-done
-
-#Fetch remote repositries
-echo "Updating remote repositries"
-for index in ${!REPOS[*]}
-do
-	git fetch ${REPOS_SHORTNAME[$index]}
-done
-
-echo "Which repositry do you want to use?"
-for index in ${!REPOS[*]}
-do
-    printf "%4s: %s - %s\n" $index ${REPOS_SHORTNAME[$index]} ${REPOS[$index]}
-done
-
-#Argument check
-if [ -z "$2" ]; then 
-
-	read -p "Do you want to use the latest dev or the latest stable release? (dev/stable):" dev_stable
-	
-	while [ "$dev_stable" != "dev" ] && [ "$dev_stable" != "stable" ]; do
-	       read -p "dev or stable ?: " dev_stable
-	done
-
+#OR get from inputs
 else
-	dev_stable=$2
+	#Add remote repositries if not exists.
+    for index in ${!REPOS[*]}
+    do
+        repo_exist=$(git remote|grep ${REPOS_SHORTNAME[$index]})
+        
+        if [ -z "$repo_exist" ]; then 
+            git remote add ${REPOS_SHORTNAME[$index]} ${REPOS[$index]}
+            
+        fi
+    done
+    
+    #Fetch remote repositries
+    echo "Updating remote repositries"
+    for index in ${!REPOS[*]}
+    do
+        git fetch ${REPOS_SHORTNAME[$index]}
+    done
+    
+    #Choose remote repo
+    repo_index=10000
+    while [ -z "${REPOS_SHORTNAME[$repo_index]}" ]; do
+        for index in ${!REPOS[*]}
+        do
+            printf "%4s: %s\n" $index ${REPOS[$index]}
+        done
+        read -p "Which repositry do you want to use? " repo_index
+    done
+    
+    repo=${REPOS[$repo_index]}
+    
+    git branch -a|grep "${REPOS_SHORTNAME[$repo_index]}"|awk -F"/" '{print $NF}'
+    read -p "Select a branch? " branch
 fi
 
-branch=$(cat version|grep "branch"|awk '{ print $2 }')
-#branch=master
-
-if [ $dev_stable == stable ]; then
-	tag=$(cat version|grep "stable"|awk '{ print $2 }')
-fi
 
 #Add vhost
  echo "<VirtualHost *:80>
@@ -113,11 +98,12 @@ echo "<?php
 
 #Clone INprofile from github
 echo Clone $branch branch
-git clone --branch $branch $REPOS $WWW/$1	
+git clone --branch $branch $repo $WWW/$1	
 
-#checkout tag for stable
-if [ $dev_stable == stable ]; then
+#checkout tag for mi
+if [ $repo_index == 0 ]; then
 	cd $WWW/$1
+	tag=$(git tag|tail -1)
 	git co $tag
 	git co -b $tag
 fi
