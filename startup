@@ -1,13 +1,19 @@
 #!/bin/bash
-#PATH="/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin:$PATH" >> ~/.bash_profile
-source ~/.bash_profile
 
+############################################################################# 
+# Source files
+#############################################################################
+
+source ~/.bash_profile
+source includes/config
+source includes/functions
+
+############################################################################# 
+# Check usage and platform settings
+#############################################################################
 
 #Usage check
 : ${1?"Usage: $0 SITE"}
-
-source includes/config
-source includes/functions
 
 #Check vhost exist
 if [ -f $APACHEDIR/other/$1.$SERVER.conf ]; then
@@ -27,33 +33,46 @@ if [ ! -d /Users/$USER/.drush ]; then
 	exit
 fi
 
-######## Pass all tests ########
+############################################################################# 
+# Find out the repository to download
+############################################################################# 
 
 #Load preset value
-if [ $PRESET == 1 ]; then
-	repo_index=$PRESET_REPO_INDEX
-	branch=$PRESET_BRANCH
+repo_index=$PRESET_REPO_INDEX
+branch=$PRESET_BRANCH
+repo=${REPOS[$repo_index]}
 
-#OR get from inputs
-else
+use_preset=''
+
+while [[ $use_preset != 'y'  &&  $use_preset != 'n' ]]; do
+	printf "\nPreset Values:\n"
+	printf "%s = %s\n" 'Repo' $repo
+	printf "%s = %s\n" 'Branch' $branch
+
+	read -p "Do you want to use the preset values? (y/n): " use_preset
+done
+
+
+if [ $use_preset == 'n' ]; then
+
 	#Add remote repositries if not exists.
     for index in ${!REPOS[*]}
     do
         repo_exist=$(git remote|grep ${REPOS_SHORTNAME[$index]})
-        
+
         if [ -z "$repo_exist" ]; then 
             git remote add ${REPOS_SHORTNAME[$index]} ${REPOS[$index]}
-            
+
         fi
     done
-    
+
     #Fetch remote repositries
-    echo "Updating remote repositries"
+    echo "Please wait while the system is updating the remote repositries"
     for index in ${!REPOS[*]}
     do
         git fetch ${REPOS_SHORTNAME[$index]}
     done
-    
+
     #Choose remote repo
     repo_index=10000
     while [ -z "${REPOS_SHORTNAME[$repo_index]}" ]; do
@@ -63,13 +82,16 @@ else
         done
         read -p "Which repositry do you want to use? " repo_index
     done
-    
+
     repo=${REPOS[$repo_index]}
-    
+
     git branch -a|grep "${REPOS_SHORTNAME[$repo_index]}"|awk -F"/" '{print $NF}'
-    read -p "Select a branch? " branch
+    read -p "Select a branch: " branch
 fi
 
+############################################################################# 
+# Setup vhost, host alias & drush alias
+#############################################################################
 
 #Add vhost
  echo "<VirtualHost *:80>
@@ -96,11 +118,16 @@ echo "<?php
   );" > /Users/$USER/.drush/$1.aliases.drushrc.php 
 
 
-#Clone INprofile from github
+
+############################################################################# 
+# Download from git repository
+#############################################################################
+
+#Clone IP from github
 echo Clone $branch branch
 git clone --branch $branch $repo $WWW/$1	
 
-#checkout tag for mi
+#checkout tag for mi repo
 if [ $repo_index == 0 ]; then
 	cd $WWW/$1
 	tag=$(git tag|tail -1)
@@ -108,7 +135,10 @@ if [ $repo_index == 0 ]; then
 	git co -b $tag
 fi
 
-#Create Database
+############################################################################# 
+# Create database & user
+#############################################################################
+
 read -s -p "Enter mysql root password: " rootpass
 
 #Test mysql connection
@@ -145,17 +175,21 @@ SQL="${Q1}${Q2}"
 
 mysql -uroot -p$rootpass -e "$SQL"
 
+############################################################################# 
+# Install drupal
+#############################################################################
+
 # Get ready for Drupal installation
 chmod 755 $WWW/$1/sites/default
 
-#Optional settings for manual druapl install
+#Extra settings for manual druapl install
 #mkdir $WWW/$1/sites/default/files
 #chmod 777 $WWW/$1/sites/default/files
 #cp $WWW/$1/sites/default/default.settings.php $WWW/$1/sites/default/settings.php
 #chmod 777 $WWW/$1/sites/default/settings.php
 
 
-#INSTALL DRUPAL
+#Drush install
 drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass --sites-subdir=$1.$SERVER -y
 
 #Check if Drupal install successfully
@@ -184,7 +218,10 @@ else
 fi
 
 
-#Report
+############################################################################# 
+# Reports
+#############################################################################
+
 echo "Database created: $dbname"
 echo "Drupal was installed successfully: "
 drush @$1 user-login;

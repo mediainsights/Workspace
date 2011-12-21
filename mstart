@@ -1,11 +1,18 @@
 #!/bin/bash
 
+############################################################################# 
+# Source files
+#############################################################################
 source ~/.bash_profile
+source includes/config
+source includes/functions
+
+############################################################################# 
+# Check usage and platform settings
+#############################################################################
 
 #Usage check
 : ${1?"Usage: $0 SITE"}
-
-source includes/config
 
 #Check vhost exist
 if [ -f $APACHEDIR/other/$1.$SERVER.conf ]; then
@@ -26,27 +33,20 @@ if [ ! -d /Users/$USER/.drush ]; then
 	exit
 fi
 
-######## Pass all tests ########
+############################################################################# 
+# Find out where to install the site
+#############################################################################
 
 #default to msites
 if [ -z "$2" ]; then 
-	MSITES=msites
+	MSITES=$PRESET_MSITE
 else
 	MSITES=$2
 fi
 
-function check_db_exist {
-	DBS=`mysql -uroot -p$rootpass -Bse 'show databases'| egrep -v 'information_schema|mysql'`
-	for db in $DBS; do
-		if [ "$db" = $1 ]; then
-		    echo 1
-			return
-		fi
-	done
-
-	echo 0
-
-}
+############################################################################# 
+# Setup vhost, host alias & drush alias
+#############################################################################
 
 #Add vhost
  echo "<VirtualHost *:80>
@@ -74,8 +74,9 @@ echo "<?php
   );" > /Users/$USER/.drush/$1.aliases.drushrc.php 
 
 
-#Create site folder
-cp -pRva $WWW/$MSITES/sites/default $WWW/$MSITES/sites/$1.$SERVER
+############################################################################# 
+# Create database & user
+#############################################################################
 
 #Create Database
 read -s -p "Enter mysql root password: " rootpass
@@ -114,14 +115,21 @@ SQL="${Q1}${Q2}"
 
 mysql -uroot -p$rootpass -e "$SQL"
 
-#Optional settings for manual druapl install
-#mkdir $WWW/$MSITES/sites/$1.$SERVER/files
-#chmod 777 $WWW/$MSITES/sites/$1.$SERVER/files
-#cp $WWW/$MSITES/sites/$1.$SERVER/default.settings.php $WWW/$MSITES/sites/$1.$SERVER/settings.php
-#chmod 777 $WWW/$MSITES/sites/$1.$SERVER/settings.php
+############################################################################# 
+# Install drupal
+#############################################################################
 
-#INSTALL DRUPAL
-drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass  --sites-subdir=$1.$SERVER -y
+#Create site folder
+cp -pRva $WWW/$MSITES/sites/default $WWW/$MSITES/sites/$1.$SERVER
+
+#Extra settings for manual druapl install
+mkdir $WWW/$MSITES/sites/$1.$SERVER/files
+chmod 777 $WWW/$MSITES/sites/$1.$SERVER/files
+cp $WWW/$MSITES/sites/$1.$SERVER/default.settings.php $WWW/$MSITES/sites/$1.$SERVER/settings.php
+chmod 777 $WWW/$MSITES/sites/$1.$SERVER/settings.php
+
+#Drush install
+#drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass  --sites-subdir=$1.$SERVER -y
 
 #Check if Drupal install successfully
 status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
@@ -148,7 +156,10 @@ else
 fi
 
 
-#Report
+############################################################################# 
+# Reports
+#############################################################################
+
 echo "Database created: $dbname"
 echo "Drupal was installed successfully: "
 drush @$1 user-login;
