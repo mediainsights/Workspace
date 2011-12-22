@@ -190,7 +190,7 @@ chmod 755 $WWW/$1/sites/default
 
 
 #Drush install
-drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass --sites-subdir=$1.$SERVER -y
+drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass -y
 
 #Check if Drupal install successfully
 status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')

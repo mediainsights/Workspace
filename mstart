@@ -120,7 +120,8 @@ mysql -uroot -p$rootpass -e "$SQL"
 #############################################################################
 
 #Create site folder
-cp -pRva $WWW/$MSITES/sites/default $WWW/$MSITES/sites/$1.$SERVER
+mkdir $WWW/$MSITES/sites/$1.$SERVER
+cp -pRva $WWW/$MSITES/sites/default/default.settings.php $WWW/$MSITES/sites/$1.$SERVER/settings.php
 
 #Extra settings for manual druapl install
 mkdir $WWW/$MSITES/sites/$1.$SERVER/files
@@ -129,7 +130,7 @@ cp $WWW/$MSITES/sites/$1.$SERVER/default.settings.php $WWW/$MSITES/sites/$1.$SER
 chmod 777 $WWW/$MSITES/sites/$1.$SERVER/settings.php
 
 #Drush install
-#drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass  --sites-subdir=$1.$SERVER -y
+drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass  --sites-subdir=$1.$SERVER -y
 
 #Check if Drupal install successfully
 status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
