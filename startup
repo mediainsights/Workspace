@@ -89,6 +89,13 @@ if [ $use_preset == 'n' ]; then
     read -p "Select a branch: " branch
 fi
 
+
+############################################################################# 
+# Server info
+#############################################################################
+
+read -p "What is the actual domain of the website: " domain
+
 ############################################################################# 
 # Setup vhost, host alias & drush alias
 #############################################################################
@@ -115,7 +122,31 @@ echo "<?php
 \$aliases['$1'] = array(
     'uri' => '$1.$SERVER',
     'root' => '$WWW/$1',
-  );" > /Users/$USER/.drush/$1.aliases.drushrc.php 
+  );
+
+\$aliases['$1.dev'] = array(
+    'uri' => 'dev.$domain',
+	'root' => '/home/$1/dev',
+	'ssh-options' => '-p 222',
+    'remote-host' => 'dev.$domain',
+	'remote-user' => '$1',
+	'path-aliases' => array(
+		'%dump-dir' => '/home/$1/sql_dump',
+     ),
+  );
+
+\$aliases['$1.live'] = array(
+    'uri' => '$domain',
+	'root' => '/home/$1/www',
+	'ssh-options' => '-p 222',
+    'remote-host' => '$domain',
+	'remote-user' => '$1',
+	'path-aliases' => array(
+		'%dump-dir' => '/home/$1/sql_dump',
+     ),
+  );
+
+" > /Users/$USER/.drush/$1.aliases.drushrc.php 
 
 
 
@@ -188,7 +219,6 @@ chmod 755 $WWW/$1/sites/default
 #cp $WWW/$1/sites/default/default.settings.php $WWW/$1/sites/default/settings.php
 #chmod 777 $WWW/$1/sites/default/settings.php
 
-
 #Drush install
 drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass -y
 
@@ -211,6 +241,9 @@ if [ "$status" = "Successful" ]; then
 	#Make everthing in files directory writable
 	chmod -R 777 `drush @$1 dd files`
 
+	cp $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.live
+	sed 's/_db/_dev/' $WWW/$1/sites/default/settings.php > $WWW/$1/sites/default/settings.dev
+
 	drush @$1 cron
 else
 	echo Drupal fail to install.
@@ -222,6 +255,6 @@ fi
 # Reports
 #############################################################################
 
-echo "Database created: $dbname"
+echo "Database created: $dbname, $dbpass"
 echo "Drupal was installed successfully: "
 drush @$1 user-login;

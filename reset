@@ -1,0 +1,55 @@
+#!/bin/bash
+
+############################################################################# 
+# Source files
+#############################################################################
+
+source ~/.bash_profile
+source includes/config
+source includes/functions
+
+############################################################################# 
+# Check usage and platform settings
+#############################################################################
+
+#Usage check
+: ${1?"Usage: $0 SITE"}
+
+#Cannot reset live site
+if [ $(echo $1 | grep ".live") ]; then
+	echo 'Cannot reset live site'
+	exit
+fi
+
+
+code=$(echo ${1%%.*})
+plt=$(echo ${1#*.})
+
+#Make sure the live site is setup
+status=$(drush @$code.live status|grep "Drupal bootstrap"|awk '{ print $4 }')
+if [ "$status" != "Successful" ]; then
+	echo 'Error: cannot detect the live site'
+	exit
+fi
+
+
+#Check platform status
+status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
+
+if [ "$status" = "Successful" ]; then
+	
+	if [ "$plt" = "dev" ]; then
+		drush -v rsync --delete @$code.live $WWW/tmp -y 
+		drush -v rsync --delete $WWW/tmp/ @$1 -y 		
+		
+	else
+			drush -v rsync --delete @$code.live @$1 -y 
+	fi
+	
+	drush @$1 sql-drop -y
+	drush sql-sync @$code.live @$1 -y
+	
+	drush @$1 cc all	
+	
+	
+fi

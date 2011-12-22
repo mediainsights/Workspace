@@ -1,0 +1,39 @@
+#!/bin/bash
+
+############################################################################# 
+# Source files
+#############################################################################
+
+source ~/.bash_profile
+source includes/config
+source includes/functions
+
+############################################################################# 
+# Check usage and platform settings
+#############################################################################
+
+#Usage check
+: ${1?"Usage: $0 SITE"}
+
+#Check platform status
+loc_status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
+
+
+if [ "$loc_status" = "Successful" ]; then
+	
+	mv -f $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.local 
+	mv -f $WWW/$1/sites/default/settings.dev $WWW/$1/sites/default/settings.php
+	
+	drush -v rsync --delete --include-conf @$1 @$1.dev -y 
+	
+	mv -f $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.dev
+	mv -f $WWW/$1/sites/default/settings.local $WWW/$1/sites/default/settings.php
+	
+	drush sql-sync @$1 @$1.dev --no-cache -y
+	
+	drush @$1.dev vset --always-set maintenance_mode 1
+	
+	drush @$1.dev cc all	
+	
+	
+fi

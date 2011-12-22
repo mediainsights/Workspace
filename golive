@@ -1,0 +1,41 @@
+#!/bin/bash
+
+############################################################################# 
+# Source files
+#############################################################################
+
+source ~/.bash_profile
+source includes/config
+source includes/functions
+
+############################################################################# 
+# Check usage and platform settings
+#############################################################################
+
+#Usage check
+: ${1?"Usage: $0 SITE"}
+
+#Check platform status
+dev_status=$(drush @$1.dev status|grep "Drupal bootstrap"|awk '{ print $4 }')
+
+if [ "$dev_status" = "Successful" ]; then
+		
+	if [ ! -d $WWW/tmp ]; then
+		mkdir $WWW/tmp
+	fi
+	
+	drush -v rsync --delete --include-conf @$1.dev $WWW/tmp -y 
+	
+	mv -f $WWW/tmp/sites/default/settings.php $WWW/tmp/sites/default/settings.dev 
+	mv -f $WWW/tmp/sites/default/settings.live $WWW/tmp/sites/default/settings.php
+	
+	drush -v rsync --delete --include-conf $WWW/tmp/ @$1.live -y 
+	
+	drush sql-sync @$1.dev @$1.live -y
+	
+	drush @$1.live vset --always-set maintenance_mode 0
+	
+	drush @$1.live cc all	
+	
+	
+fi
