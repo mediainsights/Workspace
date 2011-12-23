@@ -1,6 +1,12 @@
 #!/bin/bash
 
 ############################################################################# 
+# dev2live = dev to live
+# Require: dev exist
+# Actions: replace code, file, db (no cache)
+############################################################################# 
+
+############################################################################# 
 # Source files
 #############################################################################
 
@@ -15,7 +21,7 @@ source includes/functions
 #Usage check
 : ${1?"Usage: $0 SITE"}
 
-#Check platform status
+#Check dev exist
 dev_status=$(drush @$1.dev status|grep "Drupal bootstrap"|awk '{ print $4 }')
 
 if [ "$dev_status" = "Successful" ]; then
@@ -24,6 +30,7 @@ if [ "$dev_status" = "Successful" ]; then
 		mkdir $WWW/tmp
 	fi
 	
+	#replace code (with configure)
 	drush -v rsync --delete --include-conf @$1.dev $WWW/tmp -y 
 	
 	mv -f $WWW/tmp/sites/default/settings.php $WWW/tmp/sites/default/settings.dev 
@@ -31,8 +38,11 @@ if [ "$dev_status" = "Successful" ]; then
 	
 	drush -v rsync --delete --include-conf $WWW/tmp/ @$1.live -y 
 	
-	drush sql-sync @$1.dev @$1.live -y
+	#replace db
+	drush @$1.live sql-drop -y
+	drush sql-sync @$1.dev @$1.live --no-cache -y
 	
+	#Make sure it is not in maintenance mode
 	drush @$1.live vset --always-set maintenance_mode 0
 	
 	drush @$1.live cc all	

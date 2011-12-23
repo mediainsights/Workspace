@@ -1,6 +1,13 @@
 #!/bin/bash
 
+
 ############################################################################# 
+# loc2dev = local to dev
+# Require: local exist
+# Actions: replace code, file, db (no cache)
+############################################################################# 
+
+#############################################################################
 # Source files
 #############################################################################
 
@@ -15,22 +22,28 @@ source includes/functions
 #Usage check
 : ${1?"Usage: $0 SITE"}
 
-#Check platform status
+#Check local exist
 loc_status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
 
 
 if [ "$loc_status" = "Successful" ]; then
 	
+	#deal with settings.php
 	mv -f $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.local 
 	mv -f $WWW/$1/sites/default/settings.dev $WWW/$1/sites/default/settings.php
 	
+	#replace code (with configure)
 	drush -v rsync --delete --include-conf @$1 @$1.dev -y 
-	
+
+	#reset settings.php	
 	mv -f $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.dev
 	mv -f $WWW/$1/sites/default/settings.local $WWW/$1/sites/default/settings.php
-	
+
+	#replace db	
+	drush @$1.dev sql-drop -y	
 	drush sql-sync @$1 @$1.dev --no-cache -y
 	
+	#make sure it is in maintenance mode
 	drush @$1.dev vset --always-set maintenance_mode 1
 	
 	drush @$1.dev cc all	

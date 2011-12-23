@@ -1,6 +1,12 @@
 #!/bin/bash
 
 ############################################################################# 
+# Reset (local/dev) = live to local / live to dev
+# Require: live exist
+# Actions: replace code, file, db
+############################################################################# 
+
+#############################################################################
 # Source files
 #############################################################################
 
@@ -25,31 +31,49 @@ fi
 code=$(echo ${1%%.*})
 plt=$(echo ${1#*.})
 
-#Make sure the live site is setup
+#Make sure the live site exist
 status=$(drush @$code.live status|grep "Drupal bootstrap"|awk '{ print $4 }')
 if [ "$status" != "Successful" ]; then
-	echo 'Error: cannot detect the live site'
+	echo 'Error: cannot detect live site'
 	exit
 fi
 
-
-#Check platform status
-status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
-
-if [ "$status" = "Successful" ]; then
 	
-	if [ "$plt" = "dev" ]; then
-		drush -v rsync --delete @$code.live $WWW/tmp -y 
-		drush -v rsync --delete $WWW/tmp/ @$1 -y 		
-		
-	else
-			drush -v rsync --delete @$code.live @$1 -y 
+#replace db
+drush @$1 sql-drop -y
+drush sql-sync @$code.live @$1 -y
+	
+############################################################################# 
+# Reset dev
+#############################################################################
+if [ "$plt" = "dev" ]; then
+	
+	if [ ! -d $WWW/tmp ]; then
+		mkdir $WWW/tmp
 	fi
+		
+	#replace code
+	drush -v rsync --delete --include-conf @$code.live $WWW/tmp -y 
 	
-	drush @$1 sql-drop -y
-	drush sql-sync @$code.live @$1 -y
+	mv -f $WWW/tmp/sites/default/settings.php $WWW/tmp/sites/default/settings.live 
+	mv -f $WWW/tmp/sites/default/settings.dev $WWW/tmp/sites/default/settings.php	
 	
-	drush @$1 cc all	
+	drush -v rsync --delete --include-conf $WWW/tmp/ @$1 -y 
+		
+	#make sure it is in maintenance mode
+	drush @$1 vset --always-set maintenance_mode 1	
 	
-	
+############################################################################# 
+# Reset local
+#############################################################################	
+else
+	#replace code
+	drush -v rsync --delete --include-conf @$code.live @$1 -y 
+	mv -f $WWW/$code/sites/default/settings.php $WWW/$code/sites/default/settings.live 
+	mv -f $WWW/$code/sites/default/settings.local $WWW/$code/sites/default/settings.php
+		
 fi
+
+drush @$1 cc all	
+	
+
