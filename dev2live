@@ -3,7 +3,7 @@
 ############################################################################# 
 # dev2live = dev to live
 # Require: dev exist
-# Actions: replace code, file, db (no cache)
+# Actions: sync code, file, db (no cache)
 ############################################################################# 
 
 ############################################################################# 
@@ -30,6 +30,9 @@ if [ "$dev_status" = "Successful" ]; then
 		mkdir $WWW/tmp
 	fi
 	
+	#Put live site in maintenance mode first
+	drush @$1.live vset --always-set maintenance_mode 1	
+	
 	#replace code (with configure)
 	drush -v rsync --delete --include-conf @$1.dev $WWW/tmp -y 
 	
@@ -39,7 +42,6 @@ if [ "$dev_status" = "Successful" ]; then
 	drush -v rsync --delete --include-conf $WWW/tmp/ @$1.live -y 
 	
 	#replace db
-	drush @$1.live sql-drop -y
 	drush sql-sync @$1.dev @$1.live --no-cache -y
 	
 	#Make sure it is not in maintenance mode

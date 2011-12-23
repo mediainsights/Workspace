@@ -1,9 +1,20 @@
 #!/bin/bash
+
+############################################################################# 
+# Source files
+#############################################################################
+
 source ~/.bash_profile
 source includes/config
+source includes/functions
+
+############################################################################# 
+# Check usage and platform settings
+#############################################################################
 
 #Usage check
 : ${1?"Usage: $0 SITE"}
+
 
 # Mysql login
 read -s -p "Enter mysql root password: " rootpass
@@ -18,51 +29,72 @@ echo "";
 
 # Pass all tests
 
-#REMOVE DB AND USER
+site_folder=$(drush dd @$1:%site)
 
-dbname=$(drush @$1 status|grep "Database name"|awk '{ print $4 }')
-dbuser=$(drush @$1 status|grep "Database username"|awk '{ print $4 }')
-
-if [ -n "$dbname" ] 
-then
-  mysqladmin -uroot -p$rootpass -f DROP $dbname;
-else
-  echo "No database detected"
+multi_site=0
+if [ ! -d $WWW/$1 ]; then
+#It's a multi site
+	multi_site=1
 fi
 
+for folder in $site_folder../*; do
+if [[ -d $folder && $multi_site = 0 || ${folder##*/} == "$1.localhost" ]]; then
 
-if [ -n "$dbuser" ]
-then
-  mysql -uroot -p$rootpass -e "DROP USER $dbuser@localhost;";
-  echo "User \"$dbuser\" is removed."
-else
-  echo "No user detected"
+	cd $folder
+	if [ -f settings.php ]; then
+
+		echo
+
+		site_folder=$(echo ${folder##*/})
+		code=${site_folder%.*}
+		
+		echo $site_folder:
+		dbname=$(drush status|grep "Database name"|awk '{ print $4 }')
+		dbuser=$(drush status|grep "Database username"|awk '{ print $4 }')
+		
+		#Remove db
+		if [ -n "$dbname" ] 
+		then
+			mysqladmin -uroot -p$rootpass -f DROP $dbname;
+			echo $dbname deleted
+		else
+			echo "No database detected"
+		fi
+
+		#Remove user
+		if [ -n "$dbuser" ]
+		then
+			mysql -uroot -p$rootpass -e "DROP USER $dbuser@localhost;";
+			echo User $dbuser is removed.
+		else
+			echo "No user detected"
+		fi	
+		
+		#remove vhost file
+		sudo rm -f $APACHEDIR/other/$code.$SERVER.conf
+		echo Remove vhost file: $APACHEDIR/other/$code.$SERVER.conf
+		
+		
+		#drupal directory
+		dd=$(drush dd)
+		
+		#Remove site directory
+		if [ $multi_site = 0 ]; then
+			sudo rm -rf $WWW/$1
+			echo Remove site folder: $WWW/$1
+		else
+			sudo rm -rf $dd/sites/$code.$SERVER
+			echo Remove site folder: $dd/sites/$code.$SERVER
+		fi
+			
+		#remove drush alias
+		rm -f /Users/$USER/.drush/$code.aliases.drushrc.php
+		echo Remove drush alias: /Users/$USER/.drush/$code.aliases.drushrc.php
+			
+	fi
 fi
+done
 
-
-#remove vhost file
-sudo rm -f $APACHEDIR/other/$1.$SERVER.conf
-echo vhost removed.
-
-sudo apachectl restart
+#apache restart
+#sudo apachectl restart
 echo apache restarted.
-
-
-#drupal directory
-dd=$(drush @$1 dd)
-
-#remove site directory
-sudo rm -rf $WWW/$1
-#remove multi-site directory in msites
-sudo rm -rf $dd/sites/$1.$SERVER
-echo site directory removed.
-
-#remove host alias
-sed "/$1.$SERVER/d" /etc/hosts > tmp/hosts
-sudo mv tmp/hosts /etc/hosts
-echo updated etc/hosts.
-
-
-#remove drush alias
-rm -f /Users/$USER/.drush/$1.aliases.drushrc.php
-echo drush alias removed.
