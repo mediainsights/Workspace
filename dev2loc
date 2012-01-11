@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ############################################################################# 
-# liv2loc = live to local
+# dev2loc = dev to local
 # Require: live exist
 # Actions: replace code, file, db (no cache)
 ############################################################################# 
