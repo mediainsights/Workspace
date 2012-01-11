@@ -30,8 +30,6 @@ echo "";
 # Pass all tests
 
 site_folder=$(drush dd @$1:%site)
-echo $site_folder
-	
 	
 multi_site=0
 if [ ! -d $WWW/$1 ]; then
