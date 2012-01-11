@@ -54,6 +54,10 @@ if [[ -d $folder && $multi_site = 0 || ${folder##*/} == "$1.localhost" || ${fold
 		site_folder=$(echo ${folder##*/})
 		code=${site_folder%.*}
 		
+		if [ $code == "default" ]; then
+			code=$1
+		fi
+		
 		echo $site_folder:
 		dbname=$(drush status|grep "Database name"|awk '{ print $4 }')
 		dbuser=$(drush status|grep "Database username"|awk '{ print $4 }')
