@@ -29,12 +29,16 @@ echo "";
 
 # Pass all tests
 
-site_folder=$(drush dd @$1:%site)
+
 
 multi_site=0
 if [ ! -d $WWW/$1 ]; then
 	#It's a multi site
 	multi_site=1
+	site_folder=$(drush dd @$1:%site)
+	
+else
+	site_folder="$(drush dd @$1)/sites/default"
 fi
 
 for folder in $site_folder../*; do
