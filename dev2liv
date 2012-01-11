@@ -36,8 +36,8 @@ if [ "$dev_status" = "Successful" ]; then
 	#replace code (with configure)
 	drush -v rsync --delete --include-conf @$1.dev $WWW/tmp -y 
 	
-	mv -f $WWW/tmp/sites/default/settings.php $WWW/tmp/sites/default/settings.dev 
-	mv -f $WWW/tmp/sites/default/settings.live $WWW/tmp/sites/default/settings.php
+	sudo mv -f $WWW/tmp/sites/default/settings.php $WWW/tmp/sites/default/settings.dev 
+	sudo mv -f $WWW/tmp/sites/default/settings.live $WWW/tmp/sites/default/settings.php
 	
 	drush -v rsync --delete --include-conf $WWW/tmp/ @$1.live -y 
 	
