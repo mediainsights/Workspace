@@ -25,7 +25,7 @@ source includes/functions
 dev_status=$(drush @$1.dev status|grep "Drupal bootstrap"|awk '{ print $4 }')
 
 
-if [ "$liv_status" = "Successful" ]; then
+if [ "$dev_status" = "Successful" ]; then
 	
 	#replace code (with configure)
 	drush -v rsync --delete --include-conf @$1.dev @$1 -y 
