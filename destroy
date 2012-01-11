@@ -41,6 +41,8 @@ else
 	site_folder="$(drush dd @$1)/sites/default"
 fi
 
+echo $site_folder
+
 for folder in $site_folder../*; do
 
 if [[ -d $folder && $multi_site = 0 || ${folder##*/} == "$1.localhost" ]]; then
