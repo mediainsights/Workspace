@@ -35,10 +35,13 @@ multi_site=0
 if [ ! -d $WWW/$1 ]; then
 	#It's a multi site
 	multi_site=1
+	sitefolder = "$1.localhost"
+else	
+	sitefolder = "default"
 fi
 
 for folder in $site_folder../*; do
-	echo $site_folder;
+	
 if [[ -d $folder && $multi_site = 0 || ${folder##*/} == "$1.localhost" ]]; then
 
 	cd $folder
