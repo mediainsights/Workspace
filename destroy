@@ -38,7 +38,7 @@ if [ ! -d $WWW/$1 ]; then
 	site_folder=$(drush dd @$1:%site)
 	
 else
-	site_folder="$(drush dd @$1)sites/default"
+	site_folder="$(drush dd @$1)sites/default/"
 fi
 
 
