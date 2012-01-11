@@ -39,7 +39,7 @@ fi
 
 for folder in $site_folder../*; do
 	echo $site_folder;
-if [[ -d $folder && $multi_site = 0 || ${folder##*/} == "$1.localhost"]]; then
+if [[ -d $folder && $multi_site = 0 || ${folder##*/} == "$1.localhost" ]]; then
 
 	cd $folder
 	if [ -f settings.php ]; then
