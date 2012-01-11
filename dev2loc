@@ -31,7 +31,7 @@ if [ "$liv_status" = "Successful" ]; then
 	drush -v rsync --delete --include-conf @$1.dev @$1 -y 
 
 	#deal with settings.php
-	mv -f $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.live
+	mv -f $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.dev
 	mv -f $WWW/$1/sites/default/settings.local $WWW/$1/sites/default/settings.php
 
 	#replace db	
