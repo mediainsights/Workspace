@@ -29,16 +29,22 @@ echo "";
 
 # Pass all tests
 
-site_folder=$(drush dd @$1:%site)
+
 
 multi_site=0
 if [ ! -d $WWW/$1 ]; then
-#It's a multi site
+	#It's a multi site
 	multi_site=1
+	site_folder=$(drush dd @$1:%site)
+	
+else
+	site_folder="$(drush dd @$1)sites/default/"
 fi
 
+
 for folder in $site_folder../*; do
-if [[ -d $folder && $multi_site = 0 || ${folder##*/} == "$1.localhost" ]]; then
+
+if [[ -d $folder && $multi_site = 0 || ${folder##*/} == "$1.localhost" || ${folder##*/} == "default" ]]; then
 
 	cd $folder
 	if [ -f settings.php ]; then
@@ -47,6 +53,10 @@ if [[ -d $folder && $multi_site = 0 || ${folder##*/} == "$1.localhost" ]]; then
 
 		site_folder=$(echo ${folder##*/})
 		code=${site_folder%.*}
+		
+		if [ $code == "default" ]; then
+			code=$1
+		fi
 		
 		echo $site_folder:
 		dbname=$(drush status|grep "Database name"|awk '{ print $4 }')
