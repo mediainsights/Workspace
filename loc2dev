@@ -29,15 +29,15 @@ loc_status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
 if [ "$loc_status" = "Successful" ]; then
 	
 	#deal with settings.php
-	mv -f $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.local 
-	mv -f $WWW/$1/sites/default/settings.dev $WWW/$1/sites/default/settings.php
+	sudo mv -f $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.local 
+	sudo mv -f $WWW/$1/sites/default/settings.dev $WWW/$1/sites/default/settings.php
 	
 	#replace code (with configure)
 	drush -v rsync --delete --include-conf @$1 @$1.dev -y 
 
 	#reset settings.php	
-	mv -f $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.dev
-	mv -f $WWW/$1/sites/default/settings.local $WWW/$1/sites/default/settings.php
+	sudo mv -f $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.dev
+	sudo mv -f $WWW/$1/sites/default/settings.local $WWW/$1/sites/default/settings.php
 
 	#replace db	
 	drush @$1.dev sql-drop -y	
