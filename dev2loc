@@ -1,0 +1,47 @@
+#!/bin/bash
+
+############################################################################# 
+# dev2loc = dev to local
+# Require: dev exist
+# Actions: replace code, file, db (no cache)
+############################################################################# 
+
+#############################################################################
+# Source files
+#############################################################################
+
+source ~/.bash_profile
+source includes/config
+source includes/functions
+
+############################################################################# 
+# Check usage and platform settings
+#############################################################################
+
+#Usage check
+: ${1?"Usage: $0 SITE"}
+
+#Check dev exist
+dev_status=$(drush @$1.dev status|grep "Drupal bootstrap"|awk '{ print $4 }')
+
+
+if [ "$dev_status" = "Successful" ]; then
+	
+	#replace code (with configure)
+	drush -v rsync --delete --include-conf @$1.dev @$1 -y 
+
+	#deal with settings.php
+	sudo mv -f $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.dev
+	sudo mv -f $WWW/$1/sites/default/settings.local $WWW/$1/sites/default/settings.php
+
+	#replace db	
+	drush @$1 sql-drop -y	
+	drush sql-sync @$1.dev @$1 --no-cache -y
+	
+	#make sure it is not in maintenance mode
+	drush @$1 vset --always-set maintenance_mode 0
+	
+	drush @$1 cc all	
+	
+	
+fi
