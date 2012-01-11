@@ -220,7 +220,7 @@ manual_install=0
 #chmod 777 $WWW/$1/sites/default/settings.php
 
 #Drush install
-drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass -y
+drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --sites-subdir=default --account-pass=$dbpass -y
 
 #Check if Drupal install successfully
 status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
