@@ -234,9 +234,6 @@ if [ "$status" = "Successful" ]; then
 	chmod -R 777 `drush @$1 dd files`
 	chmod 755 $dd/sites/default
 	chmod 755 $dd/sites/$1.$SERVER
-	
-	#Enable ipdeploy
-	#drush @$1 en ipdeploy --yes
 
 	#Make everthing in files directory writable
 	chmod -R 777 `drush @$1 dd files`
