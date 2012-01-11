@@ -41,7 +41,7 @@ else
 fi
 
 for folder in $site_folder../*; do
-	
+	echo $folder
 if [[ -d $folder && $multi_site = 0 || ${folder##*/} == "$sitefolder" ]]; then
 
 	cd $folder
