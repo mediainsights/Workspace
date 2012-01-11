@@ -1,12 +1,12 @@
 #!/bin/bash
 
 ############################################################################# 
-# dev2liv = dev to loc
-# Require: dev exist
+# liv2loc = live to local
+# Require: live exist
 # Actions: replace code, file, db (no cache)
 ############################################################################# 
 
-############################################################################# 
+#############################################################################
 # Source files
 #############################################################################
 
@@ -21,30 +21,27 @@ source includes/functions
 #Usage check
 : ${1?"Usage: $0 SITE"}
 
-#Check dev exist
-dev_status=$(drush @$1.dev status|grep "Drupal bootstrap"|awk '{ print $4 }')
+#Check live exist
+liv_status=$(drush @$1.live status|grep "Drupal bootstrap"|awk '{ print $4 }')
 
-if [ "$dev_status" = "Successful" ]; then
-		
-	if [ ! -d $WWW/tmp ]; then
-		mkdir $WWW/tmp
-	fi
+
+if [ "$liv_status" = "Successful" ]; then
 	
 	#replace code (with configure)
-	drush -v rsync --delete --include-conf @$1.dev @$1 -y 
+	drush -v rsync --delete --include-conf @$1.live @$1 -y 
+
+	#deal with settings.php
+	mv -f $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.live
+	mv -f $WWW/$1/sites/default/settings.local $WWW/$1/sites/default/settings.php
+
+	#replace db	
+	drush @$1 sql-drop -y	
+	drush sql-sync @$1.live @$1 --no-cache -y
 	
-	mv -f $WWW/tmp/sites/default/settings.php $WWW/tmp/sites/default/settings.dev 
-	mv -f $WWW/tmp/sites/default/settings.live $WWW/tmp/sites/default/settings.php
+	#make sure it is not in maintenance mode
+	drush @$1 vset --always-set maintenance_mode 0
 	
-	drush -v rsync --delete --include-conf $WWW/tmp/ @$1.live -y 
-	
-	#replace db
-	drush sql-sync @$1.dev @$1.live --no-cache -y
-	
-	#Make sure it is not in maintenance mode
-	drush @$1.live vset --always-set maintenance_mode 0
-	
-	drush @$1.live cc all	
+	drush @$1 cc all	
 	
 	
 fi
