@@ -30,11 +30,8 @@ if [ "$dev_status" = "Successful" ]; then
 		mkdir $WWW/tmp
 	fi
 	
-	#Put live site in maintenance mode first
-	drush @$1.live vset --always-set maintenance_mode 1	
-	
 	#replace code (with configure)
-	drush -v rsync --delete --include-conf @$1.dev $WWW/tmp -y 
+	drush -v rsync --delete --include-conf @$1.dev @$1 -y 
 	
 	mv -f $WWW/tmp/sites/default/settings.php $WWW/tmp/sites/default/settings.dev 
 	mv -f $WWW/tmp/sites/default/settings.live $WWW/tmp/sites/default/settings.php
