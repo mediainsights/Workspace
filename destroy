@@ -30,7 +30,7 @@ echo "";
 # Pass all tests
 
 site_folder=$(drush dd @$1:%site)
-echo $site_folder
+
 multi_site=0
 if [ ! -d $WWW/$1 ]; then
 	#It's a multi site
@@ -40,7 +40,7 @@ fi
 for folder in $site_folder../*; do
 
 if [[ -d $folder && $multi_site = 0 || ${folder##*/} == "$1.localhost" ]]; then
-echo $folder
+
 	cd $folder
 	if [ -f settings.php ]; then
 
