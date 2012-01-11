@@ -1,6 +1,0 @@
-#!/bin/bash
-
-function update_1 {
-	echo update_1
-	drush @$1 dis overlay -y
-}

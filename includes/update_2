@@ -1,4 +1,0 @@
-function update_2 {
-	echo update_2
-	drush @$1 up drupal-7.8 -y
-}
