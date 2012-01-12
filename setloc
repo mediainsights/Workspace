@@ -39,4 +39,4 @@ fi
 
 read -p "What is the actual domain of the website: " domain
 
-read -p "Please enter the account password: " domain
+read -p "Please enter the account password: " dbpass
