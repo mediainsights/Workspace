@@ -57,3 +57,39 @@ read -p "Please enter the account password: " dbpass
 
 sudo apachectl restart
 
+#Add host alias
+if [ ! $(grep -q "$1.$SERVER" /etc/hosts) ]; then
+  echo -e "127.0.0.1	$1.$SERVER" | sudo tee -a /etc/hosts
+fi
+
+#Add drush alias
+echo "<?php
+\$aliases['$1'] = array(
+    'uri' => '$1.$SERVER',
+    'root' => '$WWW/$1',
+  );
+
+\$aliases['$1.dev'] = array(
+    'uri' => 'dev.$domain',
+	'root' => '/home/$1/dev',
+	'ssh-options' => '-p 222',
+    'remote-host' => 'dev.$domain',
+	'remote-user' => '$1',
+	'path-aliases' => array(
+		'%dump-dir' => '/home/$1/sql_dump',
+     ),
+  );
+
+\$aliases['$1.live'] = array(
+    'uri' => '$domain',
+	'root' => '/home/$1/www',
+	'ssh-options' => '-p 222',
+    'remote-host' => '$domain',
+	'remote-user' => '$1',
+	'path-aliases' => array(
+		'%dump-dir' => '/home/$1/sql_dump',
+     ),
+  );
+
+" > /Users/$USER/.drush/$1.aliases.drushrc.php 
+
