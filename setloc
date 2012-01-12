@@ -120,6 +120,10 @@ else
 	sudo mv tmp/hosts /etc/hosts
 	echo host alias removed.
 	
+	#remove drush alias
+	rm -f /Users/$USER/.drush/$1.aliases.drushrc.php
+	echo drush alias removed.	
+
 	exit
 fi
 
