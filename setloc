@@ -124,6 +124,6 @@ done
 echo "";
 
 
-dbname=$(sudo cat settings.php|grep "^      'database'"|awk '{ print $3 }'| tr -d "'" | tr -d ",")
+dbname=$(sudo cat $WWW/$1/sites/default/settings.php|grep "^      'database'"|awk '{ print $3 }'| tr -d "'" | tr -d ",")
 
 echo $dbname
