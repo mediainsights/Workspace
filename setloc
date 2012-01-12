@@ -107,7 +107,8 @@ if [ "$liv_status" = "Successful" ]; then
 	#deal with settings.php
 	sudo mv -f $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.live
 	sudo mv -f $WWW/$1/sites/default/settings.local $WWW/$1/sites/default/settings.php
-		
+else
+	echo @$1.live not exist
 fi
 
 ############################################################################# 
