@@ -107,27 +107,6 @@ done
 
 echo "";
 
-#Setup variables required
-dbname=$1_db
-dbuser=$1_user
 
-#Check if db exists
-n=1
-while [ `check_db_exist $dbname` = 1 ]; do
-	dbname=$1_db$n
-	dbuser=$1_user$n
-	let n+=1
-done
-
-#CREATE DB
-mysqladmin -uroot -p$rootpass create $dbname;
-echo "Database $dbname created, $dbpass"
-
-#CREATE USER
-Q1="GRANT USAGE ON * . * TO  '$dbuser'@'localhost' IDENTIFIED BY  '$dbpass';" 
-Q2="GRANT ALL PRIVILEGES ON $dbname.* TO '$dbuser'@'localhost' IDENTIFIED BY '$dbpass';"
-SQL="${Q1}${Q2}"
-
-mysql -uroot -p$rootpass -e "$SQL"
 
 ./liv2loc $1
