@@ -39,8 +39,6 @@ fi
 
 read -p "What is the actual domain of the website: " domain
 
-read -p "Please enter the account password: " dbpass
-
 ############################################################################# 
 # Setup vhost, host alias & drush alias
 #############################################################################
