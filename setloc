@@ -108,7 +108,14 @@ if [ "$liv_status" = "Successful" ]; then
 	sudo mv -f $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.live
 	sudo mv -f $WWW/$1/sites/default/settings.local $WWW/$1/sites/default/settings.php
 else
+	#live site not exist
 	echo @$1.live not exist
+	
+		#remove host alias
+		sed "/$1.$SERVER/d" /etc/hosts > tmp/hosts
+		sudo mv tmp/hosts /etc/hosts
+		echo updated etc/hosts.	
+	
 	exit
 fi
 
