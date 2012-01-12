@@ -107,6 +107,4 @@ done
 
 echo "";
 
-
-
 ./liv2loc $1
