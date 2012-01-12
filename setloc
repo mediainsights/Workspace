@@ -114,6 +114,8 @@ fi
 # Create database & user
 #############################################################################
 
+
+
 read -s -p "Enter mysql root password: " rootpass
 
 #Test mysql connection
