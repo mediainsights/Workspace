@@ -145,9 +145,9 @@ done
 echo "";
 
 #Read db info from settings.php
-dbname=$(sudo cat $WWW/$1/sites/default/settings.php|grep "^      'database'"|awk '{ print $3 }'| tr -d "'" | tr -d ",")
-dbuser=$(sudo cat $WWW/$1/sites/default/settings.php|grep "^      'username'"|awk '{ print $3 }'| tr -d "'" | tr -d ",")
-dbpass=$(sudo cat $WWW/$1/sites/default/settings.php|grep "^      'password'"|awk '{ print $3 }'| tr -d "'" | tr -d ",")
+dbname=$(sudo cat $WWW/$1/sites/default/settings.php|grep "^      'database'"|awk '{ print $3 }'| sed "s/'//g" | sed "s/,[^,]*$//")
+dbuser=$(sudo cat $WWW/$1/sites/default/settings.php|grep "^      'username'"|awk '{ print $3 }'| sed "s/'//g" | sed "s/,[^,]*$//")
+dbpass=$(sudo cat $WWW/$1/sites/default/settings.php|grep "^      'password'"|awk '{ print $3 }'| sed "s/'//g" | sed "s/,[^,]*$//")
 
 #CREATE DB
 mysqladmin -uroot -p$rootpass create $dbname;
