@@ -98,7 +98,6 @@ echo "<?php
 # Live to local
 #############################################################################
 
-
 #Check live exist
 liv_status=$(drush @$1.live status|grep "Drupal bootstrap"|awk '{ print $4 }')
 
