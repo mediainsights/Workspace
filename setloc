@@ -110,11 +110,15 @@ if [ "$liv_status" = "Successful" ]; then
 else
 	#live site not exist
 	echo @$1.live not exist
+
+	#remove vhost file
+	sudo rm -f $APACHEDIR/other/$1.$SERVER.conf
+	echo vhost removed.
 	
-		#remove host alias
-		sed "/$1.$SERVER/d" /etc/hosts > tmp/hosts
-		sudo mv tmp/hosts /etc/hosts
-		echo updated etc/hosts.	
+	#remove host alias
+	sed "/$1.$SERVER/d" /etc/hosts > tmp/hosts
+	sudo mv tmp/hosts /etc/hosts
+	echo updated etc/hosts.	
 	
 	exit
 fi
