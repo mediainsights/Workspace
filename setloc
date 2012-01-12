@@ -118,7 +118,7 @@ else
 	#remove host alias
 	sed "/$1.$SERVER/d" /etc/hosts > tmp/hosts
 	sudo mv tmp/hosts /etc/hosts
-	echo updated etc/hosts.	
+	echo host alias removed.
 	
 	exit
 fi
