@@ -1,0 +1,34 @@
+#!/bin/bash
+
+############################################################################# 
+# Source files
+#############################################################################
+
+source ~/.bash_profile
+source includes/config
+source includes/functions
+
+############################################################################# 
+# Check usage and platform settings
+#############################################################################
+
+#Usage check
+: ${1?"Usage: $0 SITE"}
+
+#Check vhost exist
+if [ -f $APACHEDIR/other/$1.$SERVER.conf ]; then
+  echo vhost $1.$SERVER is already existed
+  exit
+fi
+
+#Check project directory exist
+if [ -d $WWW/$1 ]; then
+  echo Folder $1 is already existed
+#  exit
+fi
+
+#Check drush settings
+if [ ! -d /Users/$USER/.drush ]; then
+	echo ".drush folder not found"
+	exit
+fi
