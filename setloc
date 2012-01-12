@@ -124,6 +124,10 @@ else
 	rm -f /Users/$USER/.drush/$1.aliases.drushrc.php
 	echo drush alias removed.	
 
+	#restart apache
+	sudo apachectl restart
+	echo apache restarted.
+
 	exit
 fi
 
