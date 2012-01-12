@@ -110,7 +110,6 @@ echo "";
 #Setup variables required
 dbname=$1_db
 dbuser=$1_user
-drupaluser='Site Admin'
 
 #Check if db exists
 n=1
