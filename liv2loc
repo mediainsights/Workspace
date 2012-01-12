@@ -28,7 +28,7 @@ liv_status=$(drush @$1.live status|grep "Drupal bootstrap"|awk '{ print $4 }')
 if [ "$liv_status" = "Successful" ]; then
 	
 	#replace code (with configure)
-	drush -v rsync --delete @$1.live @$1 -y 
+	drush -v rsync --delete --include-conf @$1.live @$1 -y 
 
 	#deal with settings.php
 	sudo mv -f $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.live
