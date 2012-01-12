@@ -130,3 +130,4 @@ SQL="${Q1}${Q2}"
 
 mysql -uroot -p$rootpass -e "$SQL"
 
+./dev2loc $1
