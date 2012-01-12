@@ -32,3 +32,11 @@ if [ ! -d /Users/$USER/.drush ]; then
 	echo ".drush folder not found"
 	exit
 fi
+
+############################################################################# 
+# Server info
+#############################################################################
+
+read -p "What is the actual domain of the website: " domain
+
+read -p "Please enter the account password: " domain
