@@ -37,7 +37,7 @@ fi
 # Server info
 #############################################################################
 
-read -p "What is the actual domain of the website: " domain
+read -p "Please enter domain of the website: " domain
 
 ############################################################################# 
 # Setup vhost, host alias & drush alias
