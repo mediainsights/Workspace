@@ -24,12 +24,18 @@ fi
 #Check project directory exist
 if [ -d $WWW/$1 ]; then
   echo Folder $1 is already existed
-#  exit
+  exit
 fi
 
 #Check drush settings
 if [ ! -d /Users/$USER/.drush ]; then
 	echo ".drush folder not found"
+	exit
+fi
+
+#Check db exist
+if [ check_db_exist $1_db ]; then	
+	echo database $1_db alread exist
 	exit
 fi
 
@@ -189,20 +195,27 @@ SQL="${Q1}${Q2}"
 mysql -uroot -p$rootpass -e "$SQL"
 
 ############################################################################# 
-# Download from git repository
+# Copy ip from ipcache
 #############################################################################
 
-#Clone IP from github
-echo Clone $branch branch
-git clone --branch $branch $repo $WWW/$1	
-
-#checkout tag for mi repo
-if [ $repo_index == 0 ]; then
-	cd $WWW/$1
-	tag=$(git tag|tail -1)
-	git co $tag
-	git co -b $tag
+#if ipcache not exist, clone from github
+if [ ! -d $WWW/ipcache ]; then
+	echo Clone $branch branch
+	git clone --branch $branch $repo $WWW/ipcache	
+	
+	#checkout tag for mi repo
+	if [ $repo_index == 0 ]; then
+		cd $WWW/ipcache
+		tag=$(git tag|tail -1)
+		git co $tag
+		git co -b $tag
+	fi
+else
+	cd $WWW/ipcache
+	git pull
 fi
+
+cp -pRva $WWW/ipcache $WWW/$1
 
 ############################################################################# 
 # Install drupal
@@ -265,7 +278,7 @@ else
 		#remove host alias
 		sed "/$1.$SERVER/d" /etc/hosts > tmp/hosts
 		sudo mv tmp/hosts /etc/hosts
-		echo updated etc/hosts.
+		echo host alias removed.
 
 		#remove drush alias
 		rm -f /Users/$USER/.drush/$1.aliases.drushrc.php
