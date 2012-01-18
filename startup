@@ -206,7 +206,7 @@ if [ ! -d $WWW/ipcache ]; then
 	
 	#checkout tag for mi repo
 	if [ $repo_index == 0 ]; then
-		cd $WWW/$1
+		cd $WWW/ipcache
 		tag=$(git tag|tail -1)
 		git co $tag
 		git co -b $tag
