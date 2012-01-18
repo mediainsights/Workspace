@@ -215,7 +215,7 @@ else
 	git pull
 fi
 
-cp -prva $WWW/ipcache $WWW/$1
+cp -pRva $WWW/ipcache $WWW/$1
 
 ############################################################################# 
 # Install drupal
