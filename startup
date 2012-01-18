@@ -213,7 +213,7 @@ if [ ! -d $WWW/ipcache ]; then
 	
 fi
 
-
+cp -prva $WWW/ipcache $WWW/$1
 
 ############################################################################# 
 # Install drupal
