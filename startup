@@ -210,7 +210,9 @@ if [ ! -d $WWW/ipcache ]; then
 		git co $tag
 		git co -b $tag
 	fi
-	
+else
+	cd $WWW/ipcache
+	git pull
 fi
 
 cp -prva $WWW/ipcache $WWW/$1
