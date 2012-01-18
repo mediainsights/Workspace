@@ -27,8 +27,7 @@ dev_status=$(drush @$1.dev status|grep "Drupal bootstrap"|awk '{ print $4 }')
 
 if [ "$dev_status" = "Successful" ]; then
 	
-	#replace code (with configure)
-	sudo drush -v rsync --delete --include-conf @$1.dev @$1 -y 
+	drush -v rsync --delete --include-conf @$1.dev @$1 -y 
 
 	#deal with settings.php
 	sudo mv -f $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.dev
