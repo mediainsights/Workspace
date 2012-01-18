@@ -33,6 +33,10 @@ if [ ! -d /Users/$USER/.drush ]; then
 	exit
 fi
 
+if [ check_db_exist $1_db ]; then	
+	echo database $1_db alread exist
+	exit
+fi
 ############################################################################# 
 # Find out the repository to download
 ############################################################################# 
