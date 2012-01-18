@@ -201,7 +201,6 @@ mysql -uroot -p$rootpass -e "$SQL"
 
 #if ipcache not exist, clone from github
 if [ ! -d $WWW/ipcache ]; then
-
 	echo Clone $branch branch
 	git clone --branch $branch $repo $WWW/$1	
 fi
