@@ -203,16 +203,18 @@ mysql -uroot -p$rootpass -e "$SQL"
 if [ ! -d $WWW/ipcache ]; then
 	echo Clone $branch branch
 	git clone --branch $branch $repo $WWW/ipcache	
+	
+	#checkout tag for mi repo
+	if [ $repo_index == 0 ]; then
+		cd $WWW/$1
+		tag=$(git tag|tail -1)
+		git co $tag
+		git co -b $tag
+	fi
+	
 fi
 
 
-#checkout tag for mi repo
-if [ $repo_index == 0 ]; then
-	cd $WWW/$1
-	tag=$(git tag|tail -1)
-	git co $tag
-	git co -b $tag
-fi
 
 ############################################################################# 
 # Install drupal
