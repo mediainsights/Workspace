@@ -97,7 +97,7 @@ echo "<?php
 #############################################################################
 
 #Check live exist
-liv_status=$(drush @$1.live status|grep "Drupal bootstrap"|awk '{ print $4 }')
+liv_status=$(drush @$1.dev status|grep "Drupal bootstrap"|awk '{ print $4 }')
 
 if [ "$liv_status" = "Successful" ]; then
 	
