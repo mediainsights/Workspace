@@ -97,19 +97,19 @@ echo "<?php
 #############################################################################
 
 #Check live exist
-liv_status=$(drush @$1.dev status|grep "Drupal bootstrap"|awk '{ print $4 }')
+liv_status=$(drush @$1.live status|grep "Drupal bootstrap"|awk '{ print $4 }')
 
 if [ "$liv_status" = "Successful" ]; then
 	
 	#replace code (with configure)
-	sudo drush -v rsync --delete --include-conf @$1.dev @$1 -y 
+	sudo drush -v rsync --delete --include-conf @$1.live @$1 -y 
 
 	#deal with settings.php
-	sudo mv -f $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.dev
+	sudo mv -f $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.live
 	sudo mv -f $WWW/$1/sites/default/settings.local $WWW/$1/sites/default/settings.php
 else
 	#live site not exist
-	echo @$1.dev not exist
+	echo @$1.live not exist
 
 	#remove vhost file
 	sudo rm -f $APACHEDIR/other/$1.$SERVER.conf
@@ -166,13 +166,13 @@ mysql -uroot -p$rootpass -e "$SQL"
 
 #replace db	
 drush @$1 sql-drop -y	
-drush sql-sync @$1.dev @$1 --no-cache -y
+drush sql-sync @$1.live @$1 --no-cache -y
 
 ############################################################################# 
 # Rsync files
 #############################################################################
 
-drush rsync @$1.dev:%files @$1:%files -y	
+drush rsync @$1.live:%files @$1:%files -y	
 	
 	
 #make sure it is not in maintenance mode
