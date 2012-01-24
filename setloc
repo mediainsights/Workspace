@@ -105,7 +105,7 @@ if [ "$liv_status" = "Successful" ]; then
 	sudo drush -v rsync --delete --include-conf @$1.dev @$1 -y 
 
 	#deal with settings.php
-	sudo mv -f $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.live
+	sudo mv -f $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.dev
 	sudo mv -f $WWW/$1/sites/default/settings.local $WWW/$1/sites/default/settings.php
 else
 	#live site not exist
