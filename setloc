@@ -166,7 +166,7 @@ mysql -uroot -p$rootpass -e "$SQL"
 
 #replace db	
 drush @$1 sql-drop -y	
-drush sql-sync @$1.live @$1 --no-cache -y
+drush sql-sync @$1.dev @$1 --no-cache -y
 	
 #make sure it is not in maintenance mode
 drush @$1 vset --always-set maintenance_mode 0
