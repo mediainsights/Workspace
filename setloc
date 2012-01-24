@@ -109,7 +109,7 @@ if [ "$liv_status" = "Successful" ]; then
 	sudo mv -f $WWW/$1/sites/default/settings.local $WWW/$1/sites/default/settings.php
 else
 	#live site not exist
-	echo @$1.live not exist
+	echo @$1.dev not exist
 
 	#remove vhost file
 	sudo rm -f $APACHEDIR/other/$1.$SERVER.conf
