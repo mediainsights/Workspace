@@ -3,3 +3,9 @@
 drush @uom.news sql-drop -y
 
 drush sql-sync @uom.news.prod @uom.news --sanitize-email -y	
+
+drush @uom.news dis securepages -y
+
+drush rsync @uom.news.prod:%files @uom.news:%files -y
+
+drush @uom.news cc all
