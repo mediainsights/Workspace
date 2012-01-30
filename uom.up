@@ -64,3 +64,7 @@ rm -rvf ~/Downloads/drupal-7.10
 tar -zxvf ~/Downloads/drupal-7.10.tar.gz 
 mv drupal-7.10 ~/Downloads/
 
+mv $(drush @uom.news dd)/sites .
+rm -rf ~/www/uom.news/www/*
+
+mv ./sites ~/www/uom.news/www/
