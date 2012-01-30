@@ -9,3 +9,7 @@ drush @uom.news dis securepages -y
 drush rsync @uom.news.prod:%files @uom.news:%files -y
 
 drush @uom.news cc all
+
+cd $(drush @uom.news dd)
+
+git reset --hard 5ed4a4c11
