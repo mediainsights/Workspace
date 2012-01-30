@@ -14,9 +14,9 @@ if [ -d $(drush @uom.news dd) ]; then
 
 	cd $(drush @uom.news dd)
 
-	rm -rvf *
-
 	git reset --hard 5ed4a4c11e0e1eb23
+
+	git clean -f
 
 	cp sites/default/settings.php.master sites/default/settings.php
 
