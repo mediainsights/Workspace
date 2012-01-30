@@ -63,4 +63,5 @@ rm -f noncoremod.txt
 tar -zxvf ~/Downloads/drupal-7.10.tar.gz 
 rm -rf ~/www/uom.news/www
 mv ./drupal-7.10 ~/www/uom.news/www
-mv ./settings.php ~/www/uom.news/www/sites/default/
+cp ./settings.php ~/www/uom.news/www/sites/default/
+
