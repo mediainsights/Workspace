@@ -66,4 +66,5 @@ mv drupal-7.10 ~/Downloads/
 
 cp -pva $(drush @uom.news dd)/sites/default/settings.php .
 rm -rf ~/www/uom.news/www/*
-cp -pRva drupal-7.10/. ~/www/uom.news/www/
+cp -pRva ~/Downloads/drupal-7.10/. ~/www/uom.news/www/
+mv ./settings.php ~/www/uom.news/www/sites/default/
