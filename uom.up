@@ -4,6 +4,11 @@
 # Reset
 #############################################################################
 
+
+cd $(drush @uom.news dd)
+
+git reset --hard 5ed4a4c11
+
 drush @uom.news sql-drop -y
 
 drush sql-sync @uom.news.prod @uom.news --sanitize-email -y	
@@ -14,9 +19,6 @@ drush rsync @uom.news.prod:%files @uom.news:%files -y
 
 drush @uom.news cc all
 
-cd $(drush @uom.news dd)
-
-git reset --hard 5ed4a4c11
 
 ############################################################################# 
 # Upgrade
