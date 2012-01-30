@@ -13,7 +13,9 @@ source ~/.bash_profile
 
 cd $(drush @uom.news dd)
 
-git reset --hard 5ed4a4c11
+rm -rf *
+
+git reset --hard 5ed4a4c11e0e1eb23
 
 drush @uom.news sql-drop -y
 
