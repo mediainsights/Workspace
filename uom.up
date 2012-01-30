@@ -18,6 +18,8 @@ if [ -d $(drush @uom.news dd) ]; then
 
 	git reset --hard 5ed4a4c11e0e1eb23
 
+	cp sites/default/settings.php.master sites/default/settings.php
+
 	drush @uom.news sql-drop -y
 
 	drush sql-sync @uom.news.prod @uom.news --sanitize-email -y	
@@ -27,6 +29,8 @@ if [ -d $(drush @uom.news dd) ]; then
 	drush rsync @uom.news.prod:%files @uom.news:%files -y
 	
 	drush @uom.news cc all
+	
+	
 	
 else
 
