@@ -88,7 +88,7 @@ rm -rf ~/www/uom.news/www
 rm -rf ./drupal-7.10/sites
 mv sites ./drupal-7.22
 
-mv ./drupal-7.10 ~/www/uom.news/www
+mv ./drupal-7.22 ~/www/uom.news/www
 
 drush @uom.news updb -y
 
