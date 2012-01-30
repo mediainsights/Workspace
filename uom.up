@@ -80,7 +80,7 @@ drush @uom.news updb -y
 #############################################################################
 
 cp -pRva ~/www/uom.news/www/sites .
-cp -f ./settings.php ./sites/default/
+cp -fp ./settings.php ./sites/default/
 
 tar -zxvf ~/Downloads/drupal-7.10.tar.gz 
 
