@@ -61,4 +61,5 @@ rm -f noncoremod.txt
 #############################################################################
 
 rm -rvf ~/Downloads/drupal-7.10
-tar -zxvf ~/Downloads/drupal-7.10.tar.gz ~/Downloads/drupal-7.10
+tar -zxvf ~/Downloads/drupal-7.10.tar.gz 
+mv drupal-7.10 ~/Downloads/
