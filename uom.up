@@ -10,7 +10,12 @@ source ~/.bash_profile
 # Reset
 #############################################################################
 
-
+if [ -d $(drush @uom.news dd) ]; then
+	#It's a multi site
+	multi_site=1
+	site_folder=$(drush dd @$1:%site)
+	
+else
 cd $(drush @uom.news dd)
 
 rm -rvf *
