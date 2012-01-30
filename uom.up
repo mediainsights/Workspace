@@ -104,4 +104,4 @@ drush @uom.news cc all
 # Modules upgrade
 #############################################################################
 
-drush dl cck-7.x-2.x-dev
+drush @uom.news dl cck-7.x-2.x-dev
