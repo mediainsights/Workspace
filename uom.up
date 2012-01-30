@@ -11,24 +11,28 @@ source ~/.bash_profile
 #############################################################################
 
 if [ -d $(drush @uom.news dd) ]; then
-	#It's a multi site
-	multi_site=1
-	site_folder=$(drush dd @$1:%site)
+
+	cd $(drush @uom.news dd)
+
+	rm -rvf *
+
+	git reset --hard 5ed4a4c11e0e1eb23
+
+	drush @uom.news sql-drop -y
+
+	drush sql-sync @uom.news.prod @uom.news --sanitize-email -y	
+
+	drush @uom.news dis securepages -y
+
+	drush rsync @uom.news.prod:%files @uom.news:%files -y
 	
 else
-cd $(drush @uom.news dd)
 
-rm -rvf *
+	echo Drupal root folder cannot be detected.
+	
+	exit
+fi
 
-git reset --hard 5ed4a4c11e0e1eb23
-
-drush @uom.news sql-drop -y
-
-drush sql-sync @uom.news.prod @uom.news --sanitize-email -y	
-
-drush @uom.news dis securepages -y
-
-drush rsync @uom.news.prod:%files @uom.news:%files -y
 
 drush @uom.news cc all
 
