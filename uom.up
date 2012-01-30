@@ -66,7 +66,7 @@ tar -zxvf ~/Downloads/drupal-6.22.tar.gz
 rm -rf ~/www/uom.news/www
 
 rm -rf ./drupal-6.22/sites
-mv sites ./drupal-6.22
+mv sites ./drupal-6.22/
 
 mv ./drupal-6.22 ~/www/uom.news/www
 
