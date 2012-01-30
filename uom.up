@@ -113,6 +113,9 @@ drush @uom.news en date -y
 drush @uom.news dl email-7.x-1.x-dev --use-site-dir -y
 drush @uom.news en email -y
 
+drush @uom.news dl profile2-7.x-1.x-dev --use-site-dir -y
+drush @uom.news en profile2 -y
+
 drush @uom.news dl cck-7.x-2.x-dev --use-site-dir -y
 drush @uom.news en content_migrate -y
 #drush @uom.news content-migrate-fields -y
