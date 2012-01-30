@@ -27,6 +27,7 @@ if [ -d $(drush @uom.news dd) ]; then
 	drush rsync @uom.news.prod:%files @uom.news:%files -y
 	
 	drush @uom.news cc all
+	
 else
 
 	echo Drupal root folder cannot be detected.
