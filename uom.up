@@ -79,11 +79,13 @@ drush @uom.news updb -y
 # Upgrade to drupal 7.10
 #############################################################################
 
-drush @uom.news pm-disable newsroom
+drush @uom.news pm-enable garland -y
 
-drush @uom.news pm-enable garland
+drush @uom.news vset theme_default garland -y
 
-drush vset theme_default garland
+drush @uom.news pm-disable burnt -y
+
+
 
 cp -pRva ~/www/uom.news/www/sites .
 cp -f ./settings.php ./sites/default/
