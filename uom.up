@@ -49,6 +49,6 @@ fi
 
 cd ~/Workspace
 
-drush pm-list --type=module --status=enabled | sed '/\((.*)\)/!d;/[Cc]ore.*-.*[Rr]equired/d;s/.*(\(.*\)).*/\1/' | sort > noncoremod.txt
+drush @uom.news pm-list --type=module --status=enabled | sed '/\((.*)\)/!d;/[Cc]ore.*-.*[Rr]equired/d;s/.*(\(.*\)).*/\1/' | sort > noncoremod.txt
 
-drush pm-disable $(cat noncoremod.txt)
+drush @uom.news pm-disable $(cat noncoremod.txt)
