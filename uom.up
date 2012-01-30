@@ -13,7 +13,7 @@ source ~/.bash_profile
 
 cd $(drush @uom.news dd)
 
-rm -rf *
+rm -rvf *
 
 git reset --hard 5ed4a4c11e0e1eb23
 
