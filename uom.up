@@ -55,3 +55,10 @@ drush @uom.news pm-disable $(cat noncoremod.txt) -y
 
 rm -f noncoremod.txt
 
+
+############################################################################# 
+# 
+#############################################################################
+
+rm -rvf ~/Downloads/drupal-7.10
+tar -zxvf ~/Downloads/drupal-7.10.tar.gz
