@@ -44,7 +44,7 @@ fi
 
 
 ############################################################################# 
-# Upgrade
+# Disable all modules
 #############################################################################
 
 cd ~/Workspace
@@ -54,3 +54,4 @@ drush @uom.news pm-list --type=module --status=enabled | sed '/\((.*)\)/!d;/[Cc]
 drush @uom.news pm-disable $(cat noncoremod.txt) -y
 
 rm -f noncoremod.txt
+
