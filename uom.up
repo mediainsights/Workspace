@@ -85,8 +85,6 @@ drush @uom.news vset theme_default garland -y
 
 drush @uom.news pm-disable burnt -y
 
-
-
 cp -pRva ~/www/uom.news/www/sites .
 cp -f ./settings.php ./sites/default/
 
