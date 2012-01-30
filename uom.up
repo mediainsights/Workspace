@@ -105,6 +105,8 @@ drush @uom.news cc all
 #############################################################################
 
 drush @uom.news dl cck-7.x-2.x-dev --use-site-dir
+drush @uom.news en content_migrate
 
 
 drush @uom.news dl date-7.x-2.x-dev --use-site-dir
+drush @uom.news en date
