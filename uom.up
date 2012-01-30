@@ -1,2 +1,5 @@
 #!/bin/bash
 
+drush @uom.news sql-drop -y
+
+drush sql-sync @uom.news.prod @uom.news --sanitize-email -y	
