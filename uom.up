@@ -57,5 +57,20 @@ rm -f noncoremod.txt
 
 
 ############################################################################# 
-# 
+# Upgrade to drupal 6.22
 #############################################################################
+
+cp -pRva ~/www/uom.news/www/sites .
+
+tar -zxvf ~/Downloads/drupal-6.22.tar.gz 
+rm -rf ~/www/uom.news/www
+
+rm -rf ./drupal-6.22/sites
+mv sites ./drupal-6.22
+
+mv ./drupal-6.22 ~/www/uom.news/www
+
+
+drush @uom.news updb -y
+
+
