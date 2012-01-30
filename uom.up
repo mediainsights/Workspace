@@ -92,4 +92,4 @@ mv ./drupal-7.10 ~/www/uom.news/www
 
 drush @uom.news updb -y
 
-
+drush @uom.news cc all
