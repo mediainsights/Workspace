@@ -74,22 +74,3 @@ mv ./drupal-6.22 ~/www/uom.news/www
 drush @uom.news updb -y
 
 
-
-############################################################################# 
-# Upgrade to drupal 7.10
-#############################################################################
-
-cp -pRva ~/www/uom.news/www/sites .
-cp -f ./settings.php ./sites/default/
-
-tar -zxvf ~/Downloads/drupal-7.10.tar.gz 
-
-rm -rf ./drupal-7.10/sites
-mv sites ./drupal-7.10/
-
-rm -rf ~/www/uom.news/www
-mv ./drupal-7.10 ~/www/uom.news/www
-
-drush @uom.news updb -y
-
-drush @uom.news cc all
