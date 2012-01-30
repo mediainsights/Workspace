@@ -64,5 +64,6 @@ rm -rvf ~/Downloads/drupal-7.10
 tar -zxvf ~/Downloads/drupal-7.10.tar.gz 
 mv drupal-7.10 ~/Downloads/
 
-mv $(drush @uom.news dd)/sites/settings.php .
+cp -pva $(drush @uom.news dd)/sites/default/settings.php .
 rm -rf ~/www/uom.news/www/*
+cp -pRva drupal-7.10/. ~/www/uom.news/www/
