@@ -22,7 +22,7 @@ if [ -d $(drush @uom.news dd) ]; then
 
 	drush @uom.news sql-drop -y
 
-	drush sql-sync @uom.news.prod @uom.news --sanitize-email -y	
+	drush sql-sync @uom.news.prod @uom.news --sanitize-email --cache -y	
 
 	drush @uom.news dis securepages -y
 
