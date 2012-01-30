@@ -107,13 +107,13 @@ drush @uom.news cc all
 drush @uom.news dl admin_menu-7.x-3.0-rc1 --use-site-dir -y
 drush @uom.news en admin_menu -y
 
-drush @uom.news dl cck-7.x-2.x-dev --use-site-dir -y
-drush @uom.news en content_migrate -y
-drush @uom.news content-migrate-fields -y
-
-
 drush @uom.news dl date-7.x-2.x-dev --use-site-dir -y
 drush @uom.news en date -y
 
 drush @uom.news dl email-7.x-1.x-dev --use-site-dir -y
 drush @uom.news en email -y
+
+drush @uom.news dl cck-7.x-2.x-dev --use-site-dir -y
+drush @uom.news en content_migrate -y
+drush @uom.news content-migrate-fields -y
+
