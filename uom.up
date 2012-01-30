@@ -65,3 +65,4 @@ rm -rf ~/www/uom.news/www
 mv ./drupal-7.10 ~/www/uom.news/www
 cp ./settings.php ~/www/uom.news/www/sites/default/
 
+drush @uom.news updb -y
