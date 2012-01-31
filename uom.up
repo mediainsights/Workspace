@@ -14,7 +14,7 @@ if [ -d $(drush @uom.news dd) ]; then
 
 	cd $(drush @uom.news dd)
 	
-	rm -rf .
+	rm -rf $(drush @uom.news dd)
 	
 	git reset --hard 5ed4a4c11e0e1eb23
 
