@@ -14,11 +14,13 @@ source ~/.bash_profile
 	
 	rm -rf ~/www/uom.news/www/
 	
-	cd ~/www/uom.news/www/
+	cd ~/www/uom.news
 	
 	git reset --hard 5ed4a4c11e0e1eb23
 
 	git clean -f
+
+	cd www
 
 	cp sites/default/settings.php.master sites/default/settings.php
 
