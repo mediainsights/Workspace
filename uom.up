@@ -10,11 +10,11 @@ source ~/.bash_profile
 # Reset
 #############################################################################
 
-if [ -d $(drush @uom.news dd) ]; then
 
-	cd $(drush @uom.news dd)
 	
-	rm -rf $(drush @uom.news dd)
+	rm -rf ~/www/uom.news/www/
+	
+	cd ~/www/uom.news/www/
 	
 	git reset --hard 5ed4a4c11e0e1eb23
 
@@ -32,14 +32,6 @@ if [ -d $(drush @uom.news dd) ]; then
 	
 	drush @uom.news cc all
 	
-	
-	
-else
-
-	echo Drupal root folder cannot be detected.
-	
-	exit
-fi
 
 
 
