@@ -13,7 +13,9 @@ source ~/.bash_profile
 if [ -d $(drush @uom.news dd) ]; then
 
 	cd $(drush @uom.news dd)
-
+	
+	rm -rf .
+	
 	git reset --hard 5ed4a4c11e0e1eb23
 
 	git clean -f
