@@ -17,7 +17,7 @@ if [ $1="pushws" ]; then
 	#Usage check
 	: ${2?"Usage: $0 $1 version number"}
 	
-	pushws $2
+	$1 $2
 	
 	exit
 fi
