@@ -178,7 +178,7 @@ if [ ! -d $WWW/ipcache ]; then
 	echo Clone $branch branch
 	git clone --branch $branch $repo $WWW/ipcache	
 	
-	#checkout tag for mi repo
+	#checkout the lastest tag for mi repo
 	if [ $repo_index == 0 ]; then
 		cd $WWW/ipcache
 		tag=$(git tag|tail -1)
