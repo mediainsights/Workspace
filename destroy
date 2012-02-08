@@ -82,7 +82,7 @@ if [[ -d $folder && $multi_site = 0 || ${folder##*/} == "$1.localhost" || ${fold
 		
 		#remove vhost file
 		sudo rm -f $APACHEDIR/other/$code.$SERVER.conf
-		echo Remove vhost file: $APACHEDIR/other/$code.$SERVER.conf
+		echo Remove vhost alias: $APACHEDIR/other/$code.$SERVER.conf
 		
 		
 		#drupal directory
