@@ -12,7 +12,7 @@ source includes/functions
 # Push Workspace to in repository
 #############################################################################
 
-if [ $1="pushws" ]; then
+if [ $1=pushws ]; then
 	
 	#Usage check
 	: ${2?"Usage: $0 $1 version number"}
