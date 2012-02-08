@@ -86,10 +86,10 @@ else
 
 	if [ $1=dev ]; then
 		cd $WWW/ipcache
-		git remote add kw $REPOS[1]
+		git remote add kw ${REPOS[1]}
 		git pull kw
 	fi
 
 fi
 
-cp -pRa $WWW/ipcache $WWW/$1
+
