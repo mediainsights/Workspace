@@ -86,7 +86,7 @@ else
 
 	if [ $1=dev ]; then
 		cd $WWW/ipcache
-		git add remote kw $REPOS[1]
+		git remote add kw $REPOS[1]
 		git pull kw
 	fi
 
