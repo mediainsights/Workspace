@@ -19,7 +19,7 @@ function pushws {
 	
 	git co kelvin
 	
-	git push kw
+	git push kw kelvin
 
 	git co master
 	git pull in master
