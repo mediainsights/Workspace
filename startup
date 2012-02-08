@@ -179,8 +179,12 @@ if [ ! -d $WWW/ipcache ]; then
 	git clone --branch $branch $repo $WWW/ipcache	
 	
 else
-	cd $WWW/ipcache
-	git pull
+
+	if [ $1=dev ]; then
+		cd $WWW/ipcache
+		git pull kw
+	fi
+
 fi
 
 cp -pRa $WWW/ipcache $WWW/$1
