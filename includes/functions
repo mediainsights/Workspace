@@ -16,6 +16,11 @@ function check_db_exist {
 
 #push workspace
 function pushws {
+	
+	git co kelvin
+	
+	git push kw
+
 	git co master
 	git pull in master
 	
