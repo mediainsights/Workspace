@@ -12,3 +12,21 @@ function check_db_exist {
 	echo 0
 
 }
+
+
+#push workspace
+function pushws {
+	git co test
+	git pull kw test
+	
+	git merge kelvin
+	
+	git reset kw/test
+	
+	git add .
+	git add -u
+	
+	git commit
+	
+	git tag -a $1 -m \'version $1\'
+} 
