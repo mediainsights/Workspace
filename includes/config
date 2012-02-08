@@ -9,16 +9,11 @@ APACHEDIR=/etc/apache2
 #dev git repository
 REPOS[0]=git@github.com:mediainsights/IP.git
 REPOS[1]=git@github.com:KelvinWong/IP.git
-#REPOS[2]=ssh://apo/srv/vcs/apo.git
 
 
 REPOS_SHORTNAME[0]=mi
 REPOS_SHORTNAME[1]=kw
 
-
-
-
 #preset
-PRESET_REPO_INDEX=1
 PRESET_BRANCH=7.x-2.x
 PRESET_MSITE=msites

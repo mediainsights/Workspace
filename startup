@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 
 ############################################################################# 
 # Source files
@@ -7,6 +7,20 @@
 source ~/.bash_profile
 source includes/config
 source includes/functions
+
+############################################################################# 
+# Push Workspace to in repository
+#############################################################################
+
+if [ $1="push_workspace" ]; then
+	
+	#Usage check
+	: ${2?"Usage: $0 $1 version number"}
+	
+	pushws $2
+	
+	exit
+fi
 
 ############################################################################# 
 # Check usage and platform settings
@@ -43,58 +57,19 @@ fi
 # Find out the repository to download
 ############################################################################# 
 
+
+if [ $2=dev ]; then
+	repo_index=1
+else
+	repo_index=0
+fi
+
 #Load preset value
-repo_index=$PRESET_REPO_INDEX
 branch=$PRESET_BRANCH
 repo=${REPOS[$repo_index]}
 
-use_preset=''
-
-while [[ $use_preset != 'y'  &&  $use_preset != 'n' ]]; do
-	printf "\nPreset Values:\n"
-	printf "%s = %s\n" 'Repo' $repo
-	printf "%s = %s\n" 'Branch' $branch
-
-	read -p "Do you want to use the preset values? (y/n): " use_preset
-done
-
-
-if [ $use_preset == 'n' ]; then
-
-	#Add remote repositries if not exists.
-    for index in ${!REPOS[*]}
-    do
-        repo_exist=$(git remote|grep ${REPOS_SHORTNAME[$index]})
-
-        if [ -z "$repo_exist" ]; then 
-            git remote add ${REPOS_SHORTNAME[$index]} ${REPOS[$index]}
-
-        fi
-    done
-
-    #Fetch remote repositries
-    echo "Please wait while the system is updating the remote repositries"
-    for index in ${!REPOS[*]}
-    do
-        git fetch ${REPOS_SHORTNAME[$index]}
-    done
-
-    #Choose remote repo
-    repo_index=10000
-    while [ -z "${REPOS_SHORTNAME[$repo_index]}" ]; do
-        for index in ${!REPOS[*]}
-        do
-            printf "%4s: %s\n" $index ${REPOS[$index]}
-        done
-        read -p "Which repositry do you want to use? " repo_index
-    done
-
-    repo=${REPOS[$repo_index]}
-
-    git branch -a|grep "${REPOS_SHORTNAME[$repo_index]}"|awk -F"/" '{print $NF}'
-    read -p "Select a branch: " branch
-fi
-
+printf "%s = %s\n" 'Repo' $repo
+printf "%s = %s\n" 'Branch' $branch
 
 ############################################################################# 
 # Server info
@@ -303,3 +278,4 @@ fi
 echo "Database created: $dbname, $dbpass"
 echo "Drupal was installed successfully: "
 drush @$1 user-login;
+
