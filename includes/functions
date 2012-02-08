@@ -32,5 +32,7 @@ function pushws {
 	
 	git push in master
 	
+	git push --tags in
+	
 	git co kelvin
 } 
