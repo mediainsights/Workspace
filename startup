@@ -89,5 +89,7 @@ if [ $2 = dev ]; then
 	git co -b master kw/master
 fi
 
+cd $WWW/ipcache
+git branch
 
 
