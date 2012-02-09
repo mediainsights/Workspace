@@ -74,6 +74,7 @@ if [ ! -d $WWW/ipcache ]; then
 	
 else
 
+	git co $branch
 	git pull
 
 fi
