@@ -35,6 +35,18 @@ mysqladmin -uroot -p$rootpass -f DROP $1_db;
 echo $1_db deleted
 
 #Remove user
+mysql -uroot -p$rootpass -e "DROP USER $dbuser@localhost;";
+echo User $dbuser is removed.
+
+#remove vhost file
+sudo rm -f $APACHEDIR/other/$code.$SERVER.conf
+echo Remove vhost alias: $APACHEDIR/other/$code.$SERVER.conf
+
+#remove drush alias
+rm -f /Users/$USER/.drush/$code.aliases.drushrc.php
+echo Remove drush alias: /Users/$USER/.drush/$code.aliases.drushrc.php
+
+
 
 multi_site=0
 if [ ! -d $WWW/$1 ]; then
