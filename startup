@@ -180,7 +180,9 @@ printf "%s = %s\n" 'Branch' $branch
 #if ipcache not exist, clone from github
 if [ ! -d $WWW/ipcache ]; then
 	echo Clone $branch branch
-	git clone --branch $branch $repo $WWW/ipcache	
+	git clone --branch $branch $repo $WWW/ipcache
+	
+	cd $WWW/ipcache
 	git remote rename origin in
 else
 
