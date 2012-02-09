@@ -218,10 +218,14 @@ chmod 755 $WWW/$1/sites/default
 manual_install=0
 #Extra settings for manual druapl install
 #manual_install=1
-#mkdir $WWW/$1/sites/default/files
-#chmod 777 $WWW/$1/sites/default/files
-#cp $WWW/$1/sites/default/default.settings.php $WWW/$1/sites/default/settings.php
-#chmod 777 $WWW/$1/sites/default/settings.php
+if [ $manual_install = 1 ]; then
+	mkdir $WWW/$1/sites/default/files
+	chmod 777 $WWW/$1/sites/default/files
+	cp $WWW/$1/sites/default/default.settings.php $WWW/$1/sites/default/settings.php
+	chmod 777 $WWW/$1/sites/default/settings.php
+	
+	exit
+fi
 
 #Drush install
 drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass -y
