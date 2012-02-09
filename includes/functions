@@ -56,7 +56,7 @@ function puship {
 	
 	git push kw master
 	
-	git co master
+	git co $PRESET_BRANCH
 	
 
 }
