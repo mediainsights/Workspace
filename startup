@@ -77,7 +77,7 @@ else
 	if [ $1 = dev ]; then
 		
 		#kw repos
-		repo=${REPOS[0]}
+		repo=${REPOS[1]}
 		
 		cd $WWW/ipcache
 		git remote add kw $repo
