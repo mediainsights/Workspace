@@ -58,6 +58,14 @@ if [ ! -d /Users/$USER/.drush ]; then
 fi
 
 #Check db exist
+
+read -s -p "Enter mysql root password: " rootpass
+
+#Test mysql connection
+while ! mysql -u root -p$rootpass  -e ";" ; do
+       read -s -p "Can't connect, please retry: " rootpass
+done
+
 check_db_exist $1_db 
 db_exist=$?
 
