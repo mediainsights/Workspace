@@ -28,6 +28,17 @@ if [ $1 = pushws ]; then
 	exit
 fi
 
+# Push ip to in repository
+if [ $1 = puship ]; then
+	
+	#Usage check
+	: ${2?"Usage: $0 $1 version number"}
+	
+	pushws $2
+	
+	exit
+fi
+
 #Check vhost exist
 if [ -f $APACHEDIR/other/$1.$SERVER.conf ]; then
   echo vhost $1.$SERVER is already existed
