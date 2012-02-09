@@ -66,7 +66,7 @@ while ! mysql -u root -p$rootpass  -e ";" ; do
        read -s -p "Can't connect, please retry: " rootpass
 done
 
-check_db_exist $1_db 
+check_db_exist $1_db $rootpass
 db_exist=$?
 
 if [ $db_exist = 1 ]; then	
