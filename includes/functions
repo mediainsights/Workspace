@@ -72,7 +72,6 @@ function puship {
 	git add -u
 	
 	git commit
-
 	
 	git tag -a $2 -m 'version $2'
 	
