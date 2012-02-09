@@ -45,6 +45,13 @@ function pushws {
 #push ip
 function puship {
 	
+	
+	#Check project directory exist
+	if [ ! -d $WWW/$1 ]; then
+	  echo Folder $1 is not existed
+	  exit
+	fi
+	
 	git co kelvin
 	
 	git push kw kelvin
