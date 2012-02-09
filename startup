@@ -75,7 +75,7 @@ if [ ! -d $WWW/ipcache ]; then
 else
 
 	if [ $1 = dev ]; then
-		
+		echo dev
 		#kw repos
 		repo=${REPOS[1]}
 		
