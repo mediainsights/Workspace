@@ -44,6 +44,7 @@ function pushws {
 #push ip
 function puship {
 	
+	source config
 	
 	#Check project directory exist
 	if [ ! -d $WWW/$1 ]; then
@@ -56,6 +57,8 @@ function puship {
 	git co master
 	
 	git push kw master
+	
+	git co master
 	
 
 }
