@@ -60,6 +60,10 @@ function puship {
 	git pull in $PRESET_BRANCH
 	
 	git merge master
+
+	git add .
+	git add -u
 	
+	git commit	
 
 }
