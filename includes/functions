@@ -58,19 +58,21 @@ function puship {
 	
 	git push kw master
 	
+	git push --tags kw	
+	
+	
+	git co $PRESET_BRANCH
+	git pull in $PRESET_BRANCH
+	
+	git merge master
+
 	git reset in/$PRESET_BRANCH
 	
 	git add .
 	git add -u
 	
 	git commit
-	
-	git push --tags kw
-	
-	git co $PRESET_BRANCH
-	git pull in $PRESET_BRANCH
-	
-	git merge master
+
 	
 	git tag -a $2 -m 'version $2'
 	
