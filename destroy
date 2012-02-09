@@ -35,8 +35,8 @@ mysqladmin -uroot -p$rootpass -f DROP $1_db;
 echo $1_db deleted
 
 #Remove user
-mysql -uroot -p$rootpass -e "DROP USER $dbuser@localhost;";
-echo User $dbuser is removed.
+mysql -uroot -p$rootpass -e "DROP USER $1_user@localhost;";
+echo User $1_user is removed.
 
 #remove vhost file
 sudo rm -f $APACHEDIR/other/$1.$SERVER.conf
