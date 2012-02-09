@@ -79,7 +79,7 @@ else
 
 fi
 
-if [ -n "$2" ]; then; if [ $2 = dev ]; then
+if [ -n "$2" ] && [ $2 = dev ]; then
 	echo dev
 	#kw repos
 	repo=${REPOS[1]}
@@ -91,7 +91,7 @@ if [ -n "$2" ]; then; if [ $2 = dev ]; then
 	
 	git co master
 	git pull kw	
-fi; fi
+fi
 
 cd $WWW/ipcache
 git branch
