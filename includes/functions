@@ -60,5 +60,7 @@ function puship {
 	git pull in $PRESET_BRANCH
 	
 	git merge master
+	
+	git tag -a $2 -m 'version $2'
 
 }
