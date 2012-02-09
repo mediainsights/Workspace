@@ -39,12 +39,12 @@ mysql -uroot -p$rootpass -e "DROP USER $dbuser@localhost;";
 echo User $dbuser is removed.
 
 #remove vhost file
-sudo rm -f $APACHEDIR/other/$code.$SERVER.conf
-echo Remove vhost alias: $APACHEDIR/other/$code.$SERVER.conf
+sudo rm -f $APACHEDIR/other/$1.$SERVER.conf
+echo Remove vhost alias: $APACHEDIR/other/$1.$SERVER.conf
 
 #remove drush alias
-rm -f /Users/$USER/.drush/$code.aliases.drushrc.php
-echo Remove drush alias: /Users/$USER/.drush/$code.aliases.drushrc.php
+rm -f /Users/$USER/.drush/$1.aliases.drushrc.php
+echo Remove drush alias: /Users/$USER/.drush/$1.aliases.drushrc.php
 
 #remove site directory
 rm -rf $WWW/$1
