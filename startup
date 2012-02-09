@@ -82,7 +82,6 @@ else
 		cd $WWW/ipcache
 		git remote add kw $repo
 		git pull kw
-		git co -b master
 	fi
 
 fi
