@@ -78,7 +78,7 @@ else
 
 fi
 
-if [ "$2" = "dev" ]; then
+if [ $2 = dev ]; then
 	echo dev
 	#kw repos
 	repo=${REPOS[1]}
