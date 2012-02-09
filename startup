@@ -75,7 +75,7 @@ if [ ! -d $WWW/ipcache ]; then
 	
 else
 
-	if [ $1=dev ]; then
+	if [ $1 = dev ]; then
 		cd $WWW/ipcache
 		git remote add kw $repo
 		git pull kw
