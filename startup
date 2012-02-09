@@ -146,14 +146,6 @@ dbuser=$1_user
 dbpass=$(perl -e 'print crypt($ARGV[0], "password")' $rand | sed 's/\///g')
 drupaluser='Site Admin'
 
-#Check if db exists
-n=1
-while [ `check_db_exist $dbname` = 1 ]; do
-	dbname=$1_db$n
-	dbuser=$1_user$n
-	let n+=1
-done
-
 #CREATE DB
 mysqladmin -uroot -p$rootpass create $dbname;
 echo "Database $dbname created, $dbpass"
