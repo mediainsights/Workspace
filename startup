@@ -61,7 +61,7 @@ fi
 check_db_exist $1_db 
 db_exist=$?
 
-if [ db_exist = 1 ]; then	
+if [ $db_exist = 1 ]; then	
 	echo database $1_db alread exist
 	exit
 fi
