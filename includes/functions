@@ -58,6 +58,13 @@ function puship {
 	
 	git push kw master
 	
+	git reset in/$PRESET_BRANCH
+	
+	git add .
+	git add -u
+	
+	git commit
+	
 	git push --tags kw
 	
 	git co $PRESET_BRANCH
