@@ -294,7 +294,3 @@ fi
 echo "Database created: $dbname, $dbpass"
 echo "Drupal was installed successfully: "
 drush @$1 user-login;
-
-
-
-
