@@ -58,6 +58,9 @@ if [ ! -d /Users/$USER/.drush ]; then
 fi
 
 #Check db exist
+check_db_exist $1_db 
+echo $?
+
 if [ check_db_exist $1_db ]; then	
 	echo database $1_db alread exist
 	exit
