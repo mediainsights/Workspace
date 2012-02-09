@@ -66,8 +66,6 @@ repo=${REPOS[0]}
 printf "%s = %s\n" 'Repo' $repo
 printf "%s = %s\n" 'Branch' $branch
 
-
-
 #if ipcache not exist, clone from github
 if [ ! -d $WWW/ipcache ]; then
 	echo Clone $branch branch
