@@ -16,6 +16,9 @@ source includes/functions
 #Usage check
 : ${1?"Usage: $0 SITE"}
 
+############################################################################# 
+# Functions
+#############################################################################
 
 # Push Workspace to in repository
 if [ $1 = pushws ]; then
