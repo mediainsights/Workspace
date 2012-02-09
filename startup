@@ -176,7 +176,6 @@ else
 fi
 
 if [ -n "$2" ] && [ $2 = dev ]; then
-	echo dev
 	#kw repos
 	repo=${REPOS[1]}
 		
