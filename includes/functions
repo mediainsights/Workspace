@@ -44,8 +44,6 @@ function pushws {
 #push ip
 function puship {
 	
-	source config
-	
 	#Check project directory exist
 	if [ ! -d $WWW/$1 ]; then
 	  echo Folder $1 is not existed
