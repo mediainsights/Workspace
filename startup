@@ -209,7 +209,6 @@ chmod 755 $WWW/$1/sites/default
 
 manual_install=$MANUAL_INSTALL
 #Extra settings for manual druapl install
-#manual_install=1
 if [ $manual_install = 1 ]; then
 	mkdir $WWW/$1/sites/default/files
 	chmod 777 $WWW/$1/sites/default/files
