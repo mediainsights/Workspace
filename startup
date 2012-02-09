@@ -128,13 +128,6 @@ echo "<?php
 # Create database & user
 #############################################################################
 
-read -s -p "Enter mysql root password: " rootpass
-
-#Test mysql connection
-while ! mysql -u root -p$rootpass  -e ";" ; do
-       read -s -p "Can't connect, please retry: " rootpass
-done
-
 echo "";
 
 #Setup variables required
