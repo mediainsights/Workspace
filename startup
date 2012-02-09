@@ -8,26 +8,55 @@ source ~/.bash_profile
 source includes/config
 source includes/functions
 
+
 ############################################################################# 
-# Push Workspace to in repository
+# Check usage
 #############################################################################
 
+<<<<<<< HEAD
 if [ $1="push_ws" ]; then
+=======
+#Usage check
+: ${1?"Usage: $0 SITE"}
+
+############################################################################# 
+# Functions
+#############################################################################
+
+# Push Workspace to in repository
+if [ $1 = pushws ]; then
+>>>>>>> kelvin
 	
 	#Usage check
-	: ${2?"Usage: $0 $1 version number"}
+	: ${2?"Usage: $0 $1 version-number"}
 	
 	pushws $2
 	
 	exit
 fi
 
+# Push ip to in repository
+if [ $1 = puship ]; then
+	
+	#Usage check
+	: ${2?"Usage: $0 $1 project-code version-number"}
+	
+	puship $2 $3
+	
+	exit
+fi
+
+
 ############################################################################# 
-# Check usage and platform settings
+# Server info
 #############################################################################
 
-#Usage check
-: ${1?"Usage: $0 SITE"}
+read -p "What is the actual domain of the website: " domain
+
+############################################################################# 
+# Check settings
+#############################################################################
+
 
 #Check vhost exist
 if [ -f $APACHEDIR/other/$1.$SERVER.conf ]; then
@@ -48,34 +77,22 @@ if [ ! -d /Users/$USER/.drush ]; then
 fi
 
 #Check db exist
-if [ check_db_exist $1_db ]; then	
+
+read -s -p "Enter mysql root password: " rootpass
+
+#Test mysql connection
+while ! mysql -u root -p$rootpass  -e ";" ; do
+       read -s -p "Can't connect, please retry: " rootpass
+done
+echo "";
+
+check_db_exist $1_db $rootpass
+db_exist=$?
+
+if [ $db_exist = 1 ]; then	
 	echo database $1_db alread exist
 	exit
 fi
-
-############################################################################# 
-# Find out the repository to download
-############################################################################# 
-
-
-if [ $2=dev ]; then
-	repo_index=1
-else
-	repo_index=0
-fi
-
-#Load preset value
-branch=$PRESET_BRANCH
-repo=${REPOS[$repo_index]}
-
-printf "%s = %s\n" 'Repo' $repo
-printf "%s = %s\n" 'Branch' $branch
-
-############################################################################# 
-# Server info
-#############################################################################
-
-read -p "What is the actual domain of the website: " domain
 
 ############################################################################# 
 # Setup vhost, host alias & drush alias
@@ -133,14 +150,6 @@ echo "<?php
 # Create database & user
 #############################################################################
 
-read -s -p "Enter mysql root password: " rootpass
-
-#Test mysql connection
-while ! mysql -u root -p$rootpass  -e ";" ; do
-       read -s -p "Can't connect, please retry: " rootpass
-done
-
-echo "";
 
 #Setup variables required
 rand=$RANDOM
@@ -150,17 +159,9 @@ dbuser=$1_user
 dbpass=$(perl -e 'print crypt($ARGV[0], "password")' $rand | sed 's/\///g')
 drupaluser='Site Admin'
 
-#Check if db exists
-n=1
-while [ `check_db_exist $dbname` = 1 ]; do
-	dbname=$1_db$n
-	dbuser=$1_user$n
-	let n+=1
-done
-
 #CREATE DB
 mysqladmin -uroot -p$rootpass create $dbname;
-echo "Database $dbname created, $dbpass"
+echo "Database $dbname created, $dbuser - $dbpass"
 
 #CREATE USER
 Q1="GRANT USAGE ON * . * TO  '$dbuser'@'localhost' IDENTIFIED BY  '$dbpass';" 
@@ -173,21 +174,41 @@ mysql -uroot -p$rootpass -e "$SQL"
 # Copy ip from ipcache
 #############################################################################
 
+branch=$PRESET_BRANCH
+
+#in repos
+repo=${REPOS[0]}
+
+printf "%s = %s\n" 'Repo' $repo
+printf "%s = %s\n" 'Branch' $branch
+
 #if ipcache not exist, clone from github
 if [ ! -d $WWW/ipcache ]; then
 	echo Clone $branch branch
-	git clone --branch $branch $repo $WWW/ipcache	
+	git clone --branch $branch $repo $WWW/ipcache
 	
-	#checkout tag for mi repo
-	if [ $repo_index == 0 ]; then
-		cd $WWW/ipcache
-		tag=$(git tag|tail -1)
-		git co $tag
-		git co -b $tag
-	fi
-else
 	cd $WWW/ipcache
+	git remote rename origin in
+else
+
+	cd $WWW/ipcache
+	git co $branch
 	git pull
+
+fi
+
+if [ -n "$2" ] && [ $2 = dev ]; then
+	
+	#kw repos
+	repo=${REPOS[1]}
+		
+	cd $WWW/ipcache
+	git remote add kw $repo
+	git pull kw
+	git co -b master kw/master
+	
+	git co master
+	git pull kw	
 fi
 
 cp -pRa $WWW/ipcache $WWW/$1
@@ -199,13 +220,19 @@ cp -pRa $WWW/ipcache $WWW/$1
 # Get ready for Drupal installation
 chmod 755 $WWW/$1/sites/default
 
-manual_install=0
-#Extra settings for manual druapl install
-#manual_install=1
-#mkdir $WWW/$1/sites/default/files
-#chmod 777 $WWW/$1/sites/default/files
-#cp $WWW/$1/sites/default/default.settings.php $WWW/$1/sites/default/settings.php
-#chmod 777 $WWW/$1/sites/default/settings.php
+manual_install=$MANUAL_INSTALL
+if [ $manual_install = 1 ]; then
+	mkdir $WWW/$1/sites/default/files
+	chmod 777 $WWW/$1/sites/default/files
+	cp $WWW/$1/sites/default/default.settings.php $WWW/$1/sites/default/settings.php
+	chmod 777 $WWW/$1/sites/default/settings.php
+	
+	echo "Manual install"
+	echo "$1.localhost"
+	echo "Database $dbname created, $dbuser - $dbpass"
+	
+	exit
+fi
 
 #Drush install
 drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass -y
@@ -226,8 +253,8 @@ if [ "$status" = "Successful" ]; then
 	#Make everthing in files directory writable
 	chmod -R 777 `drush @$1 dd files`
 
-	cp $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.live
-	sed 's/_db/_dev/' $WWW/$1/sites/default/settings.php > $WWW/$1/sites/default/settings.dev
+	#cp $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.live
+	#sed 's/_db/_dev/' $WWW/$1/sites/default/settings.php > $WWW/$1/sites/default/settings.dev
 
 	drush @$1 cron
 else
@@ -275,7 +302,6 @@ fi
 # Reports
 #############################################################################
 
-echo "Database created: $dbname, $dbpass"
+echo "Database $dbname created, $dbuser - $dbpass"
 echo "Drupal was installed successfully: "
 drush @$1 user-login;
-

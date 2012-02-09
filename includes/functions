@@ -1,15 +1,14 @@
 #!/bin/bash
 
 function check_db_exist {
-	DBS=`mysql -uroot -p$rootpass -Bse 'show databases'| egrep -v 'information_schema|mysql'`
+	DBS=`mysql -uroot -p$2 -Bse 'show databases'| egrep -v 'information_schema|mysql'`
 	for db in $DBS; do
 		if [ "$db" = $1 ]; then
-		    echo 1
-			return
+			return 1
 		fi
 	done
 
-	echo 0
+	return 0
 
 }
 
@@ -41,3 +40,45 @@ function pushws {
 	
 	git co kelvin
 } 
+
+#push ip
+function puship {
+	
+	#Check project directory exist
+	if [ ! -d $WWW/$1 ]; then
+	  echo Folder $1 is not existed
+	  exit
+	fi
+	
+	cd $WWW/$1
+	
+	git co master
+	
+	git tag -a $2 -m 'version $2'
+	
+	git push kw master
+	
+	git push --tags kw	
+	
+	
+	git co $PRESET_BRANCH
+	git pull in $PRESET_BRANCH
+	
+	git merge master
+
+	git reset in/$PRESET_BRANCH
+	
+	git add .
+	git add -u
+	
+	git commit
+	
+	git tag -a $2 -m 'version $2'
+	
+	git push in $PRESET_BRANCH
+	
+	git push --tags in
+	
+	git co master
+
+}
