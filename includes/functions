@@ -59,5 +59,7 @@ function puship {
 	git co $PRESET_BRANCH
 	git pull in $PRESET_BRANCH
 	
+	git merge master
+	
 
 }
