@@ -52,7 +52,103 @@ if [ check_db_exist $1_db ]; then
 	exit
 fi
 
-#####
+############################################################################# 
+# Server info
+#############################################################################
+
+read -p "What is the actual domain of the website: " domain
+
+############################################################################# 
+# Setup vhost, host alias & drush alias
+#############################################################################
+
+#Add vhost
+ echo "<VirtualHost *:80>
+    DocumentRoot $WWW/$1 
+    ServerName $1.localhost
+    <Directory $WWW/$1>
+        AllowOverride All
+    </Directory>
+</VirtualHost>
+" | sudo tee -a $APACHEDIR/other/$1.$SERVER.conf
+
+sudo apachectl restart
+
+#Add host alias
+if [ ! $(grep -q "$1.$SERVER" /etc/hosts) ]; then
+  echo -e "127.0.0.1	$1.$SERVER" | sudo tee -a /etc/hosts
+fi
+
+#Add drush alias
+echo "<?php
+\$aliases['$1'] = array(
+    'uri' => '$1.$SERVER',
+    'root' => '$WWW/$1',
+  );
+
+\$aliases['$1.dev'] = array(
+    'uri' => 'dev.$domain',
+	'root' => '/home/$1/dev',
+	'ssh-options' => '-p 222',
+    'remote-host' => 'dev.$domain',
+	'remote-user' => '$1',
+	'path-aliases' => array(
+		'%dump-dir' => '/home/$1/sql_dump',
+     ),
+  );
+
+\$aliases['$1.live'] = array(
+    'uri' => '$domain',
+	'root' => '/home/$1/www',
+	'ssh-options' => '-p 222',
+    'remote-host' => '$domain',
+	'remote-user' => '$1',
+	'path-aliases' => array(
+		'%dump-dir' => '/home/$1/sql_dump',
+     ),
+  );
+
+" > /Users/$USER/.drush/$1.aliases.drushrc.php 
+
+############################################################################# 
+# Create database & user
+#############################################################################
+
+read -s -p "Enter mysql root password: " rootpass
+
+#Test mysql connection
+while ! mysql -u root -p$rootpass  -e ";" ; do
+       read -s -p "Can't connect, please retry: " rootpass
+done
+
+echo "";
+
+#Setup variables required
+rand=$RANDOM
+
+dbname=$1_db
+dbuser=$1_user
+dbpass=$(perl -e 'print crypt($ARGV[0], "password")' $rand | sed 's/\///g')
+drupaluser='Site Admin'
+
+#Check if db exists
+n=1
+while [ `check_db_exist $dbname` = 1 ]; do
+	dbname=$1_db$n
+	dbuser=$1_user$n
+	let n+=1
+done
+
+#CREATE DB
+mysqladmin -uroot -p$rootpass create $dbname;
+echo "Database $dbname created, $dbpass"
+
+#CREATE USER
+Q1="GRANT USAGE ON * . * TO  '$dbuser'@'localhost' IDENTIFIED BY  '$dbpass';" 
+Q2="GRANT ALL PRIVILEGES ON $dbname.* TO '$dbuser'@'localhost' IDENTIFIED BY '$dbpass';"
+SQL="${Q1}${Q2}"
+
+mysql -uroot -p$rootpass -e "$SQL"
 
 ############################################################################# 
 # Copy ip from ipcache
