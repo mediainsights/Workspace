@@ -223,8 +223,7 @@ if [ $manual_install = 1 ]; then
 	cp $WWW/$1/sites/default/default.settings.php $WWW/$1/sites/default/settings.php
 	chmod 777 $WWW/$1/sites/default/settings.php
 	
-	echo "Manual install"
-	
+	echo "Manual install"$1.$SERVER"$1.localhost"
 	echo "Database created: $dbname, $dbpass"
 	
 	exit
