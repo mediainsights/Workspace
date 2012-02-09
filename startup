@@ -58,15 +58,9 @@ fi
 ############################################################################# 
 
 
-if [ $2 = dev ]; then
-	repo_index=1
-else
-	repo_index=0
-fi
-
-#Load preset value
+#in repos
 branch=$PRESET_BRANCH
-repo=${REPOS[$repo_index]}
+repo=${REPOS[0]}
 
 printf "%s = %s\n" 'Repo' $repo
 printf "%s = %s\n" 'Branch' $branch
@@ -88,6 +82,7 @@ else
 		cd $WWW/ipcache
 		git remote add kw $repo
 		git pull kw
+		git co -b master
 	fi
 
 fi
