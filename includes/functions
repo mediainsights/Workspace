@@ -61,9 +61,4 @@ function puship {
 	
 	git merge master
 
-	git add .
-	git add -u
-	
-	git commit	
-
 }
