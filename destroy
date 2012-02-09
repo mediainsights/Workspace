@@ -47,6 +47,7 @@ rm -f /Users/$USER/.drush/$code.aliases.drushrc.php
 echo Remove drush alias: /Users/$USER/.drush/$code.aliases.drushrc.php
 
 #remove site directory
+rm -rf $WWW/$1
 
 #apache restart
 sudo apachectl restart
