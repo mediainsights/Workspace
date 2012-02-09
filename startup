@@ -8,10 +8,16 @@ source ~/.bash_profile
 source includes/config
 source includes/functions
 
+
 ############################################################################# 
-# Push Workspace to in repository
+# Check usage and platform settings
 #############################################################################
 
+#Usage check
+: ${1?"Usage: $0 SITE"}
+
+
+# Push Workspace to in repository
 if [ $1 = pushws ]; then
 	
 	#Usage check
@@ -22,12 +28,7 @@ if [ $1 = pushws ]; then
 	exit
 fi
 
-############################################################################# 
-# Check usage and platform settings
-#############################################################################
 
-#Usage check
-: ${1?"Usage: $0 SITE"}
 
 #Check vhost exist
 if [ -f $APACHEDIR/other/$1.$SERVER.conf ]; then
