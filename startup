@@ -242,8 +242,8 @@ if [ "$status" = "Successful" ]; then
 	#Make everthing in files directory writable
 	chmod -R 777 `drush @$1 dd files`
 
-	cp $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.live
-	sed 's/_db/_dev/' $WWW/$1/sites/default/settings.php > $WWW/$1/sites/default/settings.dev
+	#cp $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.live
+	#sed 's/_db/_dev/' $WWW/$1/sites/default/settings.php > $WWW/$1/sites/default/settings.dev
 
 	drush @$1 cron
 else
