@@ -74,16 +74,17 @@ if [ ! -d $WWW/ipcache ]; then
 	
 else
 
-	if [ $2 = dev ]; then
-		echo dev
-		#kw repos
-		repo=${REPOS[1]}
-		
-		cd $WWW/ipcache
-		git remote add kw $repo
-		git pull kw
-	fi
-
 fi
+
+if [ $2 = dev ]; then
+	echo dev
+	#kw repos
+	repo=${REPOS[1]}
+		
+	cd $WWW/ipcache
+	git remote add kw $repo
+	git pull kw
+fi
+
 
 
