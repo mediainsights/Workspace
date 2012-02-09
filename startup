@@ -59,8 +59,9 @@ fi
 # Copy ip from ipcache
 #############################################################################
 
-#in repos
 branch=$PRESET_BRANCH
+
+#in repos
 repo=${REPOS[0]}
 
 printf "%s = %s\n" 'Repo' $repo
@@ -74,6 +75,10 @@ if [ ! -d $WWW/ipcache ]; then
 else
 
 	if [ $1 = dev ]; then
+		
+		#kw repos
+		repo=${REPOS[0]}
+		
 		cd $WWW/ipcache
 		git remote add kw $repo
 		git pull kw
