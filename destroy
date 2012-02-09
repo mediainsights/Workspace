@@ -46,6 +46,8 @@ echo Remove vhost alias: $APACHEDIR/other/$code.$SERVER.conf
 rm -f /Users/$USER/.drush/$code.aliases.drushrc.php
 echo Remove drush alias: /Users/$USER/.drush/$code.aliases.drushrc.php
 
+#remove site firectory
+
 #apache restart
 sudo apachectl restart
 echo apache restarted.
