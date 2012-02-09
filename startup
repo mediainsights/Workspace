@@ -292,7 +292,7 @@ else
 		exit
 	fi
 
-fi #Manual / Drush
+fi #Manual / Drush Install
 
 ############################################################################# 
 # Reports
