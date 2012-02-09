@@ -62,5 +62,11 @@ function puship {
 	git merge master
 	
 	git tag -a $2 -m 'version $2'
+	
+	git push in $2
+	
+	git push --tags in
+	
+	git co master
 
 }
