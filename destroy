@@ -30,6 +30,11 @@ echo "";
 # Pass all tests
 
 
+#Remove db
+mysqladmin -uroot -p$rootpass -f DROP $1_db;
+echo $1_db deleted
+
+#Remove user
 
 multi_site=0
 if [ ! -d $WWW/$1 ]; then
