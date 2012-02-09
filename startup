@@ -21,7 +21,7 @@ source includes/functions
 if [ $1 = pushws ]; then
 	
 	#Usage check
-	: ${2?"Usage: $0 $1 version number"}
+	: ${2?"Usage: $0 $1 version-number"}
 	
 	pushws $2
 	
@@ -32,9 +32,9 @@ fi
 if [ $1 = puship ]; then
 	
 	#Usage check
-	: ${2?"Usage: $0 $1 version number"}
+	: ${2?"Usage: $0 $1 project-code version-number"}
 	
-	pushws $2
+	puship $2 $3
 	
 	exit
 fi
