@@ -89,6 +89,9 @@ if [ $2 = dev ]; then
 	git remote add kw $repo
 	git pull kw
 	git co -b master kw/master
+	
+	git co master
+	git pull kw	
 fi
 
 cd $WWW/ipcache
