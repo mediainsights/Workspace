@@ -54,7 +54,11 @@ function puship {
 	
 	git co master
 	
+	git tag -a $2 -m 'version $2'
+	
 	git push kw master
+	
+	git push --tags kw
 	
 	git co $PRESET_BRANCH
 	git pull in $PRESET_BRANCH
