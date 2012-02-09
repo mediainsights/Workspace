@@ -216,8 +216,10 @@ cp -pRa $WWW/ipcache $WWW/$1
 chmod 755 $WWW/$1/sites/default
 
 manual_install=0
-#Extra settings for manual druapl install
+
 manual_install=1
+
+#Manual Install
 if [ $manual_install = 1 ]; then
 	mkdir $WWW/$1/sites/default/files
 	chmod 777 $WWW/$1/sites/default/files
@@ -225,7 +227,7 @@ if [ $manual_install = 1 ]; then
 	chmod 777 $WWW/$1/sites/default/settings.php
 	
 else
-
+	
 	#Drush install
 	drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass -y
 
