@@ -207,7 +207,7 @@ cp -pRa $WWW/ipcache $WWW/$1
 # Get ready for Drupal installation
 chmod 755 $WWW/$1/sites/default
 
-manual_install=0
+manual_install=$MANUAL_INSTALL
 #Extra settings for manual druapl install
 #manual_install=1
 if [ $manual_install = 1 ]; then
