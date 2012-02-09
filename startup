@@ -177,7 +177,7 @@ printf "%s = %s\n" 'Branch' $branch
 if [ ! -d $WWW/ipcache ]; then
 	echo Clone $branch branch
 	git clone --branch $branch $repo $WWW/ipcache	
-	
+	git remote rename origin in
 else
 
 	cd $WWW/ipcache
