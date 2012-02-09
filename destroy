@@ -46,7 +46,9 @@ echo Remove vhost alias: $APACHEDIR/other/$code.$SERVER.conf
 rm -f /Users/$USER/.drush/$code.aliases.drushrc.php
 echo Remove drush alias: /Users/$USER/.drush/$code.aliases.drushrc.php
 
-
+#apache restart
+sudo apachectl restart
+echo apache restarted.
 
 multi_site=0
 if [ ! -d $WWW/$1 ]; then
