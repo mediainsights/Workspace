@@ -65,6 +65,7 @@ read -s -p "Enter mysql root password: " rootpass
 while ! mysql -u root -p$rootpass  -e ";" ; do
        read -s -p "Can't connect, please retry: " rootpass
 done
+echo "";
 
 check_db_exist $1_db $rootpass
 db_exist=$?
@@ -136,7 +137,6 @@ echo "<?php
 # Create database & user
 #############################################################################
 
-echo "";
 
 #Setup variables required
 rand=$RANDOM
