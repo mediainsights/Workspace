@@ -93,7 +93,95 @@ if [ -n "$2" ] && [ $2 = dev ]; then
 	git pull kw	
 fi
 
-cd $WWW/ipcache
-git branch
+cp -pRa $WWW/ipcache $WWW/$1
+
+############################################################################# 
+# Install drupal
+#############################################################################
+
+# Get ready for Drupal installation
+chmod 755 $WWW/$1/sites/default
+
+manual_install=0
+#Extra settings for manual druapl install
+#manual_install=1
+#mkdir $WWW/$1/sites/default/files
+#chmod 777 $WWW/$1/sites/default/files
+#cp $WWW/$1/sites/default/default.settings.php $WWW/$1/sites/default/settings.php
+#chmod 777 $WWW/$1/sites/default/settings.php
+
+#Drush install
+drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass -y
+
+#Check if Drupal install successfully
+status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
+
+if [ "$status" = "Successful" ]; then	
+	
+	#drupal directory
+	dd=$(drush @$1 dd)
+
+	#Make files directory writable
+	chmod -R 777 `drush @$1 dd files`
+	chmod 755 $dd/sites/default
+	chmod 755 $dd/sites/$1.$SERVER
+
+	#Make everthing in files directory writable
+	chmod -R 777 `drush @$1 dd files`
+
+	cp $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.live
+	sed 's/_db/_dev/' $WWW/$1/sites/default/settings.php > $WWW/$1/sites/default/settings.dev
+
+	drush @$1 cron
+else
+	
+	#if not manual install, remove everything has been setup
+	if [ $manual_install = 0 ]; then
+		#remove db
+		mysqladmin -uroot -p$rootpass -f DROP $dbname;
+		echo $dbname is removed;
+
+		#remove db user
+		mysql -uroot -p$rootpass -e "DROP USER $dbuser@localhost;";
+		echo User $dbuser is removed;	
+
+		#remove vhost file
+		sudo rm -f $APACHEDIR/other/$1.$SERVER.conf
+		echo vhost removed.
+
+		#remove site directory
+		sudo rm -rf $WWW/$1
+		echo site directory removed.
+
+		#remove host alias
+		sed "/$1.$SERVER/d" /etc/hosts > tmp/hosts
+		sudo mv tmp/hosts /etc/hosts
+		echo host alias removed.
+
+		#remove drush alias
+		rm -f /Users/$USER/.drush/$1.aliases.drushrc.php
+		echo drush alias removed.
+
+		#restart apache
+		sudo apachectl restart
+		echo apache restarted.
+		
+	fi
+	
+	echo Drupal fail to install.
+		
+	exit
+fi
+
+
+############################################################################# 
+# Reports
+#############################################################################
+
+echo "Database created: $dbname, $dbpass"
+echo "Drupal was installed successfully: "
+drush @$1 user-login;
+
+
 
 
