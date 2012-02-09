@@ -157,7 +157,7 @@ drupaluser='Site Admin'
 
 #CREATE DB
 mysqladmin -uroot -p$rootpass create $dbname;
-echo "Database $dbname created, $dbpass"
+echo "Database $dbname created, $dbuser - $dbpass"
 
 #CREATE USER
 Q1="GRANT USAGE ON * . * TO  '$dbuser'@'localhost' IDENTIFIED BY  '$dbpass';" 
@@ -225,7 +225,7 @@ if [ $manual_install = 1 ]; then
 	
 	echo "Manual install"$1.$SERVER
 	echo "$1.localhost"
-	echo "Database created: $dbname, $dbpass"
+	echo "Database $dbname created, $dbuser - $dbpass"
 	
 	exit
 fi
