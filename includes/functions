@@ -55,5 +55,7 @@ function puship {
 	
 	git co master
 	
+	git push kw master
+	
 
 }
