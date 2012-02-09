@@ -39,6 +39,18 @@ if [ $1 = puship ]; then
 	exit
 fi
 
+
+############################################################################# 
+# Server info
+#############################################################################
+
+read -p "What is the actual domain of the website: " domain
+
+############################################################################# 
+# Check settings
+#############################################################################
+
+
 #Check vhost exist
 if [ -f $APACHEDIR/other/$1.$SERVER.conf ]; then
   echo vhost $1.$SERVER is already existed
@@ -74,12 +86,6 @@ if [ $db_exist = 1 ]; then
 	echo database $1_db alread exist
 	exit
 fi
-
-############################################################################# 
-# Server info
-#############################################################################
-
-read -p "What is the actual domain of the website: " domain
 
 ############################################################################# 
 # Setup vhost, host alias & drush alias
