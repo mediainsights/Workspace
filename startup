@@ -298,6 +298,6 @@ fi
 # Reports
 #############################################################################
 
-echo "Database created: $dbname, $dbpass"
+echo "Database $dbname created, $dbuser - $dbpass"
 echo "Drupal was installed successfully: "
 drush @$1 user-login;
