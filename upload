@@ -18,7 +18,6 @@ source includes/functions
 #Check lcoal status
 loc_status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
 
-
 if [ "$loc_status" = "Successful" ]; then
 	#Check remote status
 	status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
