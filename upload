@@ -19,7 +19,7 @@ source includes/functions
 status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
 
 if [ "$loc_status" = "Successful" ]; then
-	echo drupal site found on @$1.$2, please use drush command instead
+	echo drupal site found on @$1.$2, please use drush command instead.
 fi
 
 #if [ $2 = live ]; then 
