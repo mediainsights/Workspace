@@ -13,4 +13,4 @@ source includes/functions
 #############################################################################
 
 #Usage check
-: ${1?"Usage: $0 SITE [live or dev]"}
+: ${1?"Usage: $0 SITE [live | dev]"}
