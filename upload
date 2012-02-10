@@ -18,6 +18,12 @@ source includes/functions
 #Check remote status
 status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
 
+if [ "$loc_status" = "Successful" ]; then
+	echo Successful
+else
+	echo fail
+fi
+
 #if [ $2 = live ]; then 
 #	drush rsync --include-conf @$1 @$1.$2 -y 
 #	drush 
