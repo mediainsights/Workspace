@@ -38,7 +38,7 @@ if [ $2 = dev ]; then
 	
 fi
 
-#drush rsync --include-conf @$1 @$1.$2 -y 
-#drush sql-sync @$1 @$1.$2 --no-cache -y
+drush rsync --include-conf @$1 @$1.$2 -y 
+drush sql-sync @$1 @$1.$2 --no-cache -y
 
 
