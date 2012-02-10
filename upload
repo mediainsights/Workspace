@@ -33,7 +33,8 @@ fi
 
 
 if [ $2 = dev ]; then 
-	echo dev
+	cp $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.live
+	sed 's/_db/_dev/' $WWW/$1/sites/default/settings.php > $WWW/$1/sites/default/settings.dev
 fi
 
 drush rsync --include-conf @$1 @$1.$2 -y 
