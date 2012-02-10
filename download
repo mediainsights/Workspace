@@ -32,3 +32,5 @@ fi
 drush rsync @$1.$2 @$1 -y 
 
 drush sql-sync @$1.$2 @$1 --no-cache -y
+
+chown 755 $WWW/$1
