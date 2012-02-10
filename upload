@@ -26,7 +26,7 @@ fi
 #Check remote status
 status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
 echo $status
-if [ $status = Successful ]; then
+if [ -n $status && $status = Successful ]; then
 	echo drupal site found on @$1.$2, please use drush command instead.
 	exit
 fi
