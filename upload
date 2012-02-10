@@ -33,7 +33,7 @@ fi
 
 
 if [ $2 = dev ]; then 
-	sed 's/_db/_dev/' $WWW/$1/sites/default/settings.php > $WWW/$1/sites/default/settings.php
+	sudo sed 's/_db/_dev/' $WWW/$1/sites/default/settings.php > $WWW/$1/sites/default/settings.php
 fi
 
 #drush rsync --include-conf @$1 @$1.$2 -y 
