@@ -15,4 +15,4 @@ source includes/functions
 #Usage check
 : ${1?"Usage: $0 SITE [live | dev]"}
 
-drush rsync --include-conf @$1 @$1.dev -y 
+drush rsync --include-conf @$1 @$1.$2 -y 
