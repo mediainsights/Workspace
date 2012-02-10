@@ -33,7 +33,7 @@ fi
 
 
 if [ $2 = dev ]; then 
-	cp $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.local
+	sudo cp -f $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.local
 	sed 's/_db/_dev/' $WWW/$1/sites/default/settings.php > $WWW/$1/sites/default/settings.dev
 	
 fi
