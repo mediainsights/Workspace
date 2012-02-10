@@ -42,3 +42,7 @@ drush rsync --include-conf @$1 @$1.$2 -y
 drush sql-sync @$1 @$1.$2 --no-cache -y
 
 
+if [ $2 = dev ]; then 
+	sudo mv $WWW/$1/sites/default/settings.local $WWW/$1/sites/default/settings.php
+	
+fi
