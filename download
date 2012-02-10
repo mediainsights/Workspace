@@ -31,5 +31,4 @@ fi
 
 drush rsync @$1.$2 @$1 -y 
 
-drush @$1.$2 sql-drop -y	
 drush sql-sync @$1 @$1.$2 --no-cache -y
