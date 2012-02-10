@@ -42,7 +42,7 @@ drush sql-sync @$1 @$1.$2 --no-cache -y
 
 
 if [ $2 = dev ]; then 
-	sed 's/_dev/_db/' $WWW/$1/sites/default/settings.php > $WWW/$1/sites/default/settings.dev
-	sudo mv $WWW/$1/sites/default/settings.dev $WWW/$1/sites/default/settings.php
+	sed 's/_dev/_db/' $WWW/$1/sites/default/settings.php > $WWW/$1/sites/default/settings.local
+	sudo mv $WWW/$1/sites/default/settings.local $WWW/$1/sites/default/settings.php
 
 fi
