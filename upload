@@ -31,8 +31,9 @@ if [ $status = Successful ]; then
 	exit
 fi
 
+
 if [ $2 = dev ]; then 
-echo dev
+	echo dev
 fi
 
 drush rsync --include-conf @$1 @$1.$2 -y 
