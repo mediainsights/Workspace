@@ -18,22 +18,25 @@ source includes/functions
 #Check lcoal status
 loc_status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
 
-if [ $loc_status = Successful ]; then
-	
-	#Check remote status
-	status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
-
-	if [ $status = Successful ]; then
-		echo drupal site found on @$1.$2, please use drush command instead.
-	
-		exit
-	fi
-
-	if [ $2 = dev ]; then 
-	echo dev
-	fi
-
-	drush rsync --include-conf @$1 @$1.$2 -y 
-	drush sql-sync @$1 @$1.$2 --no-cache -y
-	
+if [ $loc_status != Successful ]; then
+	echo @$1 not found.
+	exit
 fi
+	
+#Check remote status
+status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
+
+if [ $status = Successful ]; then
+	echo drupal site found on @$1.$2, please use drush command instead.
+
+	exit
+fi
+
+if [ $2 = dev ]; then 
+echo dev
+fi
+
+drush rsync --include-conf @$1 @$1.$2 -y 
+drush sql-sync @$1 @$1.$2 --no-cache -y
+
+
