@@ -24,7 +24,9 @@ if [ "$loc_status" = "Successful" ]; then
 	exit
 fi
 
-if [ $2 = live ]; then 
-	drush rsync --include-conf @$1 @$1.$2 -y 
-	drush 
+if [ $2 = dev ]; then 
+	echo dev
 fi
+
+drush rsync --include-conf @$1 @$1.$2 -y 
+drush 
