@@ -35,7 +35,7 @@ fi
 if [ $1 = puship ]; then
 	
 	#Usage check
-	: ${2?"Usage: $0 $1 project-code version-number"}
+	: ${2?"Usage: $0 $1 SITE version-number"}
 	
 	puship $2 $3
 	
