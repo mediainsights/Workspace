@@ -82,3 +82,7 @@ function puship {
 	git co master
 
 }
+
+#push ip
+function puship_test {
+}
