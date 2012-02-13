@@ -86,6 +86,6 @@ function puship {
 
 function puship_test {
 	#status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
-	version=cat $(drush @$1 dd)/profiles/ip/ip.info | grep "version"| awk '{ print $3 }'
+	version=$(cat $(drush @$1 dd)/profiles/ip/ip.info | grep "version"| awk '{ print $3 }')
 	echo $version
 }
