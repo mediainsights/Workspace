@@ -86,5 +86,6 @@ function puship {
 
 function puship_test {
 	version=$(cat $(drush @$1 dd)/profiles/ip/ip.info | grep "version"| awk '{ print $3 }')
+
 	echo $version
 }
