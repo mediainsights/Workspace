@@ -30,7 +30,11 @@ echo "";
 # Pass all tests
 
 
+#Remove db
+mysqladmin -uroot -p$rootpass -f DROP $1_db;
+echo $1_db deleted
 
+<<<<<<< HEAD
 multi_site=0
 if [ ! -d $WWW/$1 ]; then
 	#It's a multi site
@@ -104,7 +108,23 @@ if [[ -d $folder && $multi_site = 0 || ${folder##*/} == "$1.localhost" || ${fold
 	fi
 fi
 done
+=======
+#Remove user
+mysql -uroot -p$rootpass -e "DROP USER $1_user@localhost;";
+echo User $1_user is removed.
+
+#remove vhost file
+sudo rm -f $APACHEDIR/other/$1.$SERVER.conf
+echo Remove vhost alias: $APACHEDIR/other/$1.$SERVER.conf
+
+#remove drush alias
+rm -f /Users/$USER/.drush/$1.aliases.drushrc.php
+echo Remove drush alias: /Users/$USER/.drush/$1.aliases.drushrc.php
+
+#remove site directory
+sudo rm -rf $WWW/$1
+>>>>>>> kelvin
 
 #apache restart
-#sudo apachectl restart
+sudo apachectl restart
 echo apache restarted.

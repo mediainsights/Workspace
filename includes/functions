@@ -81,4 +81,8 @@ function puship {
 	
 	git co master
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> kelvin

@@ -14,8 +14,11 @@ source includes/functions
 #############################################################################
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 if [ $1="push_ws" ]; then
 =======
+=======
+>>>>>>> kelvin
 #Usage check
 : ${1?"Usage: $0 SITE"}
 
@@ -25,6 +28,9 @@ if [ $1="push_ws" ]; then
 
 # Push Workspace to in repository
 if [ $1 = pushws ]; then
+<<<<<<< HEAD
+>>>>>>> kelvin
+=======
 >>>>>>> kelvin
 	
 	#Usage check
@@ -39,7 +45,11 @@ fi
 if [ $1 = puship ]; then
 	
 	#Usage check
+<<<<<<< HEAD
 	: ${2?"Usage: $0 $1 project-code version-number"}
+=======
+	: ${2?"Usage: $0 $1 SITE version-number"}
+>>>>>>> kelvin
 	
 	puship $2 $3
 	
@@ -248,7 +258,7 @@ if [ "$status" = "Successful" ]; then
 	#Make files directory writable
 	chmod -R 777 `drush @$1 dd files`
 	chmod 755 $dd/sites/default
-	chmod 755 $dd/sites/$1.$SERVER
+	#chmod 755 $dd/sites/$1.$SERVER
 
 	#Make everthing in files directory writable
 	chmod -R 777 `drush @$1 dd files`
@@ -304,4 +314,8 @@ fi
 
 echo "Database $dbname created, $dbuser - $dbpass"
 echo "Drupal was installed successfully: "
+<<<<<<< HEAD
 drush @$1 user-login;
+=======
+drush @$1 user-login;
+>>>>>>> kelvin
