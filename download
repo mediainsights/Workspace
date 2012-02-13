@@ -23,8 +23,6 @@ if [ "$loc_status" = "Successful" ]; then
 	exit
 fi
 
-./startup $1
-
 #Check remote status
 status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
 if [ "$status" != "Successful" ]; then
@@ -34,6 +32,8 @@ if [ "$status" != "Successful" ]; then
 	
 	exit
 fi
+
+./startup $1
 
 
 drush rsync @$1.$2 @$1 -y 
