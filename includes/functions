@@ -85,5 +85,6 @@ function puship {
 
 
 function puship_test {
-	
+	#status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
+	cat
 }
