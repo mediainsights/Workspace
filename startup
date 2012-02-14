@@ -13,12 +13,6 @@ source includes/functions
 # Check usage
 #############################################################################
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-if [ $1="push_ws" ]; then
-=======
-=======
->>>>>>> kelvin
 #Usage check
 : ${1?"Usage: $0 SITE"}
 
@@ -28,31 +22,23 @@ if [ $1="push_ws" ]; then
 
 # Push Workspace to in repository
 if [ $1 = pushws ]; then
-<<<<<<< HEAD
->>>>>>> kelvin
-=======
->>>>>>> kelvin
-	
+
 	#Usage check
 	: ${2?"Usage: $0 $1 version-number"}
-	
+
 	pushws $2
-	
+
 	exit
 fi
 
 # Push ip to in repository
 if [ $1 = puship ]; then
-	
+
 	#Usage check
-<<<<<<< HEAD
-	: ${2?"Usage: $0 $1 project-code version-number"}
-=======
 	: ${2?"Usage: $0 $1 SITE version-number"}
->>>>>>> kelvin
-	
+
 	puship $2 $3
-	
+
 	exit
 fi
 
@@ -196,7 +182,7 @@ printf "%s = %s\n" 'Branch' $branch
 if [ ! -d $WWW/ipcache ]; then
 	echo Clone $branch branch
 	git clone --branch $branch $repo $WWW/ipcache
-	
+
 	cd $WWW/ipcache
 	git remote rename origin in
 else
@@ -208,15 +194,15 @@ else
 fi
 
 if [ -n "$2" ] && [ $2 = dev ]; then
-	
+
 	#kw repos
 	repo=${REPOS[1]}
-		
+
 	cd $WWW/ipcache
 	git remote add kw $repo
 	git pull kw
 	git co -b master kw/master
-	
+
 	git co master
 	git pull kw	
 fi
@@ -236,11 +222,11 @@ if [ $manual_install = 1 ]; then
 	chmod 777 $WWW/$1/sites/default/files
 	cp $WWW/$1/sites/default/default.settings.php $WWW/$1/sites/default/settings.php
 	chmod 777 $WWW/$1/sites/default/settings.php
-	
+
 	echo "Manual install"
 	echo "$1.localhost"
 	echo "Database $dbname created, $dbuser - $dbpass"
-	
+
 	exit
 fi
 
@@ -251,7 +237,7 @@ drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname -
 status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
 
 if [ "$status" = "Successful" ]; then	
-	
+
 	#drupal directory
 	dd=$(drush @$1 dd)
 
@@ -268,7 +254,7 @@ if [ "$status" = "Successful" ]; then
 
 	drush @$1 cron
 else
-	
+
 	#if not manual install, remove everything has been setup
 	if [ $manual_install = 0 ]; then
 		#remove db
@@ -299,11 +285,11 @@ else
 		#restart apache
 		sudo apachectl restart
 		echo apache restarted.
-		
+
 	fi
 	
 	echo Drupal fail to install.
-		
+
 	exit
 fi
 
@@ -314,8 +300,4 @@ fi
 
 echo "Database $dbname created, $dbuser - $dbpass"
 echo "Drupal was installed successfully: "
-<<<<<<< HEAD
 drush @$1 user-login;
-=======
-drush @$1 user-login;
->>>>>>> kelvin
