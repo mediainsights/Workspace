@@ -104,3 +104,5 @@ function update_ip_update_info_version {
 	
 	rm -f tmp
 }
+
+
