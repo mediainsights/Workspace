@@ -56,6 +56,8 @@ function puship {
 	
 	update_info_version $1 $2
 	
+	update_ip_update_info_version $1 $2
+	
 	git commit -am 'version $2'
 	
 	git tag -a $2 -m 'version $2'
