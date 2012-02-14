@@ -53,8 +53,6 @@ function puship {
 	cd $WWW/$1
 	
 	git co master
-		
-	git commit -am 'version $2'
 	
 	git tag -a $2 -m 'version $2'
 	
