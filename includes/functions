@@ -90,7 +90,7 @@ function puship_test {
 
 	version=$(cat $infofile | grep "version"| awk '{ print $3 }')
 
-	echo $infofile
+	echo $3
 	
 	sed 's/'$version'/'$3'/g' $infofile
 	
