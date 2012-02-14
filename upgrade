@@ -19,3 +19,4 @@ source includes/functions
 cd drush @$1 dd
 
 git pull
+
