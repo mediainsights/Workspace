@@ -22,6 +22,8 @@ function pushws {
 	
 	git push kw kelvin
 
+	git push --tags kw
+
 	git co master
 	git pull in master
 	
