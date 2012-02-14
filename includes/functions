@@ -92,6 +92,6 @@ function puship_test {
 
 	echo $version
 	
-	sed -i 's/$version/8.04/' $infofile
+	sed -i 's/7.12-2.2.4/8.04/' $infofile
 	
 }
