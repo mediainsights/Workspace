@@ -53,11 +53,7 @@ function puship {
 	cd $WWW/$1
 	
 	git co master
-	
-	update_info_version $1 $2
-	
-	update_ip_update_info_version $1 $2
-	
+		
 	git commit -am 'version $2'
 	
 	git tag -a $2 -m 'version $2'
@@ -76,6 +72,10 @@ function puship {
 	
 	git add .
 	git add -u
+	
+	update_info_version $1 $2
+	
+	update_ip_update_info_version $1 $2
 	
 	git commit
 	
