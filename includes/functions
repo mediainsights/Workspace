@@ -92,6 +92,6 @@ function puship_test {
 
 	echo $infofile
 	
-	sed 's/7.12-2.2.4/8.04/g' $infofile
+	sed 's/$infofile/8.04/g' $infofile
 	
 }
