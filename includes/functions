@@ -67,10 +67,6 @@ function puship {
 	git merge master
 
 	git reset in/$PRESET_BRANCH
-			
-	update_info_version $1 $2
-	
-	update_ip_update_info_version $1 $2
 	
 	git add .
 	git add -u
@@ -85,7 +81,9 @@ function puship {
 	
 	git co master
 	
-	git merge $PRESET_BRANCH
+	update_info_version $1 $2
+	
+	update_ip_update_info_version $1 $2
 
 }
 
