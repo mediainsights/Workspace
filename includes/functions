@@ -60,7 +60,6 @@ function puship {
 	
 	git push --tags kw	
 	
-	
 	git co $PRESET_BRANCH
 	git pull in $PRESET_BRANCH
 	
