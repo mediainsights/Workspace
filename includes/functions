@@ -96,5 +96,5 @@ function puship_test {
 	sed 's/'$version'/"'$2'"/g' $infofile > tmp
 	mv tmp $infofile
 	
-	#rm -f tmp
+	rm -f tmp
 }
