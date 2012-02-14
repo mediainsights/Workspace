@@ -20,4 +20,4 @@ cd $(drush @$1 dd)
 
 git pull
 
-drush @$1 updb
+drush @$1 updb -y
