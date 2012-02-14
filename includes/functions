@@ -18,6 +18,8 @@ function pushws {
 	
 	git co kelvin
 	
+	git tag -a $1 -m 'version $1'
+	
 	git push kw kelvin
 
 	git co master
@@ -32,7 +34,7 @@ function pushws {
 	
 	git commit
 	
-	git tag -a $1 -m 'version $1'
+	
 	
 	git push in master
 	
