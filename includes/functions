@@ -54,8 +54,6 @@ function puship {
 	
 	git co master
 	
-	git tag -a $2 -m 'version $2'
-	
 	git push kw master
 	
 	git push --tags kw	
