@@ -18,6 +18,11 @@ function pushws {
 	
 	git co kelvin
 	
+	git add .
+	git add -u
+	
+	git commit
+	
 	git tag -a $1 -m 'version $1'
 	
 	git push kw kelvin
@@ -55,6 +60,11 @@ function puship {
 	cd $WWW/$1
 	
 	git co master
+	
+	git add .
+	git add -u
+	
+	git commit
 	
 	update_info_version $1 $2
 	
