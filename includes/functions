@@ -76,7 +76,7 @@ function puship {
 	git add .
 	git add -u
 	
-	git commit -m 'version'$2
+	git commit
 	
 	git merge master
 	
