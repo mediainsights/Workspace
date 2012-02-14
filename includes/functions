@@ -73,16 +73,16 @@ function puship {
 
 	git merge master
 
-	git reset in/$PRESET_BRANCH
+	#git reset in/$PRESET_BRANCH
 	
-	update_info_version $1 $2
+	#update_info_version $1 $2
 	
-	update_ip_update_info_version $1 $2
+	#update_ip_update_info_version $1 $2
 	
-	git add .
-	git add -u
+	#git add .
+	#git add -u
 	
-	git commit
+	#git commit
 	
 	git push in $PRESET_BRANCH
 	
