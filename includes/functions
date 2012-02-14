@@ -73,8 +73,6 @@ function puship {
 		
 	git commit
 	
-	git tag -a $2 -m 'version $2'
-	
 	git push in $PRESET_BRANCH
 	
 	git push --tags in
