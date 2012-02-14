@@ -53,7 +53,7 @@ sudo rm -rf $WWW/$1
 sed "/$1.$SERVER/d" /etc/hosts > tmp
 sudo mv tmp /etc/hosts
 rm -f tmp
-echo updated etc/hosts.
+echo Updated etc/hosts.
 
 #apache restart
 sudo apachectl restart
