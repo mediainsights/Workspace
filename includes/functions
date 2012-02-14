@@ -84,7 +84,7 @@ function puship {
 }
 
 
-function puship_test {
+function update_info_version {
 	
 	infofile=$(drush @$1 dd)/profiles/ip/ip.info
 
