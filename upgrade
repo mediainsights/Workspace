@@ -20,3 +20,4 @@ cd drush @$1 dd
 
 git pull
 
+drush @$1 updb
