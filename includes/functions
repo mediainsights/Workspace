@@ -71,14 +71,15 @@ function puship {
 	git co $PRESET_BRANCH
 	git pull in $PRESET_BRANCH
 
-	git reset in/$PRESET_BRANCH
+	git merge master
 	
+	git reset in/$PRESET_BRANCH
+		
 	git add .
 	git add -u
 	
 	git commit
-	
-	git merge master
+
 	
 	git push in $PRESET_BRANCH
 	
