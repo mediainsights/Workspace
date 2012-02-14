@@ -16,7 +16,7 @@ source includes/functions
 #Usage check
 : ${1?"Usage: $0 SITE"}
 
-cd drush @$1 dd
+cd $(drush @$1 dd)
 
 git pull
 
