@@ -72,12 +72,17 @@ function puship {
 	
 	git add .
 	git add -u
+		
+	git commit
 	
 	update_info_version $1 $2
 	
 	update_ip_update_info_version $1 $2
 	
-	git commit
+	git add .
+	git add -u
+		
+	git commit	
 	
 	git tag -a $2 -m 'version $2'
 	
