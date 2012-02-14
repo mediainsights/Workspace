@@ -54,6 +54,9 @@ function puship {
 	
 	git co master
 	
+	
+	update_info_version $1 $2
+	
 	git tag -a $2 -m 'version $2'
 	
 	git push kw master
