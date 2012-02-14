@@ -93,7 +93,7 @@ function puship_test {
 	echo $version
 	echo $2
 	
-	sed 's/'$version'/"'$2'"/g' $infofile
+	sed 's/'$version'/"'$2'"/g' $infofile > tmp
 	#mv tmp $infofile
 	
 	#rm -f tmp
