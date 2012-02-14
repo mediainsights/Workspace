@@ -92,6 +92,6 @@ function puship_test {
 
 	echo $infofile
 	
-	sed 's/'$version'/'$4'/g' $infofile
+	sed 's/'$version'/'$3'/g' $infofile
 	
 }
