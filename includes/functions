@@ -103,7 +103,7 @@ function update_info_version {
 
 function update_ip_update_info_version {
 	
-	infofile=$(drush @$1 dd)/profiles/ip/ip.info
+	infofile=$(drush @$1 dd)/profiles/ip/modules/developer/ip_update/ip_update.info
 
 	version=$(cat $infofile | grep "version"| awk '{ print $3 }')
 	
