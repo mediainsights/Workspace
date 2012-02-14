@@ -36,8 +36,6 @@ function pushws {
 	
 	git commit
 	
-	
-	
 	git push in master
 	
 	git push --tags in
