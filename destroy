@@ -48,6 +48,13 @@ echo Remove drush alias: /Users/$USER/.drush/$1.aliases.drushrc.php
 
 #remove site directory
 sudo rm -rf $WWW/$1
+echo Remove site directory.
+
+#remove host alias
+sed "/$1.$SERVER/d" /etc/hosts > tmp
+sudo mv tmp /etc/hosts
+rm -f tmp
+echo Updated etc/hosts.
 
 #apache restart
 sudo apachectl restart
