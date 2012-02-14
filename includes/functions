@@ -15,70 +15,94 @@ function check_db_exist {
 
 #push workspace
 function pushws {
-
+	
 	git co kelvin
-
+	
 	git push kw kelvin
 
 	git co master
 	git pull in master
-
+	
 	git merge kelvin
-
+	
 	git reset in/master
-
+	
 	git add .
 	git add -u
-
+	
 	git commit
-
+	
 	git tag -a $1 -m 'version $1'
-
+	
 	git push in master
-
+	
 	git push --tags in
-
+	
 	git co kelvin
 } 
 
 #push ip
 function puship {
-
+	
 	#Check project directory exist
 	if [ ! -d $WWW/$1 ]; then
 	  echo Folder $1 is not existed
 	  exit
 	fi
-
+	
 	cd $WWW/$1
-
+	
 	git co master
-
+	
+	update_info_version $1 $2
+	
+	update_ip_update_info_version $1 $2
+	
+	git commit -am 'version '$2
+	
 	git tag -a $2 -m 'version $2'
-
+	
 	git push kw master
-
+	
 	git push --tags kw	
-
-
+	
 	git co $PRESET_BRANCH
 	git pull in $PRESET_BRANCH
-
+	
 	git merge master
-
-	git reset in/$PRESET_BRANCH
-
-	git add .
-	git add -u
-
-	git commit
-
-	git tag -a $2 -m 'version $2'
-
+	
 	git push in $PRESET_BRANCH
-
+	
 	git push --tags in
-
+	
 	git co master
 
 }
+
+
+function update_info_version {
+	
+	infofile=$(drush @$1 dd)/profiles/ip/ip.info
+
+	version=$(cat $infofile | grep "version"| awk '{ print $3 }')
+	
+	sed 's/'$version'/"'$2'"/g' $infofile > tmp
+	mv tmp $infofile
+	
+	rm -f tmp
+}
+
+
+function update_ip_update_info_version {
+	
+	infofile=$(drush @$1 dd)/profiles/ip/modules/developer/ip_update/ip_update.info
+
+	version=$(cat $infofile | grep "version"| awk '{ print $3 }')
+	
+	sed 's/'$version'/"'$2'"/g' $infofile > tmp
+	mv tmp $infofile
+	
+	rm -f tmp
+}
+
+
