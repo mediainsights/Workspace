@@ -101,7 +101,7 @@ function update_info_version {
 }
 
 
-function update_info_version {
+function update_ip_update_info_version {
 	
 	infofile=$(drush @$1 dd)/profiles/ip/ip.info
 
