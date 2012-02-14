@@ -29,12 +29,12 @@ function pushws {
 	
 	git merge kelvin
 	
-	git reset in/master
+	#git reset in/master
 	
-	git add .
-	git add -u
+	#git add .
+	#git add -u
 	
-	git commit
+	#git commit
 	
 	git push in master
 	
