@@ -79,7 +79,6 @@ function puship {
 	git add -u
 	
 	git commit
-
 	
 	git push in $PRESET_BRANCH
 	
