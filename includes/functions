@@ -90,7 +90,7 @@ function puship_test {
 
 	version=$(cat $infofile | grep "version"| awk '{ print $3 }')
 
-	echo $version
+	echo $infofile
 	
 	sed -i 's/7.12-2.2.4/8.04/' $infofile
 	
