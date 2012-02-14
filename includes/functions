@@ -99,3 +99,16 @@ function update_info_version {
 	
 	rm -f tmp
 }
+
+
+function ip_update_info_version {
+	
+	infofile=$(drush @$1 dd)/profiles/ip/ip.info
+
+	version=$(cat $infofile | grep "version"| awk '{ print $3 }')
+	
+	sed 's/'$version'/"'$2'"/g' $infofile > tmp
+	mv tmp $infofile
+	
+	rm -f tmp
+}
