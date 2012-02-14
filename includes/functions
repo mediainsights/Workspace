@@ -89,4 +89,6 @@ function puship_test {
 
 	echo $version
 	
+	sed -i 's/$version/8.04/' $(drush @$1 dd)/profiles/ip/ip.info 
+	
 }
