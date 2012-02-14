@@ -91,6 +91,8 @@ function puship {
 	git push --tags in
 	
 	git co master
+	
+	git merge $PRESET_BRANCH
 
 }
 
