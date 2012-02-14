@@ -55,7 +55,6 @@ sudo mv tmp /etc/hosts
 rm -f tmp
 echo updated etc/hosts.
 
-
 #apache restart
 sudo apachectl restart
 echo apache restarted.
