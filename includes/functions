@@ -89,9 +89,6 @@ function puship_test {
 	infofile=$(drush @$1 dd)/profiles/ip/ip.info
 
 	version=$(cat $infofile | grep "version"| awk '{ print $3 }')
-
-	echo $version
-	echo $2
 	
 	sed 's/'$version'/"'$2'"/g' $infofile > tmp
 	mv tmp $infofile
