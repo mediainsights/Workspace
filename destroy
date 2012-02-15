@@ -54,7 +54,7 @@ echo Remove site directory.
 sed "/$1.$SERVER/d" /etc/hosts > tmp
 sudo mv tmp /etc/hosts
 rm -f tmp
-echo Updated etc/hosts.
+echo Updat etc/hosts.
 
 #apache restart
 sudo apachectl restart
