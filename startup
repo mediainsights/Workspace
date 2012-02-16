@@ -204,7 +204,7 @@ else
 
 fi
 
-if [ -n "$2" ] && [ $2 = dev ]; then
+if [ -n "$2" ] && [ "$2" = "dev" ]; then
 	
 	#kw repos
 	repo=${REPOS[1]}
