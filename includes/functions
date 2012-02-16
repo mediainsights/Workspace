@@ -18,10 +18,10 @@ function pushws {
 	
 	git co kelvin
 	
-	git add .
-	git add -u
+	#git add .
+	#git add -u
 	
-	git commit
+	#git commit
 	
 	git tag -a $1 -m 'version $1'
 	
@@ -34,18 +34,20 @@ function pushws {
 	
 	git merge kelvin
 	
-	#git reset in/master
+	git reset in/master
 	
-	#git add .
-	#git add -u
+	git add .
+	git add -u
 	
-	#git commit
+	git commit
 	
 	git push in master
 	
 	git push --tags in
 	
 	git co kelvin
+	
+	git merge master
 } 
 
 #push ip
@@ -61,10 +63,10 @@ function puship {
 	
 	git co master
 	
-	git add .
-	git add -u
+	#git add .
+	#git add -u
 	
-	git commit
+	#git commit
 	
 	update_info_version $1 $2
 	
@@ -83,16 +85,16 @@ function puship {
 
 	git merge master
 
-	#git reset in/$PRESET_BRANCH
+	git reset in/$PRESET_BRANCH
 	
 	#update_info_version $1 $2
 	
 	#update_ip_update_info_version $1 $2
 	
-	#git add .
-	#git add -u
+	git add .
+	git add -u
 	
-	#git commit
+	git commit
 	
 	git push in $PRESET_BRANCH
 	
@@ -100,6 +102,7 @@ function puship {
 	
 	git co master
 
+	git merge $PRESET_BRANCH
 }
 
 
