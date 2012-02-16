@@ -242,7 +242,7 @@ if [ $manual_install = 1 ]; then
 fi
 
 #Drush install
-if [ "$2"="dev" ]; then
+if [ -n "$2" ] && [ "$2" = "dev" ]; then
 	drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass --site-name="Site-Install (DEV)" -y
 else
 	drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass -y
