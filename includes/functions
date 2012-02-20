@@ -121,12 +121,12 @@ function stageip {
 	
 	git push --tags kw	
 	
-	git co $PRESET_BRANCH
-	git pull in $PRESET_BRANCH
+	git co stage
+	git pull kw stage
 
 	git merge master
 
-	git reset in/$PRESET_BRANCH
+	git reset kw/stage
 	
 	git add .
 	git add -u
