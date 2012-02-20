@@ -135,7 +135,7 @@ function stageip {
 	
 	git push kw stage
 	
-	git push --tags in
+	git push --tags kw
 	
 	git co master
 
