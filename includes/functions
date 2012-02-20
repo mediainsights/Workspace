@@ -133,7 +133,7 @@ function stageip {
 	
 	git commit
 	
-	git push in $PRESET_BRANCH
+	git push kw stage
 	
 	git push --tags in
 	
