@@ -96,51 +96,6 @@ function puship {
 	git merge $PRESET_BRANCH
 }
 
-#stage ip
-function stageip {
-	
-	#Check project directory exist
-	if [ ! -d $WWW/$1 ]; then
-	  echo Folder $1 is not existed
-	  exit
-	fi
-	
-	cd $WWW/$1
-	
-	git co master
-	
-	update_info_version $1 $2
-	
-	update_ip_update_info_version $1 $2
-	
-	git commit -am 'version '$2
-	
-	git tag -a $2 -m 'version $2'
-	
-	git push kw master
-	
-	git push --tags kw	
-	
-	git co stage
-	git pull kw stage
-
-	git merge master
-
-	git reset kw/stage
-	
-	git add .
-	git add -u
-	
-	git commit
-	
-	git push kw stage
-	
-	git push --tags kw
-	
-	git co master
-
-	git merge stage
-}
 
 function update_info_version {
 	
