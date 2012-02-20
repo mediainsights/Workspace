@@ -97,7 +97,7 @@ function puship {
 }
 
 #stage ip
-function puship {
+function stageip {
 	
 	#Check project directory exist
 	if [ ! -d $WWW/$1 ]; then
