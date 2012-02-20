@@ -223,8 +223,10 @@ cp -pRa $WWW/ipcache $WWW/$1
 ############################################################################# 
 # Check ip version
 #############################################################################
-infofile=~/www/ip/profiles/ip/ip.info
+infofile=$WWW/$1/profiles/ip/ip.info
 version=$(cat $infofile | grep "version"| awk '{ print $3 }')
+version=$version | tr -d '"'
+
 
 
 ############################################################################# 
