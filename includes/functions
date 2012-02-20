@@ -60,6 +60,9 @@ function puship {
 	fi
 	
 	if [ "$2" = "dev" ]; then
+		remote="kw"
+	else
+		remote="in"
 	fi
 	
 	cd $WWW/$1
