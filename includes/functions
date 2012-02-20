@@ -139,7 +139,7 @@ function stageip {
 	
 	git co master
 
-	git merge $PRESET_BRANCH
+	git merge stage
 }
 
 function update_info_version {
