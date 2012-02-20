@@ -59,6 +59,9 @@ function puship {
 	  exit
 	fi
 	
+	if [ "$2" = "dev" ]; then
+	fi
+	
 	cd $WWW/$1
 	
 	git co master
