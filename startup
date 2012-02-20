@@ -225,7 +225,7 @@ cp -pRa $WWW/ipcache $WWW/$1
 #############################################################################
 infofile=$WWW/$1/profiles/ip/ip.info
 version=$(cat $infofile | grep "version"| awk '{ print $3 }')
-version=$version | tr -d '"'
+version=$(echo $version | tr -d '"')
 
 
 
