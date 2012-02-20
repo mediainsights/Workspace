@@ -42,16 +42,6 @@ if [ $1 = puship ]; then
 	exit
 fi
 
-# Push ip to kw stage branch
-if [ $1 = stageip ]; then
-	
-	#Usage check
-	: ${2?"Usage: $0 $1 SITE version-number"}
-	
-	stageip $2 $3
-	
-	exit
-fi
 
 
 # puship_test
