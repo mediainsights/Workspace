@@ -59,47 +59,47 @@ function puship {
 	  exit
 	fi
 	
-	if [ "$2" = "dev" ]; then
-		remote="kw"
-	else
-		remote="in"
-	fi
-	
 	cd $WWW/$1
 	
 	git co master
 	
-	update_info_version $1 $2
-	
-	update_ip_update_info_version $1 $2
-	
-	git commit -am 'version '$2
-	
-	git tag -a $2 -m 'version $2'
-	
-	git push kw master
-	
-	git push --tags kw	
-	
-	git co $PRESET_BRANCH
-	git pull in $PRESET_BRANCH
+	if [ "$2" = "dev" ]; then
+		remote="kw"
+	else
+		update_info_version $1 $2
 
-	git merge master
+		update_ip_update_info_version $1 $2
 
-	git reset in/$PRESET_BRANCH
-	
-	git add .
-	git add -u
-	
-	git commit
-	
-	git push in $PRESET_BRANCH
-	
-	git push --tags in
-	
-	git co master
+		git commit -am 'version '$2
 
-	git merge $PRESET_BRANCH
+		git tag -a $2 -m 'version $2'
+
+		git push kw master
+
+		git push --tags kw	
+
+		git co $PRESET_BRANCH
+		git pull in $PRESET_BRANCH
+
+		git merge master
+
+		git reset in/$PRESET_BRANCH
+
+		git add .
+		git add -u
+
+		git commit
+
+		git push in $PRESET_BRANCH
+
+		git push --tags in
+
+		git co master
+
+		git merge $PRESET_BRANCH
+		
+	fi
+		
 }
 
 
