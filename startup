@@ -219,6 +219,20 @@ if [ -n "$2" ] && [ "$2" = "dev" ]; then
 	git pull kw	
 fi
 
+if [ -n "$2" ] && [ "$2" = "unimelb" ]; then
+	
+	#kw repos
+	repo=${REPOS[1]}
+		
+	cd $WWW/ipcache
+	git remote add kw $repo
+	git pull kw
+	git co -b master kw/master
+	
+	git co master
+	git pull kw	
+fi
+
 cp -pRa $WWW/ipcache $WWW/$1
 
 ############################################################################# 
