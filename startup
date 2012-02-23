@@ -227,7 +227,7 @@ if [ -n "$2" ] && [ "$2" = "unimelb" ]; then
 	cd $WWW/ipcache
 	git remote add kw $repo
 	git pull kw
-	git co -b master kw/unimelb
+	git co -b unimelb kw/unimelb
 	
 	git co unimelb
 	git pull kw	
