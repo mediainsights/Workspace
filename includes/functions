@@ -66,8 +66,8 @@ function puship {
 	if [ "$2" = "dev" ]; then
 		git push kw master
 		
-	elif [ "$2" = "unimeb" ]; then
-		git push kw master
+	elif [ "$2" = "unimelb" ]; then
+		git push kw unimelb
 	else
 		update_info_version $1 $2
 
