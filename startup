@@ -205,7 +205,13 @@ else
 
 fi
 
-if [ -n "$2" ] && [ "$2" = "dev" ]; then
+if [ -n "$2" ]; then
+	
+	if [ "$2" = "dev" ]; then
+		branch=master
+	else
+		branch=$2
+	fi
 	
 	#kw repos
 	repo=${REPOS[1]}
@@ -213,25 +219,12 @@ if [ -n "$2" ] && [ "$2" = "dev" ]; then
 	cd $WWW/ipcache
 	git remote add kw $repo
 	git pull kw
-	git co -b master kw/master
+	git co -b $branch kw/$branch
 	
-	git co master
+	git co $branch
 	git pull kw	
 fi
 
-if [ -n "$2" ] && [ "$2" = "unimelb" ]; then
-	
-	#kw repos
-	repo=${REPOS[1]}
-		
-	cd $WWW/ipcache
-	git remote add kw $repo
-	git pull kw
-	git co -b unimelb kw/unimelb
-	
-	git co unimelb
-	git pull kw	
-fi
 
 cp -pRa $WWW/ipcache $WWW/$1
 
