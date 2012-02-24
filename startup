@@ -250,6 +250,7 @@ if [ $manual_install = 1 ]; then
 	chmod 777 $WWW/$1/sites/default/files
 	cp $WWW/$1/sites/default/default.settings.php $WWW/$1/sites/default/settings.php
 	chmod 777 $WWW/$1/sites/default/settings.php
+	chmod 777 $WWW/$1/sites/default/themes
 	
 	echo "Manual install"
 	echo "$1.localhost"
@@ -257,6 +258,7 @@ if [ $manual_install = 1 ]; then
 	
 	exit
 fi
+
 
 
 #Drush install
