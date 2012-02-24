@@ -260,7 +260,7 @@ fi
 
 #Drush install
 if [ -n "$2" ]; then
-	drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass --site-name="$1 ($2)" -y
+	drush @$1 site-install $2 --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass --site-name="$1 ($2)" -y
 else
 	drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass --site-name="$1 ($version)" -y
 fi
