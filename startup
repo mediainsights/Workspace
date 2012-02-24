@@ -258,7 +258,6 @@ if [ $manual_install = 1 ]; then
 	exit
 fi
 
-#chmod 777 $WWW/$1/sites/default/themes
 
 #Drush install
 if [ -n "$2" ]; then
