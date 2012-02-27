@@ -131,77 +131,7 @@ body {
 		
 	}//#zone-content-wrapper
 	
-	
-	//festival features
 	#zone-postscript-wrapper{
-		background: url(../images/bg_postscript_m.jpg) top left no-repeat;
-		@include background-size(100% 100%);
-		
-		.node-feature-block{
-			
-			img {
-				width: 320px;
-				height: auto;
-				margin-bottom: 1.5em;
-			}
-		}
-		
-		#region-postscript-header h3{
-			color: #822E1D;
-			font-weight: bold;
-			margin-bottom: 0;
-
-			width: 100%;
-			
-			float: left;
-
-		}
-		
-		#region-postscript-first,
-		#region-postscript-second,
-		#region-postscript-third{
-			
-		}		
-		
-		
-		//key messages
-		#region-postscript-fourth{
-			
-			clear: both;
-			
-			color: #E8DABE;
-			
-			.block{
-				background: url(../images/bg_key_messages.png);
-				margin: 0 0 1.5em 0;
-			}
-			
-			
-			.node .content{
-				@include clearfix;
-				padding: 1em 0;
-				
-				ul{
-					@include clearfix;
-					margin: 0;
-				}
-				
-				li {
-					list-style: none;
-
-					padding-bottom: 0.7%;
-					margin-bottom: 0.7%;
-					
-					background: url(../images/key_messages_border_m.png) right bottom repeat-x;
-					
-					&:last-child{
-						background: none;
-						margin-bottom: 0;
-					}
-				}
-				
-			}
-		}//#region-postscript-fourth
 		
 	}//#zone-postscript-wrapper
 	
