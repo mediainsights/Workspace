@@ -99,71 +99,11 @@ body {
 	}//#zone-user-wrapper
 	
 	#zone-branding-wrapper{
-		
-		position: relative;
-		
-		height: auto;
-		text-align: center;
-		
-		background: #ACC5D7 url(../images/bg_header.png) bottom repeat-x;
-		
-		
-		//logo
-		.logo-img{
-			img#logo{
-				width: 100%;
-				margin:0 auto;
-				height: auto;
-
-			}
-			margin-right: 0;
-		}
-		
-		
-		//twitter & facebook
-		.block-22{
-			display: none;
-			
-		}//.block-22
-		
+				
 	}//#zone-branding-wrapper
 	
 	//menu
 	#zone-menu-wrapper{
-		background: #ACC5D7;
-		font-size: 80%;
-		
-		#region-menu{
-			
-			margin: 0;
-			width: 100%;
-		}//#region-menu	
-		
-		
-		.menu {
-			text-align: center;
-			
-			li{				
-				list-style: none;
-				@include inline-block;
-
-				width: auto;
-
-				a{
-					font-family: AlfaSlabOneRegular;
-					text-transform: uppercase;
-					color: #FFFFFF;
-				}
-				
-				a:hover {
-					color: #50728F;
-				}
-				a.active-trail {
-					color: #50728F;
-				}
-				
-			}
-		}//.menu
 		
 	}//#zone-menu-wrapper
 	
