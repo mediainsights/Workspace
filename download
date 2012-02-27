@@ -23,7 +23,7 @@ source includes/functions
 #	exit
 #fi
 
-pre_startup $1
+./startup $1
 
 #Check remote status
 status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
@@ -36,8 +36,8 @@ if [ "$status" != "Successful" ]; then
 fi
 
 
-#drush rsync @$1.$2 @$1 -y 
+drush rsync @$1.$2 @$1 -y 
 
-#drush sql-sync @$1.$2 @$1 --no-cache -y
+drush sql-sync @$1.$2 @$1 --no-cache -y
 
-#chmod 755 $WWW/$1
+chmod 755 $WWW/$1
