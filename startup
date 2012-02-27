@@ -305,6 +305,7 @@ if [ "$status" = "Successful" ]; then
 	mv $dd/sites/default/themes/$1/css $dd/sites/default/themes/$1/sass
 
 	#mv *.css to *.scss
+	mv $dd/sites/default/themes/$1/sass/global.css $dd/sites/default/themes/$1/sass/global.scss	
 	mv $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.css $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.scss
 	mv $dd/sites/default/themes/$1/sass/$1-alpha-default-normal.css $dd/sites/default/themes/$1/sass/$1-alpha-default-normal.scss
 	mv $dd/sites/default/themes/$1/sass/$1-alpha-default-wide.css $dd/sites/default/themes/$1/sass/$1-alpha-default-wide.scss
@@ -315,10 +316,8 @@ if [ "$status" = "Successful" ]; then
 	#_variables.scss
 	mv $dd/profiles/ip/themes/scss/_variables.scss $dd/sites/default/themes/$1/sass/
 	
-	#global.scss
-	mv $dd/profiles/ip/themes/scss/global.scss $dd/sites/default/themes/$1/sass/
-	
 	# add scaffold.scss
+	cat $dd/profiles/ip/themes/scss/global.scss >> $dd/sites/default/themes/$1/sass/global.scss
 	cat $dd/profiles/ip/themes/scss/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.scss
 	cat $dd/profiles/ip/themes/scss/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-normal.scss
 	cat $dd/profiles/ip/themes/scss/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-wide.scss
