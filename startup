@@ -378,6 +378,8 @@ echo "Database $dbname created, $dbuser - $dbpass"
 echo "Drupal was installed successfully: "
 drush @$1 user-login;
 
-cd $dd/sites/default/themes/$1
 
-compass watch
+if [ $install_profile == '"ip"' ]; then
+	cd $dd/sites/default/themes/$1
+	compass watch
+fi
