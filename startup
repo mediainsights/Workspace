@@ -325,6 +325,9 @@ if [ "$status" = "Successful" ]; then
 		cat $dd/profiles/ip/themes/scss/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-normal.scss
 		cat $dd/profiles/ip/themes/scss/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-wide.scss
 		cat $dd/profiles/ip/themes/scss/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default.scss
+		
+		# Enable site_block module
+		drush @$1 ipconfig_set_logo_site_name
 	fi
 	
 	drush @$1 cron
