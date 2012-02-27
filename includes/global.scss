@@ -121,56 +121,6 @@ body {
 	
 	#zone-content-wrapper{
 		
-		
-		.views-row h1{
-			font-size: 1.8em;
-			margin: 0;
-			padding: 0;
-		}
-		.field-name-field-subtitle{
-			color: #F47721;
-			font-size: 1.2em;
-			margin: 0;
-			padding: 0;
-		}
-		.view-program{
-			@include clearfix;
-			margin-bottom: 10px;
-			.views-field-field-landing-image {
-				float: left;
-				padding: 10px 10px 0 0;
-			}
-		}
-		
-		.view-taxonomy-term, .view-speakers, .view-upcoming {
-			
-			
-			#edit-field-date-value-value .description { 
-			display: none;
-			}
-			
-			.group-left {
-				width: 110px;	
-			}
-			.group-right {
-				width: 80%;		
-			}
-			.views-row {
-				border-bottom: 1px solid #ccc;
-				margin: 10px 0 10px 0;
-			}
-			
-			h1,h2,h3 {	
-				margin: 0;
-				padding: 0;
-			}
-			
-			.view-header {
-				margin: 20px 0 20px 0
-			}
-			
-		}
-		
 		#region-sidebar-first{
 
 		}//#region-sidebar-first
