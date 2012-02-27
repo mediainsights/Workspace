@@ -291,7 +291,10 @@ if [ "$status" = "Successful" ]; then
 	#cp $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.live
 	#sed 's/_db/_dev/' $WWW/$1/sites/default/settings.php > $WWW/$1/sites/default/settings.dev
 
-	#Theme config
+	############################################################################# 
+	# Install drupal
+	#############################################################################
+	
 	drush @$1 ipconfig_create_theme $1	
 	drush @$1 ipconfig_theme_settings
 
