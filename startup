@@ -305,6 +305,8 @@ if [ "$status" = "Successful" ]; then
 	mv $dd/sites/default/themes/$1/sass/test2-alpha-default-wide.css $dd/sites/default/themes/$1/sass/test2-alpha-default-wide.sass
 	mv $dd/sites/default/themes/$1/sass/test2-alpha-default.css $dd/sites/default/themes/$1/sass/test2-alpha-default.sass
 	
+	mkdir $dd/sites/default/themes/$1/css
+	
 	drush @$1 cron
 else
 	
