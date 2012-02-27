@@ -309,7 +309,8 @@ if [ "$status" = "Successful" ]; then
 	
 	mkdir $dd/sites/default/themes/$1/css
 	
-	mv
+	#_variables.scss
+	mv $dd/profiles/ip/themes/_variables.scss 
 	
 	drush @$1 cron
 else
