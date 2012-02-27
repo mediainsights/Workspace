@@ -314,11 +314,11 @@ $1
 	mv $dd/profiles/ip/themes/_variables.scss $dd/sites/default/themes/$1/sass/
 	
 	# add scaffold.scss
-	cat includes/global.scss >> $dd/sites/default/themes/$1/sass/global.scss
-	cat includes/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.scss
-	cat includes/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-normal.scss
-	cat includes/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-wide.scss
-	cat includes/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default.scss
+	cat ~/Workspace/includes/global.scss >> $dd/sites/default/themes/$1/sass/global.scss
+	cat ~/Workspace/includes/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.scss
+	cat ~/Workspace/includes/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-normal.scss
+	cat ~/Workspace/includes/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-wide.scss
+	cat ~/Workspace/includes/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default.scss
 	
 	drush @$1 cron
 	
