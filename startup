@@ -300,7 +300,7 @@ if [ "$status" = "Successful" ]; then
 
 
 	mv $dd/sites/default/themes/$1/css $dd/sites/default/themes/$1/sass
-$1
+
 	#mv *.css to *.scss
 	mv $dd/sites/default/themes/$1/sass/global.css $dd/sites/default/themes/$1/sass/global.scss
 	mv $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.css $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.scss
