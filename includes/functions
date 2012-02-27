@@ -12,6 +12,9 @@ function check_db_exist {
 
 }
 
+function pre_startup {
+
+}
 
 #push workspace
 function pushws {
