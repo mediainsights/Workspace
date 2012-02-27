@@ -318,7 +318,7 @@ $1
 	cat includes/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.scss
 	cat includes/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-normal.scss
 	cat includes/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-wide.scss
-	cat '@import "variables";'  >> $dd/sites/default/themes/$1/sass/$1-alpha-default.scss
+	cat '@import "variables";' >> $dd/sites/default/themes/$1/sass/$1-alpha-default.scss
 	
 	drush @$1 cron
 else
