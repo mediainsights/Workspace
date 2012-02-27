@@ -314,7 +314,7 @@ $1
 	mv $dd/profiles/ip/themes/scss/_variables.scss $dd/sites/default/themes/$1/sass/
 	
 	#global.css
-	cat $dd/profiles/ip/themes/scss/global.scss >> $dd/sites/default/themes/$1/sass/global.scss
+	mv $dd/profiles/ip/themes/scss/global.scss $dd/sites/default/themes/$1/sass/global.scss
 	
 	# add scaffold.scss
 	cat $dd/profiles/ip/themes/scss/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.scss
