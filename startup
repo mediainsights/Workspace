@@ -340,7 +340,7 @@ if [ "$status" = "Successful" ]; then
 		#enable site_block module: 
 		drush @$1 ipconfig_set_logo_site_name
 		
-		#6. Run compass watch at the end. Please refere to the bottom of this file
+		#6. Run compass watch at the end. Please refere to the end of this file
 	fi
 	
 	drush @$1 cron
