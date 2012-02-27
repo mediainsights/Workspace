@@ -23,7 +23,7 @@ source includes/functions
 #	exit
 #fi
 
-./startup $1
+pre_startup $1
 
 #Check remote status
 status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
