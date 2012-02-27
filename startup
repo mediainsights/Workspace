@@ -295,33 +295,35 @@ if [ "$status" = "Successful" ]; then
 	# Theme config
 	#############################################################################
 	
-	drush @$1 ipconfig_create_theme $1	
-	drush @$1 ipconfig_theme_settings
+	if [ "$2" != "unimelb" ]; then
+		drush @$1 ipconfig_create_theme $1	
+		drush @$1 ipconfig_theme_settings
 
-	#copy config.rb
-	cp $dd/profiles/ip/themes/zen/STARTERKIT/config.rb $dd/sites/default/themes/$1/
+		#copy config.rb
+		cp $dd/profiles/ip/themes/zen/STARTERKIT/config.rb $dd/sites/default/themes/$1/
 
 
-	mv $dd/sites/default/themes/$1/css $dd/sites/default/themes/$1/sass
+		mv $dd/sites/default/themes/$1/css $dd/sites/default/themes/$1/sass
 
-	#mv *.css to *.scss
-	mv $dd/sites/default/themes/$1/sass/global.css $dd/sites/default/themes/$1/sass/global.scss	
-	mv $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.css $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.scss
-	mv $dd/sites/default/themes/$1/sass/$1-alpha-default-normal.css $dd/sites/default/themes/$1/sass/$1-alpha-default-normal.scss
-	mv $dd/sites/default/themes/$1/sass/$1-alpha-default-wide.css $dd/sites/default/themes/$1/sass/$1-alpha-default-wide.scss
-	mv $dd/sites/default/themes/$1/sass/$1-alpha-default.css $dd/sites/default/themes/$1/sass/$1-alpha-default.scss
-	
-	mkdir $dd/sites/default/themes/$1/css
-	
-	#_variables.scss
-	mv $dd/profiles/ip/themes/scss/_variables.scss $dd/sites/default/themes/$1/sass/
-	
-	# add scaffold.scss
-	cat $dd/profiles/ip/themes/scss/global.scss >> $dd/sites/default/themes/$1/sass/global.scss
-	cat $dd/profiles/ip/themes/scss/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.scss
-	cat $dd/profiles/ip/themes/scss/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-normal.scss
-	cat $dd/profiles/ip/themes/scss/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-wide.scss
-	cat $dd/profiles/ip/themes/scss/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default.scss
+		#mv *.css to *.scss
+		mv $dd/sites/default/themes/$1/sass/global.css $dd/sites/default/themes/$1/sass/global.scss	
+		mv $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.css $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.scss
+		mv $dd/sites/default/themes/$1/sass/$1-alpha-default-normal.css $dd/sites/default/themes/$1/sass/$1-alpha-default-normal.scss
+		mv $dd/sites/default/themes/$1/sass/$1-alpha-default-wide.css $dd/sites/default/themes/$1/sass/$1-alpha-default-wide.scss
+		mv $dd/sites/default/themes/$1/sass/$1-alpha-default.css $dd/sites/default/themes/$1/sass/$1-alpha-default.scss
+
+		mkdir $dd/sites/default/themes/$1/css
+
+		#_variables.scss
+		mv $dd/profiles/ip/themes/scss/_variables.scss $dd/sites/default/themes/$1/sass/
+
+		# add scaffold.scss
+		cat $dd/profiles/ip/themes/scss/global.scss >> $dd/sites/default/themes/$1/sass/global.scss
+		cat $dd/profiles/ip/themes/scss/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.scss
+		cat $dd/profiles/ip/themes/scss/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-normal.scss
+		cat $dd/profiles/ip/themes/scss/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-wide.scss
+		cat $dd/profiles/ip/themes/scss/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default.scss
+	fi
 	
 	drush @$1 cron
 	
