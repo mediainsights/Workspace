@@ -321,6 +321,10 @@ $1
 	cat includes/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default.scss
 	
 	drush @$1 cron
+	
+	cd $dd/sites/default/themes/$1
+	
+	compass watch
 else
 	
 	#if not manual install, remove everything has been setup
