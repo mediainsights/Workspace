@@ -300,18 +300,25 @@ if [ "$status" = "Successful" ]; then
 
 
 	mv $dd/sites/default/themes/$1/css $dd/sites/default/themes/$1/sass
-
+$1
 	#mv *.css to *.scss
 	mv $dd/sites/default/themes/$1/sass/global.css $dd/sites/default/themes/$1/sass/global.scss
-	mv $dd/sites/default/themes/$1/sass/test2-alpha-default-narrow.css $dd/sites/default/themes/$1/sass/test2-alpha-default-narrow.scss
-	mv $dd/sites/default/themes/$1/sass/test2-alpha-default-normal.css $dd/sites/default/themes/$1/sass/test2-alpha-default-normal.scss
-	mv $dd/sites/default/themes/$1/sass/test2-alpha-default-wide.css $dd/sites/default/themes/$1/sass/test2-alpha-default-wide.scss
-	mv $dd/sites/default/themes/$1/sass/test2-alpha-default.css $dd/sites/default/themes/$1/sass/test2-alpha-default.scss
+	mv $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.css $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.scss
+	mv $dd/sites/default/themes/$1/sass/$1-alpha-default-normal.css $dd/sites/default/themes/$1/sass/$1-alpha-default-normal.scss
+	mv $dd/sites/default/themes/$1/sass/$1-alpha-default-wide.css $dd/sites/default/themes/$1/sass/$1-alpha-default-wide.scss
+	mv $dd/sites/default/themes/$1/sass/$1-alpha-default.css $dd/sites/default/themes/$1/sass/$1-alpha-default.scss
 	
 	mkdir $dd/sites/default/themes/$1/css
 	
 	#_variables.scss
 	mv $dd/profiles/ip/themes/_variables.scss $dd/sites/default/themes/$1/sass/
+	
+	#@import "variables"
+	echo '@import "variables";' >> $dd/sites/default/themes/$1/sass/global.scss
+	echo '@import "variables";' >> $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.scss
+	echo '@import "variables";' >> $dd/sites/default/themes/$1/sass/$1-alpha-default-normal.scss
+	echo '@import "variables";' >> $dd/sites/default/themes/$1/sass/$1-alpha-default-wide.scss
+	echo '@import "variables";' >> $dd/sites/default/themes/$1/sass/$1-alpha-default.scss
 	
 	drush @$1 cron
 else
