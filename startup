@@ -298,6 +298,9 @@ if [ "$status" = "Successful" ]; then
 	install_profile=$(drush @$1 vget install_profile |grep "install_profile"|awk '{ print $2 }')
 	
 	if [ $install_profile == '"ip"' ]; then
+		
+		drush @$1 pm-enable omega_tools
+		
 		drush @$1 ipconfig_create_theme $1	
 		drush @$1 ipconfig_theme_settings
 
