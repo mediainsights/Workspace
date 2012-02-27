@@ -313,7 +313,7 @@ $1
 	#_variables.scss
 	mv $dd/profiles/ip/themes/_variables.scss $dd/sites/default/themes/$1/sass/
 	
-	#@import "variables"
+	# add scaffold.scss
 	cat includes/global.scss >> $dd/sites/default/themes/$1/sass/global.scss
 	cat includes/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.scss
 	cat includes/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-normal.scss
