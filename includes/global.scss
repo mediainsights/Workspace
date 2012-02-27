@@ -7,10 +7,33 @@ body.front {
 }//body.front 
 
 body {
-	font-size: 15px;
+	
+	/* The following font family declarations are based on the Microsoft core
+	 * web fonts which are common fonts available on most computer systems. The
+	 * Bitstream Vera fonts are commonly available on Linux systems where the MS
+	 * fonts are less common.
+	 *
+	 * A user's web browser will look at the comma-separated list and will
+	 * attempt to use each font in turn until it finds one that is available
+	 * on the user's computer. The final "generic" font (sans-serif or serif)
+	 * hints at what type of font to use if the web browser doesn't find any
+	 * of the fonts in the list.
+	
+	font-family: "Times New Roman", Times, Georgia, "Bitstream Vera Serif", serif;
+	font-family: Times, "Times New Roman", Georgia, "Bitstream Vera Serif", serif;
+	font-family: Georgia, "Times New Roman", "Bitstream Vera Serif", serif;
+	
+	font-family: Verdana, Tahoma, Arial, Helvetica, "Bitstream Vera Sans", sans-serif;
+	font-family: Tahoma, Verdana, Arial, Helvetica, "Bitstream Vera Sans", sans-serif;
+	font-family: Helvetica, Arial, "Bitstream Vera Sans", sans-serif;
 	font-family: Arial, Helvetica, "Bitstream Vera Sans", sans-serif;
-	background: #e4d8ce;
+	
+	font-family: "Bitstream Vera Sans Mono", "Courier New", monospace;
+	
+	 */
+	font-family: Arial, Helvetica, "Bitstream Vera Sans", sans-serif;
 
+	font-size: 15px;
 	
 	h1{
 		font-size: 1.8em;
