@@ -298,7 +298,7 @@ if [ "$status" = "Successful" ]; then
 	install_profile=$(drush @test2 vget install_profile |grep "install_profile"|awk '{ print $2 }')
 	
 	
-	if [ "$install_profile" == ""ip"" ]; then
+	if [ $install_profile == '"ip"' ]; then
 		drush @$1 ipconfig_create_theme $1	
 		drush @$1 ipconfig_theme_settings
 
