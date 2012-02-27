@@ -322,9 +322,6 @@ $1
 	
 	drush @$1 cron
 	
-	cd $dd/sites/default/themes/$1
-	
-	compass watch
 else
 	
 	#if not manual install, remove everything has been setup
@@ -373,3 +370,7 @@ fi
 echo "Database $dbname created, $dbuser - $dbpass"
 echo "Drupal was installed successfully: "
 drush @$1 user-login;
+
+cd $dd/sites/default/themes/$1
+
+compass watch
