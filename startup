@@ -301,9 +301,9 @@ if [ "$status" = "Successful" ]; then
 	
 	mv $dd/sites/default/themes/$1/sass/global.css $dd/sites/default/themes/$1/sass/global.sass
 	mv $dd/sites/default/themes/$1/sass/test2-alpha-default-narrow.css $dd/sites/default/themes/$1/sass/test2-alpha-default-narrow.sass
-	mv $dd/sites/default/themes/$1/sass/test2-alpha-default-narrow.css $dd/sites/default/themes/$1/sass/test2-alpha-default-normal.sass
-	mv $dd/sites/default/themes/$1/sass/test2-alpha-default-narrow.css $dd/sites/default/themes/$1/sass/test2-alpha-default-wide.sass
-	mv $dd/sites/default/themes/$1/sass/test2-alpha-default-narrow.css $dd/sites/default/themes/$1/sass/test2-alpha-default.sass
+	mv $dd/sites/default/themes/$1/sass/test2-alpha-default-normal.css $dd/sites/default/themes/$1/sass/test2-alpha-default-normal.sass
+	mv $dd/sites/default/themes/$1/sass/test2-alpha-default-wide.css $dd/sites/default/themes/$1/sass/test2-alpha-default-wide.sass
+	mv $dd/sites/default/themes/$1/sass/test2-alpha-default.css $dd/sites/default/themes/$1/sass/test2-alpha-default.sass
 	
 	drush @$1 cron
 else
