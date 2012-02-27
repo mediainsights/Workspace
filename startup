@@ -295,8 +295,16 @@ if [ "$status" = "Successful" ]; then
 	drush @$1 ipconfig_create_theme $1	
 	drush @$1 ipconfig_theme_settings
 
-	cp $dd/profiles/ip/themes/zen/STARTERKIT/config.rb
-
+	cp $dd/profiles/ip/themes/zen/STARTERKIT/config.rb $dd/sites/default/themes/$1/
+	
+	mv $dd/sites/default/themes/$1/css $dd/sites/default/themes/$1/sass
+	
+	mv $dd/sites/default/themes/$1/sass/global.css $dd/sites/default/themes/$1/sass/global.sass
+	mv $dd/sites/default/themes/$1/sass/test2-alpha-default-narrow.css $dd/sites/default/themes/$1/sass/test2-alpha-default-narrow.sass
+	mv $dd/sites/default/themes/$1/sass/test2-alpha-default-narrow.css $dd/sites/default/themes/$1/sass/test2-alpha-default-normal.sass
+	mv $dd/sites/default/themes/$1/sass/test2-alpha-default-narrow.css $dd/sites/default/themes/$1/sass/test2-alpha-default-wide.sass
+	mv $dd/sites/default/themes/$1/sass/test2-alpha-default-narrow.css $dd/sites/default/themes/$1/sass/test2-alpha-default.sass
+	
 	drush @$1 cron
 else
 	
