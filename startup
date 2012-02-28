@@ -336,7 +336,7 @@ if [ "$status" = "Successful" ]; then
 		#5. Replace the log and site_name variable with delta blocks
 		
 		#theme settings: disable variable logo and site_name 
-		drush @$1 ipconfig_theme_settings
+		#drush @$1 ipconfig_theme_settings
 		#enable site_block module: 
 		drush @$1 ipconfig_set_logo_site_name
 		
