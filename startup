@@ -205,7 +205,13 @@ else
 
 fi
 
-if [ -n "$2" ] && [ "$2" = "dev" ]; then
+if [ -n "$2" ]; then
+	
+	if [ "$2" = "dev" ]; then
+		branch=master
+	else
+		branch=$2
+	fi
 	
 	#kw repos
 	repo=${REPOS[1]}
@@ -213,11 +219,12 @@ if [ -n "$2" ] && [ "$2" = "dev" ]; then
 	cd $WWW/ipcache
 	git remote add kw $repo
 	git pull kw
-	git co -b master kw/master
+	git co -b $branch kw/$branch
 	
-	git co master
+	git co $branch
 	git pull kw	
 fi
+
 
 cp -pRa $WWW/ipcache $WWW/$1
 
@@ -243,6 +250,7 @@ if [ $manual_install = 1 ]; then
 	chmod 777 $WWW/$1/sites/default/files
 	cp $WWW/$1/sites/default/default.settings.php $WWW/$1/sites/default/settings.php
 	chmod 777 $WWW/$1/sites/default/settings.php
+	chmod 777 $WWW/$1/sites/default/themes
 	
 	echo "Manual install"
 	echo "$1.localhost"
@@ -251,9 +259,15 @@ if [ $manual_install = 1 ]; then
 	exit
 fi
 
+
+
 #Drush install
-if [ -n "$2" ] && [ "$2" = "dev" ]; then
-	drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass --site-name="$1 (dev)" -y
+if [ -n "$2" ]; then
+	if [ "$2" = "dev" ]; then
+		drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass --site-name="$1 ($2)" -y
+	else
+		drush @$1 site-install $2 --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass --site-name="$1 ($2)" -y
+	fi
 else
 	drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass --site-name="$1 ($version)" -y
 fi
@@ -277,7 +291,60 @@ if [ "$status" = "Successful" ]; then
 	#cp $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.live
 	#sed 's/_db/_dev/' $WWW/$1/sites/default/settings.php > $WWW/$1/sites/default/settings.dev
 
+	############################################################################# 
+	# Theme config
+	#############################################################################
+	
+	install_profile=$(drush @$1 vget install_profile |grep "install_profile"|awk '{ print $2 }')
+	
+	if [ $install_profile == '"ip"' ]; then
+		
+		#1. Enable omega_tools
+		drush @$1 pm-enable omega_tools -y
+		
+		#2. Create new sub theme
+		drush @$1 ipconfig_create_theme $1	
+
+		#3. Settings for SCSS
+		#copy config.rb
+		cp $dd/profiles/ip/themes/zen/STARTERKIT/config.rb $dd/sites/default/themes/$1/
+
+
+		mv $dd/sites/default/themes/$1/css $dd/sites/default/themes/$1/sass
+
+		#mv *.css to *.scss
+		mv $dd/sites/default/themes/$1/sass/global.css $dd/sites/default/themes/$1/sass/global.scss	
+		mv $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.css $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.scss
+		mv $dd/sites/default/themes/$1/sass/$1-alpha-default-normal.css $dd/sites/default/themes/$1/sass/$1-alpha-default-normal.scss
+		mv $dd/sites/default/themes/$1/sass/$1-alpha-default-wide.css $dd/sites/default/themes/$1/sass/$1-alpha-default-wide.scss
+		mv $dd/sites/default/themes/$1/sass/$1-alpha-default.css $dd/sites/default/themes/$1/sass/$1-alpha-default.scss
+
+		mkdir $dd/sites/default/themes/$1/css
+
+
+		#4. Pre-defined styles
+		#_variables.scss
+		mv $dd/profiles/ip/themes/scss/_variables.scss $dd/sites/default/themes/$1/sass/
+
+		# add scaffold.scss
+		cat $dd/profiles/ip/themes/scss/global.scss >> $dd/sites/default/themes/$1/sass/global.scss
+		cat $dd/profiles/ip/themes/scss/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.scss
+		cat $dd/profiles/ip/themes/scss/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-normal.scss
+		cat $dd/profiles/ip/themes/scss/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-wide.scss
+		cat $dd/profiles/ip/themes/scss/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default.scss
+		
+		#5. Replace the log and site_name variable with delta blocks
+		
+		#theme settings: disable variable logo and site_name 
+		drush @$1 ipconfig_theme_settings
+		#enable site_block module: 
+		drush @$1 ipconfig_enable_site_blocks
+		
+		#6. Run compass watch at the end. (script is located at the bottom of the file)
+	fi
+	
 	drush @$1 cron
+	
 else
 	
 	#if not manual install, remove everything has been setup
@@ -326,3 +393,9 @@ fi
 echo "Database $dbname created, $dbuser - $dbpass"
 echo "Drupal was installed successfully: "
 drush @$1 user-login;
+
+
+if [ $install_profile == '"ip"' ]; then
+	cd $dd/sites/default/themes/$1
+	compass watch
+fi

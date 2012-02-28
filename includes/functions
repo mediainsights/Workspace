@@ -66,10 +66,15 @@ function puship {
 	if [ "$2" = "dev" ]; then
 		git push kw master
 		
+	elif [ "$2" = "unimelb" ]; then
+		git co unimelb
+		git push kw unimelb
 	else
 		update_info_version $1 $2
 
 		update_ip_update_info_version $1 $2
+
+		update_ip_config_info_version $1 $2
 
 		git commit -am 'version '$2
 
@@ -128,5 +133,18 @@ function update_ip_update_info_version {
 	
 	rm -f tmp
 }
+
+function update_ip_config_info_version {
+	
+	infofile=$(drush @$1 dd)/profiles/ip/modules/developer/ip_config/ip_config.info
+
+	version=$(cat $infofile | grep "version"| awk '{ print $3 }')
+	
+	sed 's/'$version'/"'$2'"/g' $infofile > tmp
+	mv tmp $infofile
+	
+	rm -f tmp
+}
+
 
 
