@@ -300,7 +300,7 @@ if [ "$status" = "Successful" ]; then
 	if [ $install_profile == '"ip"' ]; then
 		
 		#1. Enable omega_tools
-		drush @$1 pm-enable omega_tools
+		drush @$1 pm-enable omega_tools -y
 		
 		#2. Create new sub theme
 		drush @$1 ipconfig_create_theme $1	
