@@ -201,7 +201,7 @@ else
 
 	cd $WWW/ipcache
 	git co $branch
-	git pull --force
+	git pull
 
 fi
 
