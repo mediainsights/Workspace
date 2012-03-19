@@ -23,7 +23,13 @@ source includes/functions
 #	exit
 #fi
 
-./startup $1
+############################################################################# 
+# Server info
+#############################################################################
+
+read -p "What is the actual domain of the website: " domain
+
+
 
 #Check remote status
 status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
