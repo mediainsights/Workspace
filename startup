@@ -22,7 +22,7 @@ while getopts ":a" opt; do
 	;;
 	
     z)
-		echo "-a was triggered!" >&2
+		echo "Skip drupal (install only Apache, Mysql, Drush alias & Host alias)" >&2
 		shift $((OPTIND-1))
 	;;
 		
