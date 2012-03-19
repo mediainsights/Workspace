@@ -15,15 +15,17 @@ source includes/functions
 
 while getopts ":a" opt; do
   case $opt in
-    a)
-		echo "-a was triggered!" >&2
-		shift $((OPTIND-1))
-		;;
     m)
 		echo "Manual install mode" >&2
 		MANUAL_INSTALL=1
 		shift $((OPTIND-1))
-		;;
+	;;
+	
+    z)
+		echo "-a was triggered!" >&2
+		shift $((OPTIND-1))
+	;;
+		
     \?)
 		echo "Invalid option: -$OPTARG" >&2
 		exit 1
