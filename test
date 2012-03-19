@@ -5,10 +5,11 @@ while getopts ":a" opt; do
     a)
       echo "-a was triggered!" >&2
 		shift $((OPTIND-1))
-		echo $1
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
       ;;
   esac
 done
+
+echo $1
