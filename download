@@ -70,7 +70,62 @@ if [ $db_exist = 1 ]; then
 	exit
 fi
 
-#Check remote status
+############################################################################# 
+# Setup vhost, host alias & drush alias
+#############################################################################
+
+#Add vhost
+ echo "<VirtualHost *:80>
+    DocumentRoot $WWW/$1 
+    ServerName $1.localhost
+    <Directory $WWW/$1>
+        AllowOverride All
+    </Directory>
+</VirtualHost>
+" | sudo tee -a $APACHEDIR/other/$1.$SERVER.conf
+
+sudo apachectl restart
+
+#Add host alias
+if [ ! $(grep -q "$1.$SERVER" /etc/hosts) ]; then
+  echo -e "127.0.0.1	$1.$SERVER" | sudo tee -a /etc/hosts
+fi
+
+#Add drush alias
+echo "<?php
+\$aliases['$1'] = array(
+    'uri' => '$1.$SERVER',
+    'root' => '$WWW/$1',
+  );
+
+\$aliases['$1.dev'] = array(
+    'uri' => 'dev.$domain',
+	'root' => '/home/$1/dev',
+	'ssh-options' => '-p 222',
+    'remote-host' => 'dev.$domain',
+	'remote-user' => '$1',
+	'path-aliases' => array(
+		'%dump-dir' => '/home/$1/sql_dump',
+     ),
+  );
+
+\$aliases['$1.live'] = array(
+    'uri' => '$domain',
+	'root' => '/home/$1/www',
+	'ssh-options' => '-p 222',
+    'remote-host' => '$domain',
+	'remote-user' => '$1',
+	'path-aliases' => array(
+		'%dump-dir' => '/home/$1/sql_dump',
+     ),
+  );
+
+" > /Users/$USER/.drush/$1.aliases.drushrc.php
+
+############################################################################# 
+# Check source exist
+#############################################################################
+
 status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
 if [ "$status" != "Successful" ]; then
 	echo @$1.$2 cannot be detected. Remove $1.localhost now
