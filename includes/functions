@@ -187,4 +187,6 @@ function startup_check_settings{
 		echo database $1_db alread exist
 		exit
 	fi
+	
+	echo rootpass
 }
