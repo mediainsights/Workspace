@@ -13,7 +13,7 @@ source includes/functions
 # Get Opts
 #############################################################################
 
-while getopts ":a" opt; do
+while getopts ":mz" opt; do
   case $opt in
     m)
 		echo "Manual install mode" >&2
