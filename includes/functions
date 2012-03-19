@@ -188,5 +188,5 @@ function startup_check_settings{
 		exit
 	fi
 	
-	echo rootpass
+	echo $rootpass
 }
