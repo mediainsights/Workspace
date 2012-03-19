@@ -36,7 +36,7 @@ if [ "$status" != "Successful" ]; then
 fi
 
 
-drush rsync --delete @$1.$2 @$1 -y 
+rsync --delete @$1.$2 @$1 -y 
 
 drush sql-sync @$1.$2 @$1 --no-cache -y
 
