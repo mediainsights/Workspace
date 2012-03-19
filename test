@@ -8,6 +8,7 @@ while getopts ":a" opt; do
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
+		shift $((OPTIND-1))
       ;;
   esac
 done
