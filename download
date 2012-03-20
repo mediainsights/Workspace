@@ -31,6 +31,7 @@ dbuser=$(cat tmp|grep "dbuser"|awk '{ print $2 }')
 dbpass=$(cat tmp|grep "dbpass"|awk '{ print $2 }')
 
 #Check remote status
+status=$(drush @$1.$2 status --show-passwords)
 status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
 if [ "$status" != "Successful" ]; then
 	echo @$1.$2 cannot be detected. Removing $1.localhost now
@@ -46,7 +47,7 @@ fi
 mkdir $WWW/$1
 rsync -az -e "ssh -p 222" $1@$domain:~/public_html/ $WWW/$1
 
-drush @$1.$2 status --show-passwords
+
 
 #drush sql-sync @$1.$2 @$1 --no-cache -y
 
