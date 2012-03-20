@@ -61,4 +61,6 @@ sed "s/$remote_dbpass/$dbpass/g" tmp2 > $settingsfile
 
 drush sql-sync @$1.$2 @$1 --no-cache -y
 
+drush @$1 cc all
+
 #chmod 755 $WWW/$1
