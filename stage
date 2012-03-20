@@ -31,3 +31,14 @@ if [ "$status" != "Successful" ]; then
 	echo Drupal site not found on @$1.$2, please use ./upload instead.
 	exit
 fi
+
+
+drush -v rsync @upclose @upclose.dev -y
+
+drush sql-sync @upclose @upclose.dev --no-cache -y
+
+drush @upclose.dev vset --always-set maintenance_mode 1	
+
+drush @upclose.dev updb -y
+
+drush @upclose.dev cc all
