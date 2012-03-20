@@ -59,6 +59,9 @@ sed "s/$remote_dbname/$dbname/g" $settingsfile > tmp
 sed "s/$remote_dbuser/$dbuser/g" tmp > tmp2
 sed "s/$remote_dbpass/$dbpass/g" tmp2 > $settingsfile
 
+rm -f tmp
+rm -f tmp2
+
 drush sql-sync @$1.$2 @$1 --no-cache -y
 
 drush @$1 cc all
