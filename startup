@@ -109,8 +109,8 @@ if [ ! -d /Users/$USER/.drush ]; then
 fi
 
 #Check sql-dump exist
-if [ ! -d $WWW/sql-dump ]; then
-	mkdir $WWW/sql-dump
+if [ ! -d $WWW/sql_dump ]; then
+	mkdir $WWW/sql_dump
 fi
 
 
