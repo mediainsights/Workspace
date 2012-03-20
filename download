@@ -43,7 +43,8 @@ fi
 
 #echo $domain
 
-#rsync 
+mkdir $WWW/$1
+rsync $1@$domain/www $WWW/$1
 
 #drush sql-sync @$1.$2 @$1 --no-cache -y
 
