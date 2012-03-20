@@ -154,7 +154,7 @@ echo "<?php
     'uri' => '$1.$SERVER',
     'root' => '$WWW/$1',
 	'path-aliases' => array(
-		'%dump-dir' => '/Users/$USER/sql_dump',
+		'%dump-dir' => '$WWW/sql_dump',
      ),
   );
 
