@@ -50,7 +50,7 @@ remote_dbname=$(drush @$1.$2 status|grep "Database name"|awk '{ print $4 }')
 remote_dbuser=$(drush @$1.$2 status|grep "Database username"|awk '{ print $4 }')
 remote_dbpass=$(drush @$1.$2 status|grep "Database password"|awk '{ print $4 }')
 
-echo remote_dbname, remote_dbuser, remote_dbpass
+echo $remote_dbname, $remote_dbuser, $remote_dbpass
 
 #drush sql-sync @$1.$2 @$1 --no-cache -y
 
