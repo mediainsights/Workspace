@@ -68,9 +68,9 @@ rm -f tmp2
 
 drush sql-sync @$1.$2 @$1 --no-cache -y
 
+drush @$1 vset --always-set site_offline 0
+
 drush @$1 cc all
 
 chmod -R 777 $(drush @$1 dd files)
 chmod -R 777 $(drush @$1 dd files/imagecache)
-
-drush @$1 vset --always-set site_offline 0
