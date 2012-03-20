@@ -30,17 +30,17 @@ echo download
 echo $domain
 
 #Check remote status
-status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
-if [ "$status" != "Successful" ]; then
-	echo @$1.$2 cannot be detected. Removing $1.localhost now
+#status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
+#if [ "$status" != "Successful" ]; then
+#	echo @$1.$2 cannot be detected. Removing $1.localhost now
 
-	./destroy $1
+#	./destroy $1
 
-	exit
-fi
+#	exit
+#fi
 
 
-echo $domain
+#echo $domain
 
 #rsync 
 
