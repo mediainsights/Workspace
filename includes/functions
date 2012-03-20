@@ -61,15 +61,15 @@ function puship {
 	
 	cd $WWW/$1
 	
-	git co master
-	
 	if [ "$2" = "dev" ]; then
+		git co master
 		git push kw master
 		
 	elif [ "$2" = "unimelb" ]; then
 		git co unimelb
 		git push kw unimelb
 	else
+		git co master
 		update_info_version $1 $2
 
 		update_ip_update_info_version $1 $2

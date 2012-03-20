@@ -10,6 +10,31 @@ source includes/functions
 
 
 ############################################################################# 
+# Get Opts
+#############################################################################
+
+while getopts ":mz" opt; do
+  case $opt in
+    m)
+		echo "Manual install mode" >&2
+		MANUAL_INSTALL=1
+		shift $((OPTIND-1))
+	;;
+	
+    z)
+		echo "Skip drupal (install only Apache, Mysql, Drush alias & Host alias)" >&2
+		SKIP_DRUPAL=1
+		shift $((OPTIND-1))
+	;;
+		
+    \?)
+		echo "Invalid option: -$OPTARG" >&2
+		exit 1
+	;;
+  esac
+done
+
+############################################################################# 
 # Check usage
 #############################################################################
 
@@ -169,7 +194,11 @@ drupaluser='Site Admin'
 
 #CREATE DB
 mysqladmin -uroot -p$rootpass create $dbname;
-echo "Database $dbname created, $dbuser - $dbpass"
+
+echo domain: $domain
+echo dbname: $dbname 
+echo dbuser: $dbuser
+echo dbpass: $dbpass
 
 #CREATE USER
 Q1="GRANT USAGE ON * . * TO  '$dbuser'@'localhost' IDENTIFIED BY  '$dbpass';" 
@@ -177,6 +206,13 @@ Q2="GRANT ALL PRIVILEGES ON $dbname.* TO '$dbuser'@'localhost' IDENTIFIED BY '$d
 SQL="${Q1}${Q2}"
 
 mysql -uroot -p$rootpass -e "$SQL"
+
+############################################################################# 
+# Skip drupal
+#############################################################################
+if [ $SKIP_DRUPAL = 1 ]; then
+	exit 1
+fi
 
 ############################################################################# 
 # Copy ip from ipcache

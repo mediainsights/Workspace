@@ -23,7 +23,14 @@ source includes/functions
 #	exit
 #fi
 
-./startup $1
+./startup -z $1 |tee tmp
+
+domain=$(cat tmp|grep "domain"|awk '{ print $2 }')
+dbname=$(cat tmp|grep "dbname"|awk '{ print $2 }')
+dbuser=$(cat tmp|grep "dbuser"|awk '{ print $2 }')
+dbpass=$(cat tmp|grep "dbpass"|awk '{ print $2 }')
+
+rm -f tmp
 
 #Check remote status
 status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
@@ -36,8 +43,33 @@ if [ "$status" != "Successful" ]; then
 fi
 
 
-drush rsync --delete @$1.$2 @$1 -y 
+#echo $domain
+
+mkdir $WWW/$1
+
+if [ "$1" = "live" ]; then
+	rsync -az -e "ssh -p 222" $1@$domain:~/public_html/ $WWW/$1
+else 
+	rsync -az -e "ssh -p 222" $1@$domain:~/dev/ $WWW/$1
+fi
+
+remote_dbname=$(drush @$1.$2 status --show-passwords|grep "Database name"|awk '{ print $4 }')
+remote_dbuser=$(drush @$1.$2 status --show-passwords|grep "Database username"|awk '{ print $4 }')
+remote_dbpass=$(drush @$1.$2 status --show-passwords|grep "Database password"|awk '{ print $4 }')
+
+echo $remote_dbname, $remote_dbuser, $remote_dbpass
+
+settingsfile=$WWW/$1/sites/default/settings.php
+sed "s/$remote_dbname/$dbname/g" $settingsfile > tmp
+sed "s/$remote_dbuser/$dbuser/g" tmp > tmp2
+sed "s/$remote_dbpass/$dbpass/g" tmp2 > $settingsfile
+
+rm -f tmp
+rm -f tmp2
 
 drush sql-sync @$1.$2 @$1 --no-cache -y
 
-chmod 755 $WWW/$1
+drush @$1 cc all
+
+chmod -R 777 $(drush @$1 dd files)
+chmod -R 777 $(drush @$1 dd files/imagecache)
