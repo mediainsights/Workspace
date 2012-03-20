@@ -19,7 +19,6 @@ source includes/functions
 #Check local status
 loc_status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
 
-
 if [ "$loc_status" != "Successful" ]; then
 	echo site $1 not found.
 	exit
