@@ -46,9 +46,9 @@ fi
 mkdir $WWW/$1
 #rsync -az -e "ssh -p 222" $1@$domain:~/public_html/ $WWW/$1
 
-remote_dbname=$(drush @$1.$2 status|grep "Database name"|awk '{ print $4 }')
-remote_dbuser=$(drush @$1.$2 status|grep "Database username"|awk '{ print $4 }')
-remote_dbpass=$(drush @$1.$2 status|grep "Database password"|awk '{ print $4 }')
+remote_dbname=$(drush @$1.$2 status --show-passwords|grep "Database name"|awk '{ print $4 }')
+remote_dbuser=$(drush @$1.$2 status --show-passwords|grep "Database username"|awk '{ print $4 }')
+remote_dbpass=$(drush @$1.$2 status --show-passwords|grep "Database password"|awk '{ print $4 }')
 
 echo $remote_dbname, $remote_dbuser, $remote_dbpass
 
