@@ -19,8 +19,8 @@ source includes/functions
 #Check local status
 loc_status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
 
-if [ "$loc_status" = "Successful" ]; then
-	echo Drupal site $1 is already existed, please use drush commands instead.
+if [ "$loc_status" != "Successful" ]; then
+	echo $1 does not exist.
 	exit
 fi
 
