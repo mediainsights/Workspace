@@ -207,7 +207,8 @@ mysql -uroot -p$rootpass -e "$SQL"
 # Skip drupal
 #############################################################################
 if [ $SKIP_DRUPAL = 1 ]; then
-	echo $domain|$dbpass
+	echo $domain
+	echo $dbpass
 	exit 1;
 fi
 
