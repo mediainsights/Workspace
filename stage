@@ -38,9 +38,9 @@ drush sql-sync @$1.live $WWW/sql_dump --no-cache -y
 
 drush sql-sync $WWW/sql_dump @$1.dev --no-cache -y
 
-drush -v rsync @$1 @$1.dev -y
-
 drush @$1.dev vset --always-set site_offline 1 
+
+drush -v rsync @$1 @$1.dev -y
 
 drush @$1.dev updb -y
 
