@@ -34,7 +34,9 @@ fi
 
 drush rsync @$1.$2 @$1 -y
 
-drush sql-sync @$1.$2 @$1 -y
+drush sql-sync @$1.$2 @$1 --no-cache -y
+
+chmod 777 $(drush @$1 dd files)
 
 drush @$1 vset --always-set site_offline 0
 
