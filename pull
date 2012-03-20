@@ -27,6 +27,6 @@ fi
 #Check remote status
 status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
 if [ "$status" != "Successful" ]; then
-	echo @$1.live cannot be detected.
+	echo @$1.$2 cannot be detected.
 	exit
 fi
