@@ -194,7 +194,11 @@ drupaluser='Site Admin'
 
 #CREATE DB
 mysqladmin -uroot -p$rootpass create $dbname;
-echo "Database $dbname created, $dbuser - $dbpass"
+
+echo Domain: $domain
+echo DB name: $dbname 
+echo DB user: $dbuser
+echo DB pass: $dbpass
 
 #CREATE USER
 Q1="GRANT USAGE ON * . * TO  '$dbuser'@'localhost' IDENTIFIED BY  '$dbpass';" 
