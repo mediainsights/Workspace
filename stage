@@ -33,6 +33,7 @@ if [ "$status" != "Successful" ]; then
 fi
 
 
+
 drush -v rsync @upclose @upclose.dev -y
 
 drush sql-sync @upclose @upclose.dev --no-cache -y
