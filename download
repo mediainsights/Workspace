@@ -44,7 +44,8 @@ fi
 #echo $domain
 
 mkdir $WWW/$1
-rsync --port=222 $1@$domain:/www $WWW/$1
+rsync -az -e "ssh -p 222" $1@$domain:~/public_html $WWW/$1
+
 
 #drush sql-sync @$1.$2 @$1 --no-cache -y
 
