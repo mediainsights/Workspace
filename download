@@ -54,9 +54,9 @@ remote_dbpass=$(drush @$1.$2 status --show-passwords|grep "Database password"|aw
 
 echo $remote_dbname, $remote_dbuser, $remote_dbpass
 
-$settingsfile = $WWW/$1/sites
-sed "s/$remote_dbname/$dbname/g" $settingsfile > tmp
-sed "s/$remote_dbuser/$dbuser/g" tmp > tmp2
+#$settingsfile = $WWW/$1/sites
+#sed "s/$remote_dbname/$dbname/g" $settingsfile > tmp
+$sed "s/$remote_dbuser/$dbuser/g" tmp > tmp2
 
 #drush sql-sync @$1.$2 @$1 --no-cache -y
 
