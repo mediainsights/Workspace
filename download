@@ -42,7 +42,6 @@ if [ "$status" != "Successful" ]; then
 	exit
 fi
 
-
 #echo $domain
 
 mkdir $WWW/$1
