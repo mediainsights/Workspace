@@ -15,3 +15,6 @@ source includes/functions
 
 #Usage check
 : ${1?"Usage: $0 SITE"}
+
+#Check lcoal status
+loc_status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
