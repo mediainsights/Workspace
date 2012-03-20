@@ -38,6 +38,6 @@ drush rsync @$1.$2 @$1 -y
 
 drush sql-sync @$1.$2 @$1 -y
 
-drush @$1.dev vset --always-set site_offline 0
+drush @$1 vset --always-set site_offline 0
 
 drush @$1 cc all
