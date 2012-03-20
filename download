@@ -23,6 +23,13 @@ if [ "$loc_status" = "Successful" ]; then
 	exit
 fi
 
+#Check remote status
+status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
+if [ "$status" != "Successful" ]; then
+	echo @$1.$2 cannot be detected.
+	exit
+fi
+
 ./startup -z $1 |tee tmp
 
 domain=$(cat tmp|grep "domain"|awk '{ print $2 }')
@@ -31,16 +38,6 @@ dbuser=$(cat tmp|grep "dbuser"|awk '{ print $2 }')
 dbpass=$(cat tmp|grep "dbpass"|awk '{ print $2 }')
 
 rm -f tmp
-
-#Check remote status
-status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
-if [ "$status" != "Successful" ]; then
-	echo @$1.$2 cannot be detected. Removing $1.localhost now
-
-	./destroy $1
-
-	exit
-fi
 
 #echo $domain
 
