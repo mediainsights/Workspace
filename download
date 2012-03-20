@@ -46,13 +46,17 @@ fi
 #echo $domain
 
 mkdir $WWW/$1
-#rsync -az -e "ssh -p 222" $1@$domain:~/public_html/ $WWW/$1
+rsync -az -e "ssh -p 222" $1@$domain:~/public_html/ $WWW/$1
 
 remote_dbname=$(drush @$1.$2 status --show-passwords|grep "Database name"|awk '{ print $4 }')
 remote_dbuser=$(drush @$1.$2 status --show-passwords|grep "Database username"|awk '{ print $4 }')
 remote_dbpass=$(drush @$1.$2 status --show-passwords|grep "Database password"|awk '{ print $4 }')
 
 echo $remote_dbname, $remote_dbuser, $remote_dbpass
+
+$settingsfile = $WWW/$1/sites
+sed "s/$remote_dbname/$dbname/g" $settingsfile > tmp
+sed "s/$remote_dbuser/$dbuser/g" tmp > tmp2
 
 #drush sql-sync @$1.$2 @$1 --no-cache -y
 
