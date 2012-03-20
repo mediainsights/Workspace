@@ -23,9 +23,9 @@ source includes/functions
 #	exit
 #fi
 
-./startup -z $1 | tee tmp
+./startup -z $1 |tee tmp
 
-echo tmp|grep "domain"|awk '{ print $1 }'
+cat tmp|grep "domain"|awk '{ print $1 }'
 
 #Check remote status
 #status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
