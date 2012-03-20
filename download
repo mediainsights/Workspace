@@ -15,18 +15,11 @@ source includes/functions
 #Usage check
 : ${2?"Usage: $0 SITE [live | dev]"}
 
-#Check local status
+#Check lcoal status
 loc_status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
 
 if [ "$loc_status" = "Successful" ]; then
 	echo Drupal site $1 is already existed, please use drush commands instead.
-	exit
-fi
-
-#Check remote status
-status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
-if [ "$status" != "Successful" ]; then
-	echo @$1.$2 cannot be detected.
 	exit
 fi
 
@@ -38,6 +31,16 @@ dbuser=$(cat tmp|grep "dbuser"|awk '{ print $2 }')
 dbpass=$(cat tmp|grep "dbpass"|awk '{ print $2 }')
 
 rm -f tmp
+
+#Check remote status
+status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
+if [ "$status" != "Successful" ]; then
+	echo @$1.$2 cannot be detected. Removing $1.localhost now
+
+	./destroy $1
+
+	exit
+fi
 
 #echo $domain
 
