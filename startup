@@ -208,7 +208,7 @@ mysql -uroot -p$rootpass -e "$SQL"
 #############################################################################
 if [ $SKIP_DRUPAL = 1 ]; then
 	echo $domain
-	export DOMAIN_NAME=aaaa
+	export DOMAIN_NAME="aaaa"
 	exit 1
 fi
 
