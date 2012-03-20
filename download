@@ -25,6 +25,8 @@ source includes/functions
 
 ./startup -z $1
 
+echo download
+
 echo $domain
 
 #Check remote status
