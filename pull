@@ -36,7 +36,7 @@ fi
 
 drush sql-sync @$1.$2 @$1 -y
 
-drush rsync @tchair.live:%files @tchair:%files -y
+drush rsync @$1.$2 @$1 -y
 
 drush @tchair cc all
 
