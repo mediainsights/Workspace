@@ -36,8 +36,10 @@ if [ "$status" != "Successful" ]; then
 fi
 
 
-rsync 
+echo $domain
 
-drush sql-sync @$1.$2 @$1 --no-cache -y
+#rsync 
 
-chmod 755 $WWW/$1
+#drush sql-sync @$1.$2 @$1 --no-cache -y
+
+#chmod 755 $WWW/$1
