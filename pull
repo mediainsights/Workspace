@@ -30,3 +30,14 @@ if [ "$status" != "Successful" ]; then
 	echo @$1.$2 cannot be detected.
 	exit
 fi
+
+
+
+
+drush sql-sync @$1.$2 @$1 --no-cache -y
+
+drush rsync @tchair.live:%files @tchair:%files -y
+
+drush @tchair cc all
+
+Enable devel modules
