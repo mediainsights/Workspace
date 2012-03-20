@@ -31,8 +31,7 @@ dbuser=$(cat tmp|grep "dbuser"|awk '{ print $2 }')
 dbpass=$(cat tmp|grep "dbpass"|awk '{ print $2 }')
 
 #Check remote status
-status=$(drush @$1.$2 status --show-passwords)
-bootstrap=$(echo status|grep "Drupal bootstrap"|awk '{ print $4 }')
+status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
 if [ "$status" != "Successful" ]; then
 	echo @$1.$2 cannot be detected. Removing $1.localhost now
 
