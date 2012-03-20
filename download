@@ -63,4 +63,5 @@ drush sql-sync @$1.$2 @$1 --no-cache -y
 
 drush @$1 cc all
 
-chmod 777 $(drush @$1 dd files/imagecache)
+chmod -R 777 $(drush @$1 dd files)
+chmod -R 777 $(drush @$1 dd files/imagecache)
