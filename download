@@ -44,8 +44,9 @@ fi
 #echo $domain
 
 mkdir $WWW/$1
-rsync -az -e "ssh -p 222" $1@$domain:~/public_html $WWW/$1
+rsync -az -e "ssh -p 222" $1@$domain:~/public_html/ $WWW/$1
 
+drush @$1.$2 status --show-passwords
 
 #drush sql-sync @$1.$2 @$1 --no-cache -y
 
