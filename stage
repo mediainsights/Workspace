@@ -7,3 +7,11 @@
 source ~/.bash_profile
 source includes/config
 source includes/functions
+
+
+############################################################################# 
+# Check usage
+#############################################################################
+
+#Usage check
+: ${1?"Usage: $0 SITE"}
