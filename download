@@ -23,7 +23,7 @@ source includes/functions
 #	exit
 #fi
 
-./startup -z $1 > tmp
+./startup -z $1 | tee tmp
 
 
 
