@@ -15,7 +15,7 @@ source includes/functions
 #Usage check
 : ${2?"Usage: $0 SITE [live | dev]"}
 
-#Check lcoal status
+#Check local status
 loc_status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
 
 if [ "$loc_status" = "Successful" ]; then
