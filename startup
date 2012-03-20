@@ -105,9 +105,14 @@ fi
 
 #Check drush settings
 if [ ! -d /Users/$USER/.drush ]; then
-	echo ".drush folder not found"
-	exit
+	mkdir /Users/$USER/.drush
 fi
+
+#Check sql-dump exist
+if [ ! -d $WWW/sql-dump ]; then
+	mkdir $WWW/sql-dump
+fi
+
 
 #Check db exist
 
