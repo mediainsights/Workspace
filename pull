@@ -15,3 +15,18 @@ source includes/functions
 
 #Usage check
 : ${1?"Usage: $0 SITE"}
+
+#Check local status
+loc_status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
+
+if [ "$loc_status" = "Successful" ]; then
+	echo Drupal site $1 is already existed, please use drush commands instead.
+	exit
+fi
+
+#Check remote status
+status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
+if [ "$status" != "Successful" ]; then
+	echo @$1.$2 cannot be detected.
+	exit
+fi
