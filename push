@@ -34,6 +34,6 @@ fi
 
 drush -v rsync @$1 @$1.live -y
 
-drush @$1.dev updb -y
+drush @$1.live updb -y
 
-drush @$1.dev cc all
+drush @$1.live cc all
