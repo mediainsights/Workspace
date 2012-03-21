@@ -113,6 +113,10 @@ if [ ! -d $WWW/sql_dump ]; then
 	mkdir $WWW/sql_dump
 fi
 
+#Check tmp exist
+if [ ! -d $WWW/tmp ]; then
+	mkdir $WWW/tmp
+fi
 
 #Check db exist
 
