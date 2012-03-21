@@ -27,7 +27,7 @@ fi
 #Check remote status
 status=$(drush @$1.dev status|grep "Drupal bootstrap"|awk '{ print $4 }')
 if [ "$status" != "Successful" ]; then
-	echo Drupal site not found on @$1.$2, please use ./upload instead.
+	echo Drupal site not found on @$1.dev, please use ./upload instead.
 	exit
 fi
 
