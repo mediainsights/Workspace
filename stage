@@ -25,7 +25,7 @@ if [ "$loc_status" != "Successful" ]; then
 fi
 
 #Check remote status
-status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
+status=$(drush @$1.dev status|grep "Drupal bootstrap"|awk '{ print $4 }')
 if [ "$status" != "Successful" ]; then
 	echo Drupal site not found on @$1.$2, please use ./upload instead.
 	exit
