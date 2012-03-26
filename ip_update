@@ -21,7 +21,7 @@ cd $(drush @$1 dd)
 if [ -n "$2" ] && [ "$2" = "dev" ]; then
 	git co master
 	
-	git pull kw
+	git pull kw master
 	
 else 
 	git pull in
