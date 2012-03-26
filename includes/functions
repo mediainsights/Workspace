@@ -76,6 +76,8 @@ function puship {
 		
 		git merge master
 		
+		git reset kw/stage
+		
 	else
 		git co master
 		update_info_version $1 $2
