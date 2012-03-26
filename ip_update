@@ -24,7 +24,7 @@ if [ -n "$2" ] && [ "$2" = "dev" ]; then
 	git pull kw
 	
 else 
-	git pull	
+	git pull in
 fi
 
 drush @$1 updb -y
