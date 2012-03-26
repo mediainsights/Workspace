@@ -75,7 +75,6 @@ function puship {
 		git push kw master
 		
 		git co stage
-		
 		git pull kw stage
 		
 		git merge master
