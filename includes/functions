@@ -109,18 +109,6 @@ function puship {
 		
 		git merge stage
 		
-		
-		git pull in $PRESET_BRANCH
-
-		git merge master
-
-		git reset in/$PRESET_BRANCH
-
-		git add .
-		git add -u
-
-		git commit
-
 		git push in $PRESET_BRANCH
 
 		git push --tags in
