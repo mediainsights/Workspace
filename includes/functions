@@ -87,6 +87,8 @@ function puship {
 		
 		git co master
 		
+		git merge stage
+		
 	else
 		git co master
 		update_info_version $1 $2
