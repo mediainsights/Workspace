@@ -78,6 +78,13 @@ function puship {
 		
 		git reset kw/stage
 		
+		git add .
+		git add -u
+
+		git commit
+		
+		git push kw stage
+		
 	else
 		git co master
 		update_info_version $1 $2
