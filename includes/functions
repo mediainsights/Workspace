@@ -68,6 +68,10 @@ function puship {
 	elif [ "$2" = "unimelb" ]; then
 		git co unimelb
 		git push kw unimelb
+		
+	elif [ "$2" = "stage" ]; then
+		git co unimelb
+		git push kw unimelb		
 	else
 		git co master
 		update_info_version $1 $2
