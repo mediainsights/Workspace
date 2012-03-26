@@ -101,11 +101,15 @@ function puship {
 
 		git tag -a $2 -m 'version $2'
 
-		git push kw master
+		git push kw stage
 
 		git push --tags kw	
 
 		git co $PRESET_BRANCH
+		
+		git merge stage
+		
+		
 		git pull in $PRESET_BRANCH
 
 		git merge master
