@@ -22,8 +22,9 @@ if [ -n "$2" ] && [ "$2" = "dev" ]; then
 	git co master
 	
 	git pull kw
+	
+else 
+	git pull	
 fi
-
-git pull
 
 drush @$1 updb -y
