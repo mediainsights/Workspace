@@ -70,7 +70,7 @@ function puship {
 		git push kw unimelb
 		
 	elif [ "$2" = "stage" ]; then
-		git co unimelb
+		git co stage
 		git push kw unimelb		
 	else
 		git co master
