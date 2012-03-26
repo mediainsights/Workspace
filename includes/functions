@@ -117,6 +117,9 @@ function puship {
 
 		git merge stage
 		
+		git push kw master
+
+		
 	fi
 		
 }
