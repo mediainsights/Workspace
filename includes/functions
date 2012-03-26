@@ -85,6 +85,8 @@ function puship {
 		
 		git push kw stage
 		
+		git co master
+		
 	else
 		git co master
 		update_info_version $1 $2
