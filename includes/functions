@@ -115,7 +115,7 @@ function puship {
 
 		git co master
 
-		git merge $PRESET_BRANCH
+		git merge stage
 		
 	fi
 		
