@@ -47,9 +47,9 @@ fi
 mkdir $WWW/$1
 
 if [ "$2" = "live" ]; then
-	rsync -az -e "ssh -p 222" $1@$domain:~/public_html/ $WWW/$1
+	rsync -az -e "ssh -p 222" $1@$domain:~/public_html/ $WWW/$1/www
 else 
-	rsync -az -e "ssh -p 222" $1@$domain:~/dev/ $WWW/$1
+	rsync -az -e "ssh -p 222" $1@$domain:~/dev/ $WWW/$1/www
 fi
 
 remote_dbname=$(drush @$1.$2 status --show-passwords|grep "Database name"|awk '{ print $4 }')
