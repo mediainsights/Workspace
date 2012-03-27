@@ -265,6 +265,11 @@ if [ -n "$2" ]; then
 	
 	git co $branch
 	git pull kw	$branch
+	
+	git submodule init
+	
+	git submodule update
+	
 fi
 
 
