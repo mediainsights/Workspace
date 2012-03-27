@@ -23,7 +23,7 @@ OPTIONS:
    -h      Show this message
    -i      Define installation profile, default: ip
    -m      Manual install mode (skip drush install)
-   -z      Server root password
+   -z      Setup 
 EOF
 }
 while getopts "hi:mz" opt; do
@@ -48,7 +48,7 @@ while getopts "hi:mz" opt; do
 
 	
     z)
-		echo "Skip drupal (install only Apache, Mysql, Drush alias & Host alias)" >&2
+		echo "Skip drupal (setup only Apache, Mysql, Drush alias & Host alias)" >&2
 		SKIP_DRUPAL=1
 		shift $((OPTIND-1))
 	;;
