@@ -40,6 +40,14 @@ fi
 
 drush rsync --include-conf @$1 @$1.$2 -y 
 
+if [ $2 = live ]; then 
+	drush @$1.live status
+	
+	domain=$(cat tmp|grep "domain"|awk '{ print $2 }')
+	
+	scp $WWW/$1/CHANGELOG.txt 
+fi
+
 drush @$1.$2 sql-drop -y	
 
 if [ $2 = dev ]; then 
