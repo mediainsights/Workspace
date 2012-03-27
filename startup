@@ -67,14 +67,13 @@ if [ $1 = puship ]; then
 	exit
 fi
 
-
-# puship_test
-if [ $1 = puship_test ]; then
+# Flush ipcache
+if [ $1 = puship ]; then
 	
 	#Usage check
 	: ${2?"Usage: $0 $1 SITE version-number"}
 	
-	puship_test $2 $3
+	puship $2 $3
 	
 	exit
 fi
