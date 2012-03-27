@@ -52,7 +52,7 @@ drush sql-sync @$1 @$1.$2 --no-cache -y
 if [ $2 = live ]; then 
 	drush @$1.live status
 	
-	domain=$(drush @$1 status|grep "Site URI"|awk '{ print $4 }')
+	domain=$(drush @$1.live status|grep "Site URI"|awk '{ print $4 }')
 	
 	scp -P 222 $WWW/$1/CHANGELOG.txt $1@$domain:/home/$1/
 	scp -P 222 $WWW/$1/README.txt $1@$domain:/home/$1/
