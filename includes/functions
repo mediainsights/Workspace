@@ -169,9 +169,7 @@ function flush_ipcache{
 	
 	cd $WWW/ipcache
 	
-	git remote rename origin kw
-	
-	git add remote 
+	git remote rename origin in
 }
 
 
