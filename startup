@@ -21,10 +21,9 @@ This script run the test1 or test2 over a machine.
 
 OPTIONS:
    -h      Show this message
-   -t      Test type, can be ‘test1′ or ‘test2′
-   -r      Server address
-   -p      Server root password
-   -v      Verbose
+   -i      Define installation profile, default: ip
+   -m      Manual install mode (skip drush install)
+   -z      Server root password
 EOF
 }
 while getopts "hi:mz" opt; do
