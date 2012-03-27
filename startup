@@ -17,7 +17,7 @@ while getopts "hi:mz" opt; do
   case $opt in
 	
     i)
-		TEST=$OPTARG
+		PROFILE=$OPTARG
 		echo $TEST
 		shift $((OPTIND-1))
 	;;
