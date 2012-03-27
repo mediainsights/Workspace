@@ -20,7 +20,6 @@ while getopts "hi:mz" opt; do
 		TEST=$OPTARG
 		echo $TEST
 		shift $((OPTIND-1))
-		echo $1
 		exit
 	;;
 	
