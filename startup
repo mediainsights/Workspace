@@ -160,9 +160,9 @@ fi
 
 #Add vhost
  echo "<VirtualHost *:80>
-    DocumentRoot $WWW/$1 
+    DocumentRoot $WWW/$1/www
     ServerName $1.localhost
-    <Directory $WWW/$1>
+    <Directory $WWW/$1/www>
         AllowOverride All
     </Directory>
 </VirtualHost>
@@ -179,7 +179,7 @@ fi
 echo "<?php
 \$aliases['$1'] = array(
     'uri' => '$1.$SERVER',
-    'root' => '$WWW/$1',
+    'root' => '$WWW/$1/www',
 	'path-aliases' => array(
 		'%dump-dir' => '$WWW/sql_dump',
      ),
