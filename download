@@ -71,9 +71,8 @@ chmod 777 $settingsfile
 sed "s/$remote_dbpass/$dbpass/g" tmp2 > $settingsfile
 chmod 644 $settingsfile
 
-
-#rm -f tmp
-#rm -f tmp2
+rm -f tmp
+rm -f tmp2
 
 drush sql-sync @$1.$2 @$1 --no-cache -y
 
