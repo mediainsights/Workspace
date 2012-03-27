@@ -12,9 +12,28 @@ source includes/functions
 ############################################################################# 
 # Get Opts
 #############################################################################
+usage()
+{
+cat << EOF
+usage: $0 options
 
+This script run the test1 or test2 over a machine.
+
+OPTIONS:
+   -h      Show this message
+   -t      Test type, can be ‘test1′ or ‘test2′
+   -r      Server address
+   -p      Server root password
+   -v      Verbose
+EOF
+}
 while getopts "hi:mz" opt; do
   case $opt in
+
+  	h)
+		PROFILE=$OPTARG
+		exit
+	;;
 	
     i)
 		PROFILE=$OPTARG
@@ -37,7 +56,7 @@ while getopts "hi:mz" opt; do
 		
     \?)
 		echo "Invalid option: -$OPTARG" >&2
-		exit 1
+		exit
 	;;
   esac
 done
