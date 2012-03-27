@@ -30,7 +30,7 @@ dbname=$(cat tmp|grep "dbname"|awk '{ print $2 }')
 dbuser=$(cat tmp|grep "dbuser"|awk '{ print $2 }')
 dbpass=$(cat tmp|grep "dbpass"|awk '{ print $2 }')
 
-#rm -f tmp
+rm -f tmp
 
 #Check remote status
 status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
