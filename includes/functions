@@ -62,13 +62,9 @@ function puship {
 	cd $WWW/$1
 	
 	if [ "$2" = "dev" ]; then
-		git co master
-		git push kw master
-		
-	elif [ "$2" = "unimelb" ]; then
-		git co unimelb
-		git push kw unimelb
-		
+		git co dev
+		git push kw dev
+				
 	elif [ "$2" = "stage" ]; then
 		
 		git co stage		
