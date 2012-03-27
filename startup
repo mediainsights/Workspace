@@ -251,7 +251,6 @@ fi
 
 if [ -n "$3" ]; then
 	
-
 	branch=$3
 
 	
