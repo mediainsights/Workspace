@@ -314,11 +314,12 @@ chmod 755 $WWW/$1/sites/default
 
 manual_install=$MANUAL_INSTALL
 if [ $manual_install = 1 ]; then
-	mkdir $WWW/$1/sites/default/files
-	chmod 777 $WWW/$1/sites/default/files
-	cp $WWW/$1/sites/default/default.settings.php $WWW/$1/sites/default/settings.php
-	chmod 777 $WWW/$1/sites/default/settings.php
-	chmod 777 $WWW/$1/sites/default/themes
+	dd=$(drush @$1 dd)
+	mkdir $dd/sites/default/files
+	chmod 777 $dd/sites/default/files
+	cp $dd/sites/default/default.settings.php $dd/sites/default/settings.php
+	chmod 777 $dd/sites/default/settings.php
+	chmod 777 $dd/sites/default/themes
 	
 	echo "Manual install"
 	echo "$1.localhost"
