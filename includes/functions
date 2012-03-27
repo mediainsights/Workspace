@@ -95,7 +95,7 @@ function puship {
 		
 		update_version_txt $1 $2
 
-		git log --pretty=%s --since=25/3/2012 --format=%B > CHANGELOG.txt
+		git log --pretty=%s --since=25/3/2012 --format=%B --no-merges > CHANGELOG.txt
 
 		git commit -am 'version '$2
 
