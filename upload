@@ -43,9 +43,9 @@ drush rsync --include-conf @$1 @$1.$2 -y
 if [ $2 = live ]; then 
 	drush @$1.live status
 	
-	domain=$(cat tmp|grep "domain"|awk '{ print $2 }')
+	domain=$(drush @$1 status|grep "Site URI"|awk '{ print $4 }')
 	
-	scp $WWW/$1/CHANGELOG.txt 
+	scp $WWW/$1/CHANGELOG.txt $1@$domain:/home/$1/
 fi
 
 drush @$1.$2 sql-drop -y	
