@@ -30,9 +30,10 @@ if [ "$status" = "Successful" ]; then
 	exit
 fi
 
+dd=$(drush @$1 dd)
 
 if [ $2 = dev ]; then 
-	sed 's/_db/_dev/' $WWW/$1/sites/default/settings.php > $WWW/$1/sites/default/settings.dev
+	sed 's/_db/_dev/' $WWW/$1/www/sites/default/settings.php > $WWW/$1/sites/default/settings.dev
 	sudo mv $WWW/$1/sites/default/settings.dev $WWW/$1/sites/default/settings.php
 	
 fi
