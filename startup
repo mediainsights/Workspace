@@ -334,7 +334,7 @@ if [ -n "$2" ]; then
 	version=$2
 fi
 
-drush @$1 site-install $PROFILE --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass --site-name="$1 ($version $PROFILE)" -y
+drush @$1 site-install $PROFILE --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass --site-name="$1 - $version ()$PROFILE)" -y
 
 #Check if Drupal install successfully
 status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
