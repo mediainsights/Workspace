@@ -161,7 +161,7 @@ function update_ip_config_info_version {
 }
 
 function update_version_txt {
-
+	echo $2 > $(drush @$1 dd)/../VERSION.txt
 }
 
 function flush_ipcache {
