@@ -45,6 +45,7 @@ fi
 #echo $domain
 
 mkdir $WWW/$1
+mkdir $WWW/$1/www
 
 if [ "$2" = "live" ]; then
 	rsync -az -e "ssh -p 222" $1@$domain:~/public_html/ $WWW/$1/www
