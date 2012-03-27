@@ -73,7 +73,7 @@ if [ $1 = flush ]; then
 	#Usage check
 	: ${2?"Usage: $0 $1 SITE version-number"}
 	
-	puship $2 $3
+	flush
 	
 	exit
 fi
