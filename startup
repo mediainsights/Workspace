@@ -24,7 +24,7 @@ OPTIONS:
    -z      Setup only Apache, Mysql, Drush alias & Host alias
 EOF
 }
-while getopts "hi:mz" opt; do
+while getopts ":hi:mz" opt; do
   case $opt in
 
   	h)
