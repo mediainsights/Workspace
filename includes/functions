@@ -162,7 +162,7 @@ function update_ip_config_info_version {
 	rm -f tmp
 }
 
-function flush{
+function flush_ipcache{
 
 }
 
