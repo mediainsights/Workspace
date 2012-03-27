@@ -49,9 +49,9 @@ mkdir $WWW/$1
 if [ "$2" = "live" ]; then
 	rsync -az -e "ssh -p 222" $1@$domain:~/public_html/ $WWW/$1/www
 	
-	scp $1@$domain:/home/$1/CHANGELOG.txt $WWW/$1/ 
-	scp $1@$domain:/home/$1/README.txt $WWW/$1/ 
-	scp $1@$domain:/home/$1/VERSION.txt $WWW/$1/ 
+	scp -P 222 $1@$domain:/home/$1/CHANGELOG.txt $WWW/$1/ 
+	scp -P 222 $1@$domain:/home/$1/README.txt $WWW/$1/ 
+	scp -P 222 $1@$domain:/home/$1/VERSION.txt $WWW/$1/ 
 	
 else 
 	rsync -az -e "ssh -p 222" $1@$domain:~/dev/ $WWW/$1/www
