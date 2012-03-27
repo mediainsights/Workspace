@@ -95,14 +95,14 @@ function puship {
 		
 		update_version_txt $1 $2
 		
-		echo version $2 > CHANGELOG.txt
+		echo VERSION $2 > CHANGELOG.txt
 		echo >> CHANGELOG.txt
 		
 		git log --pretty=%s --since=25/3/2012 --format=%B --no-merges >> CHANGELOG.txt
 
-		git commit -am 'version '$2
+		git commit -am 'VERSION '$2
 
-		git tag -a $2 -m 'version $2'
+		git tag -a $2 -m 'VERSION $2'
 
 		git push kw stage
 		
