@@ -25,6 +25,7 @@ while getopts ":mz" opt; do
 		TEST=$OPTARG
 		echo $TEST
 		shift $((OPTIND-1))
+		exit
 	;;
 	
     z)
