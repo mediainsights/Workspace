@@ -23,7 +23,7 @@ if [ "$loc_status" = "Successful" ]; then
 	exit
 fi
 
-./startup -z $1 |tee tmpp
+./startup -z $1 |tee tmp
 
 domain=$(cat tmp|grep "domain"|awk '{ print $2 }')
 dbname=$(cat tmp|grep "dbname"|awk '{ print $2 }')
