@@ -266,7 +266,7 @@ if [ -n "$2" ]; then
 		
 	cd $WWW/ipcache
 	git remote add kw $repo
-	git pull kw
+	git pull kw $branch
 	git co -b $branch kw/$branch
 	
 	git co $branch
