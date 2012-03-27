@@ -69,7 +69,7 @@ sed "s/$remote_dbname/$dbname/g" $settingsfile > tmp
 sed "s/$remote_dbuser/$dbuser/g" tmp > tmp2
 chmod 777 $settingsfile
 sed "s/$remote_dbpass/$dbpass/g" tmp2 > $settingsfile
-chmod 444 $settingsfile
+chmod 644 $settingsfile
 
 
 #rm -f tmp
