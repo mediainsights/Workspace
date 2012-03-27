@@ -31,8 +31,8 @@ while getopts "hi:mz" opt; do
   case $opt in
 
   	h)
-		PROFILE=$OPTARG
-		exit
+		usage
+		exit 1
 	;;
 	
     i)
