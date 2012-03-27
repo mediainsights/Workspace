@@ -98,6 +98,7 @@ function puship {
 		echo version $2 > CHANGELOG.txt
 		echo ---------- >> CHANGELOG.txt
 		echo >> CHANGELOG.txt
+		
 		git log --pretty=%s --since=25/3/2012 --format=%B --no-merges >> CHANGELOG.txt
 
 		git commit -am 'version '$2
