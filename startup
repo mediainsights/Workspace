@@ -68,9 +68,9 @@ if [ $1 = puship ]; then
 fi
 
 # Flush ipcache
-if [ $1 = flush ]; then
+if [ $1 = flush_ipcache ]; then
 	
-	flush
+	flush_ipcache
 	
 	exit
 fi
