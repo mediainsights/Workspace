@@ -17,8 +17,6 @@ usage()
 cat << EOF
 usage: $0 options
 
-This script run the test1 or test2 over a machine.
-
 OPTIONS:
    -h      Show this message
    -i      Define installation profile, default installation profile is ip
