@@ -13,20 +13,22 @@ source includes/functions
 # Get Opts
 #############################################################################
 
-while getopts ":mz" opt; do
+while getopts ":imz" opt; do
   case $opt in
-    m)
-		echo "Manual install mode" >&2
-		MANUAL_INSTALL=1
-		shift $((OPTIND-1))
-	;;
-
+	
     i)
 		TEST=$OPTARG
 		echo $TEST
 		shift $((OPTIND-1))
 		exit
 	;;
+	
+    m)
+		echo "Manual install mode" >&2
+		MANUAL_INSTALL=1
+		shift $((OPTIND-1))
+	;;
+
 	
     z)
 		echo "Skip drupal (install only Apache, Mysql, Drush alias & Host alias)" >&2
