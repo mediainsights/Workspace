@@ -270,7 +270,7 @@ if [ -n "$2" ]; then
 	git co -b $branch kw/$branch
 	
 	git co $branch
-	git pull kw	
+	git pull kw	$branch
 fi
 
 
