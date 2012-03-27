@@ -34,7 +34,6 @@ while getopts "hi:mz" opt; do
 	
     i)
 		PROFILE=$OPTARG
-		echo $TEST
 		shift $((OPTIND-1))
 	;;
 	
