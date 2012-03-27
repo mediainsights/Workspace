@@ -21,7 +21,7 @@ This script run the test1 or test2 over a machine.
 
 OPTIONS:
    -h      Show this message
-   -i      Define installation profile, default: ip
+   -i      Define installation profile, default installation profile is ip
    -m      Manual install mode (skip drush install)
    -z      Setup only Apache, Mysql, Drush alias & Host alias
 EOF
