@@ -36,7 +36,7 @@ while getopts "hi:mz" opt; do
 		PROFILE=$OPTARG
 		shift $((OPTIND-1))
 		echo $2
-		exit
+		exit 1
 	;;
 	
     m)
