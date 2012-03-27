@@ -94,8 +94,10 @@ function puship {
 		update_ip_config_info_version $1 $2
 		
 		update_version_txt $1 $2
-
-		git log --pretty=%s --since=25/3/2012 --format=%B --no-merges > CHANGELOG.txt
+		
+		echo version $2 > tmp
+		echo ---------- >> tmp
+		git log --pretty=%s --since=25/3/2012 --format=%B --no-merges >> CHANGELOG.txt
 
 		git commit -am 'version '$2
 
