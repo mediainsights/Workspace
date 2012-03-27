@@ -19,7 +19,7 @@ usage: $0 options
 
 OPTIONS:
    -h      Show this message
-   -i      Define installation profile, default installation profile is ip
+   -i      Define installation profile, default to ip if not specify.
    -m      Manual install mode (skip drush install)
    -z      Setup only Apache, Mysql, Drush alias & Host alias
 EOF
