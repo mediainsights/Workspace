@@ -46,6 +46,8 @@ if [ $2 = live ]; then
 	domain=$(drush @$1 status|grep "Site URI"|awk '{ print $4 }')
 	
 	scp $WWW/$1/CHANGELOG.txt $1@$domain:/home/$1/
+	scp $WWW/$1/README.txt $1@$domain:/home/$1/
+	scp $WWW/$1/VERSION.txt $1@$domain:/home/$1/
 fi
 
 drush @$1.$2 sql-drop -y	
