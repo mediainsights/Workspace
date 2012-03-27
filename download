@@ -63,7 +63,7 @@ remote_dbpass=$(drush @$1.$2 status --show-passwords|grep "Database password"|aw
 
 echo $remote_dbname, $remote_dbuser, $remote_dbpass
 
-settingsfile=$WWW/$1/sites/default/settings.php
+settingsfile=$WWW/$1/www/sites/default/settings.php
 sed "s/$remote_dbname/$dbname/g" $settingsfile > tmp
 sed "s/$remote_dbuser/$dbuser/g" tmp > tmp2
 sed "s/$remote_dbpass/$dbpass/g" tmp2 > $settingsfile
