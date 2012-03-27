@@ -8,6 +8,39 @@ source ~/.bash_profile
 source includes/config
 source includes/functions
 
+############################################################################# 
+# Functions
+#############################################################################
+
+# Push Workspace to in repository
+if [ $1 = pushws ]; then
+	
+	#Usage check
+	: ${2?"Usage: $0 $1 version-number"}
+	
+	pushws $2
+	
+	exit
+fi
+
+# Push ip to in repository
+if [ $1 = puship ]; then
+	
+	#Usage check
+	: ${2?"Usage: $0 $1 SITE version-number"}
+	
+	puship $2 $3
+	
+	exit
+fi
+
+# Flush ipcache
+if [ $1 = flush_ipcache ]; then
+	
+	flush_ipcache
+	
+	exit
+fi
 
 ############################################################################# 
 # Get Opts
@@ -63,40 +96,6 @@ done
 
 #Usage check
 : ${1?"Usage: $0 SITE"}
-
-############################################################################# 
-# Functions
-#############################################################################
-
-# Push Workspace to in repository
-if [ $1 = pushws ]; then
-	
-	#Usage check
-	: ${2?"Usage: $0 $1 version-number"}
-	
-	pushws $2
-	
-	exit
-fi
-
-# Push ip to in repository
-if [ $1 = puship ]; then
-	
-	#Usage check
-	: ${2?"Usage: $0 $1 SITE version-number"}
-	
-	puship $2 $3
-	
-	exit
-fi
-
-# Flush ipcache
-if [ $1 = flush_ipcache ]; then
-	
-	flush_ipcache
-	
-	exit
-fi
 
 
 ############################################################################# 
