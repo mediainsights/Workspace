@@ -299,7 +299,7 @@ cp -pRa $WWW/ipcache $WWW/$1
 ############################################################################# 
 # Check ip version
 #############################################################################
-infofile=$WWW/$1/profiles/ip/ip.info
+infofile=$WWW/$1/www/profiles/ip/ip.info
 version=$(cat $infofile | grep "version"| awk '{ print $3 }')
 version=$(echo $version | tr -d '"')
 
@@ -310,7 +310,7 @@ version=$(echo $version | tr -d '"')
 #############################################################################
 
 # Get ready for Drupal installation
-chmod 755 $WWW/$1/sites/default
+chmod 755 $WWW/$1/www/sites/default
 
 manual_install=$MANUAL_INSTALL
 if [ $manual_install = 1 ]; then
