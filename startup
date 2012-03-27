@@ -313,11 +313,11 @@ if [ -n "$2" ]; then
 fi
 
 if [ -n "$3" ]; then
-	IP=$2
+	PROFILE=$2
 fi
 
 
-drush @$1 site-install $IP --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass --site-name="$1 ($version)" -y
+drush @$1 site-install $PROFILE --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass --site-name="$1 ($version)" -y
 
 #Check if Drupal install successfully
 status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
