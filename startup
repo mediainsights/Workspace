@@ -13,7 +13,7 @@ source includes/functions
 # Get Opts
 #############################################################################
 
-while getopts ":imz" opt; do
+while getopts "hi:mz" opt; do
   case $opt in
 	
     i)
