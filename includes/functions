@@ -34,20 +34,20 @@ function pushws {
 	
 	git merge kelvin
 	
-	git reset in/dev
+	git reset in/master
 	
 	git add .
 	git add -u
 	
 	git commit
 	
-	git push in dev
+	git push in master
 	
 	git push --tags in
 	
 	git co kelvin
 	
-	git merge dev
+	git merge master
 } 
 
 #push ip
@@ -115,7 +115,7 @@ function puship {
 
 		git merge stage
 		
-		git push kw master
+		git push kw dev
 
 		
 	fi
