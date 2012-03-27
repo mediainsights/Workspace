@@ -33,8 +33,8 @@ fi
 dd=$(drush @$1 dd)
 
 if [ $2 = dev ]; then 
-	sed 's/_db/_dev/' $WWW/$1/www/sites/default/settings.php > $WWW/$1/sites/default/settings.dev
-	sudo mv $WWW/$1/sites/default/settings.dev $WWW/$1/sites/default/settings.php
+	sed 's/_db/_dev/' $dd/sites/default/settings.php > $dd/sites/default/settings.dev
+	sudo mv $dd/sites/default/settings.dev $dd/sites/default/settings.php
 	
 fi
 
@@ -43,8 +43,8 @@ drush rsync --include-conf @$1 @$1.$2 -y
 drush @$1.$2 sql-drop -y	
 
 if [ $2 = dev ]; then 
-	sed 's/_dev/_db/' $WWW/$1/sites/default/settings.php > $WWW/$1/sites/default/settings.local
-	sudo mv $WWW/$1/sites/default/settings.local $WWW/$1/sites/default/settings.php
+	sed 's/_dev/_db/' $dd/sites/default/settings.php > $dd/sites/default/settings.local
+	sudo mv $dd/sites/default/settings.local $dd/sites/default/settings.php
 fi
 
 drush sql-sync @$1 @$1.$2 --no-cache -y
