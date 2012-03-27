@@ -255,11 +255,9 @@ fi
 
 if [ -n "$2" ]; then
 	
-	if [ "$2" = "dev" ]; then
-		branch=master
-	else
-		branch=$2
-	fi
+
+	branch=$2
+
 	
 	#kw repos
 	repo=${REPOS[1]}
