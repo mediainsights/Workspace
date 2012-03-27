@@ -97,7 +97,7 @@ function puship {
 
 		git log --pretty=%s --since=25/3/2012 --format=%B --no-merges > CHANGELOG.txt
 
-		git commit -am 'version '$2\n
+		git commit -am 'version '$2\n---
 
 		git tag -a $2 -m 'version $2'
 
