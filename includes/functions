@@ -95,12 +95,14 @@ function puship {
 		
 		update_version_txt $1 $2
 
+		git log --pretty=%s --since=25/3/2012 --format=%B > CHANGELOG.txt
+
 		git commit -am 'version '$2
 
 		git tag -a $2 -m 'version $2'
 
 		git push kw stage
-
+		
 		git push --tags kw	
 
 		git co $PRESET_BRANCH
