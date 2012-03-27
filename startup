@@ -372,7 +372,7 @@ if [ "$status" = "Successful" ]; then
 
 		#4. Pre-defined styles
 		#_variables.scss
-		mv $dd/profiles/ip/themes/scss/_variables.scss $dd/sites/default/themes/$1/sass/
+		cp $dd/profiles/ip/themes/scss/_variables.scss $dd/sites/default/themes/$1/sass/
 
 		# add scaffold.scss
 		cat $dd/profiles/ip/themes/scss/global.scss >> $dd/sites/default/themes/$1/sass/global.scss
