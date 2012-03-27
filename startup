@@ -23,7 +23,7 @@ OPTIONS:
    -h      Show this message
    -i      Define installation profile, default: ip
    -m      Manual install mode (skip drush install)
-   -z      Setup 
+   -z      Setup only Apache, Mysql, Drush alias & Host alias
 EOF
 }
 while getopts "hi:mz" opt; do
