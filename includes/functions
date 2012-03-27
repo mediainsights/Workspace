@@ -170,6 +170,10 @@ function flush_ipcache{
 	cd $WWW/ipcache
 	
 	git remote rename origin in
+	
+	git remote add kw git@github.com:KelvinWong/IP.git
+	
+	git pull kw
 }
 
 
