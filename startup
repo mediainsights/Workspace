@@ -285,7 +285,7 @@ if [ -n "$2" ]; then
 	git co -b $branch kw/$branch
 	
 	git co -b $branch $repo/$branch
-	git pull $repo	$branch
+	git pull $repo $branch
 	
 	git submodule init
 	
