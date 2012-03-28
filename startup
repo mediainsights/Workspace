@@ -266,7 +266,7 @@ if [ ! -d $WWW/ipcache ]; then
 else
 
 	cd $WWW/ipcache
-	git co $branch
+	git co -b $branch repo
 	git pull
 
 fi
