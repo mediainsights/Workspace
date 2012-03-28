@@ -53,8 +53,8 @@ function pushws {
 
 		git push --tags kw
 
-		git co master
-		git pull in master
+		git co dev
+		git pull in dev
 
 		git merge stage
 
