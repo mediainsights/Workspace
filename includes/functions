@@ -47,7 +47,7 @@ function pushws {
 	
 		git co stage
 
-		git tag -a $1 -m 'version $1'
+		git tag -a $1 -m 'VERSION $1'
 
 		git push kw stage
 
