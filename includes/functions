@@ -58,7 +58,7 @@ function pushws {
 
 		git merge stage
 
-		git push in master
+		git push in dev
 
 		git push --tags in
 
