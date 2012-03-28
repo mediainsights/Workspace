@@ -90,7 +90,6 @@ while getopts ":hi:mz" opt; do
   esac
 done
 
-exit
 
 ############################################################################# 
 # Check usage
