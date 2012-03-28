@@ -16,38 +16,59 @@ function check_db_exist {
 #push workspace
 function pushws {
 	
-	git co kelvin
 	
-	#git add .
-	#git add -u
+	if [ "$1" = "dev" ]; then
+		git co dev
+		git push kw dev
+				
+	elif [ "$1" = "stage" ]; then
 	
-	#git commit
-	
-	git tag -a $1 -m 'version $1'
-	
-	git push kw kelvin
+		git co dev
+		git push kw dev
+		
+		git co stage		
+		git pull kw stage
+		
+		git merge dev
+		
+		git reset kw/stage
+		
+		git add .
+		git add -u
 
-	git push --tags kw
+		git commit
+		
+		git push kw stage
+		
+		git co dev
+		
+		git merge stage
+		
+	else
+	
+		git co stage
 
-	git co master
-	git pull in master
-	
-	git merge kelvin
-	
-	git reset in/master
-	
-	git add .
-	git add -u
-	
-	git commit
-	
-	git push in master
-	
-	git push --tags in
-	
-	git co kelvin
-	
-	git merge master
+		git tag -a $1 -m 'version $1'
+
+		git push kw stage
+
+		git push --tags kw
+
+		git co master
+		git pull in master
+
+		git merge stage
+
+		git push in master
+
+		git push --tags in
+
+		git co dev
+
+		git merge stage
+		
+		git push kw dev
+	fi
 } 
 
 #push ip
@@ -70,7 +91,7 @@ function puship {
 		git co stage		
 		git pull kw stage
 		
-		git merge master
+		git merge dev
 		
 		git reset kw/stage
 		
