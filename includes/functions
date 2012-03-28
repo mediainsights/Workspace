@@ -113,13 +113,8 @@ function puship {
 		
 	else
 		git co stage
-		update_info_version $1 $2
-
-		update_ip_update_info_version $1 $2
-
-		update_ip_config_info_version $1 $2
 		
-		update_version_txt $1 $2
+		version_update $1 $2
 		
 		echo VERSION $2 > CHANGELOG.txt
 		echo >> CHANGELOG.txt
@@ -153,34 +148,16 @@ function puship {
 		
 }
 
+function version_update {
 
-function update_info_version {
-	
+	#1 ip.info
 	infofile=$(drush @$1 dd)/profiles/ip/ip.info
-
 	version=$(cat $infofile | grep "version"| awk '{ print $3 }')
 	
 	sed 's/'$version'/"'$2'"/g' $infofile > tmp
 	mv tmp $infofile
-	
-	rm -f tmp
-}
-
-
-function update_ip_update_info_version {
-	
-	infofile=$(drush @$1 dd)/profiles/ip/modules/ip_update/ip_update.info
-
-	version=$(cat $infofile | grep "version"| awk '{ print $3 }')
-	
-	sed 's/'$version'/"'$2'"/g' $infofile > tmp
-	mv tmp $infofile
-	
-	rm -f tmp
-}
-
-function update_ip_config_info_version {
-	
+		
+	#2 ip_config.info
 	infofile=$(drush @$1 dd)/profiles/ip/modules/ip_config/ip_config.info
 
 	version=$(cat $infofile | grep "version"| awk '{ print $3 }')
@@ -188,12 +165,15 @@ function update_ip_config_info_version {
 	sed 's/'$version'/"'$2'"/g' $infofile > tmp
 	mv tmp $infofile
 	
+	
+	#3 VERSION.txt
+	echo $2 > $(drush @$1 dd)/../VERSION.txt
+	
 	rm -f tmp
+
 }
 
-function update_version_txt {
-	echo $2 > $(drush @$1 dd)/../VERSION.txt
-}
+
 
 function flush_ipcache {
 
