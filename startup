@@ -259,11 +259,7 @@ printf "%s = %s\n" 'Branch' $branch
 
 #if ipcache not exist, clone from github
 if [ ! -d $WWW/ipcache ]; then
-	echo Clone $branch branch
-	git clone --branch $branch $repo $WWW/ipcache
-	
-	cd $WWW/ipcache
-	git remote rename origin in
+	flush_ipcache
 else
 	
 	cd $WWW/ipcache
@@ -284,20 +280,15 @@ if [ -n "$2" ]; then
 	repo=${REPOS[1]}
 		
 	cd $WWW/ipcache
-	git remote add kw $repo
-	
+	git remote add kw $repo	
 		
 	git fetch kw
 	
-	git pull kw $branch
 	git co -b $branch kw/$branch
 	git co $branch
-	
+		
 	git pull kw $branch
-	
-#	git submodule init
-	
-#	git submodule update
+
 	
 fi
 
@@ -342,11 +333,15 @@ if [ -n "$2" ]; then
 	version=$2
 fi
 
-
-drush @$1 site-install $PROFILE --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass --site-name="$1 - $version ($PROFILE)" -y
+if [ -d $WWW/$1/www/profiles/$PROFILE ]; then
+	echo ???
+	drush @$1 site-install $PROFILE --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass --site-name="$1 - $version ($PROFILE)" -y
+fi
 
 #Check if Drupal install successfully
 status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
+
+echo $status
 
 if [ "$status" = "Successful" ]; then	
 	
