@@ -116,7 +116,7 @@ function puship {
 
 		git push --tags in
 
-		git co master
+		git co dev
 
 		git merge stage
 		
