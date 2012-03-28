@@ -62,47 +62,66 @@ function puship {
 	cd $WWW/$1
 	
 	if [ "$2" = "dev" ]; then
-		git co master
-		git push kw master
+		git co dev
+		git push kw dev
+				
+	elif [ "$2" = "stage" ]; then
 		
-	elif [ "$2" = "unimelb" ]; then
-		git co unimelb
-		git push kw unimelb
+		git co stage		
+		git pull kw stage
+		
+		git merge master
+		
+		git reset kw/stage
+		
+		git add .
+		git add -u
+
+		git commit
+		
+		git push kw stage
+		
+		git co dev
+		
+		git merge stage
+		
 	else
-		git co master
+		git co stage
 		update_info_version $1 $2
 
 		update_ip_update_info_version $1 $2
 
 		update_ip_config_info_version $1 $2
+		
+		update_version_txt $1 $2
+		
+		echo VERSION $2 > CHANGELOG.txt
+		echo >> CHANGELOG.txt
+		
+		git log --pretty=%s --since=28/3/2012 --format=%B --no-merges >> CHANGELOG.txt
 
-		git commit -am 'version '$2
+		git commit -am 'VERSION '$2
 
-		git tag -a $2 -m 'version $2'
+		git tag -a $2 -m 'VERSION $2'
 
-		git push kw master
-
+		git push kw stage
+		
 		git push --tags kw	
 
 		git co $PRESET_BRANCH
-		git pull in $PRESET_BRANCH
-
-		git merge master
-
-		git reset in/$PRESET_BRANCH
-
-		git add .
-		git add -u
-
-		git commit
-
+		
+		git merge stage
+		
 		git push in $PRESET_BRANCH
 
 		git push --tags in
 
-		git co master
+		git co dev
 
-		git merge $PRESET_BRANCH
+		git merge stage
+		
+		git push kw dev
+
 		
 	fi
 		
@@ -144,6 +163,27 @@ function update_ip_config_info_version {
 	mv tmp $infofile
 	
 	rm -f tmp
+}
+
+function update_version_txt {
+	echo $2 > $(drush @$1 dd)/../VERSION.txt
+}
+
+function flush_ipcache {
+
+	source includes/config
+
+	rm -rf $WWW/ipcache
+	
+	git clone git@github.com:mediainsights/IP.git $WWW/ipcache
+	
+	cd $WWW/ipcache
+	
+	git remote rename origin in
+	
+	git remote add kw git@github.com:KelvinWong/IP.git
+	
+	git pull kw
 }
 
 

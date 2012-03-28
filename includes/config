@@ -11,10 +11,11 @@ REPOS[0]=git@github.com:mediainsights/IP.git
 REPOS[1]=git@github.com:KelvinWong/IP.git
 
 
-REPOS_SHORTNAME[0]=mi
+REPOS_SHORTNAME[0]=in
 REPOS_SHORTNAME[1]=kw
 
 #preset
-PRESET_BRANCH=7.x-2.x
+PRESET_BRANCH=7.x-3.x
 MANUAL_INSTALL=0
 SKIP_DRUPAL=0
+PROFILE=ip

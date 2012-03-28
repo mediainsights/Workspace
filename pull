@@ -1,0 +1,43 @@
+#!/bin/bash 
+
+############################################################################# 
+# Source files
+#############################################################################
+
+source ~/.bash_profile
+source includes/config
+source includes/functions
+
+
+############################################################################# 
+# Check usage
+#############################################################################
+
+#Usage check
+: ${2?"Usage: $0 SITE [live | dev]"}
+
+#Check local status
+loc_status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
+
+if [ "$loc_status" != "Successful" ]; then
+	echo @$1 cannot be detected.
+	exit
+fi
+
+#Check remote status
+status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
+if [ "$status" != "Successful" ]; then
+	echo @$1.$2 cannot be detected.
+	exit
+fi
+
+
+drush rsync @$1.$2 @$1 -y
+
+drush sql-sync @$1.$2 @$1 --no-cache -y
+
+chmod 777 $(drush @$1 dd files)
+
+drush @$1 vset --always-set site_offline 0
+
+drush @$1 cc all

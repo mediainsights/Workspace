@@ -16,15 +16,24 @@ source includes/functions
 #Usage check
 : ${1?"Usage: $0 SITE"}
 
-cd $(drush @$1 dd)
+#Check local status
+loc_status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
 
-if [ -n "$2" ] then
-	git co $2
-	
-	git pull kw $2
-	
-else 
-	git pull in
+if [ "$loc_status" != "Successful" ]; then
+	echo site $1 not found.
+	exit
 fi
 
-drush @$1 updb -y
+#Check remote status
+status=$(drush @$1.$2 status|grep "Drupal bootstrap"|awk '{ print $4 }')
+if [ "$status" != "Successful" ]; then
+	echo Drupal site not found on @$1.live, please use ./upload instead.
+	exit
+fi
+
+
+drush -v rsync @$1 @$1.live -y
+
+drush @$1.live updb -y
+
+drush @$1.live cc all

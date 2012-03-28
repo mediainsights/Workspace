@@ -15,7 +15,7 @@ source includes/functions
 #Usage check
 : ${2?"Usage: $0 SITE [live | dev]"}
 
-#Check lcoal status
+#Check local status
 loc_status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
 
 if [ "$loc_status" != "Successful" ]; then
@@ -30,10 +30,11 @@ if [ "$status" = "Successful" ]; then
 	exit
 fi
 
+dd=$(drush @$1 dd)
 
 if [ $2 = dev ]; then 
-	sed 's/_db/_dev/' $WWW/$1/sites/default/settings.php > $WWW/$1/sites/default/settings.dev
-	sudo mv $WWW/$1/sites/default/settings.dev $WWW/$1/sites/default/settings.php
+	sed 's/_db/_dev/' $dd/sites/default/settings.php > $dd/sites/default/settings.dev
+	sudo mv $dd/sites/default/settings.dev $dd/sites/default/settings.php
 	
 fi
 
@@ -42,8 +43,18 @@ drush rsync --include-conf @$1 @$1.$2 -y
 drush @$1.$2 sql-drop -y	
 
 if [ $2 = dev ]; then 
-	sed 's/_dev/_db/' $WWW/$1/sites/default/settings.php > $WWW/$1/sites/default/settings.local
-	sudo mv $WWW/$1/sites/default/settings.local $WWW/$1/sites/default/settings.php
+	sed 's/_dev/_db/' $dd/sites/default/settings.php > $dd/sites/default/settings.local
+	sudo mv $dd/sites/default/settings.local $dd/sites/default/settings.php
 fi
 
 drush sql-sync @$1 @$1.$2 --no-cache -y
+
+if [ $2 = live ]; then 
+	drush @$1.live status
+	
+	domain=$(drush @$1.live status|grep "Site URI"|awk '{ print $4 }')
+	
+	scp -P 222 $WWW/$1/CHANGELOG.txt $1@$domain:/home/$1/
+	scp -P 222 $WWW/$1/README.txt $1@$domain:/home/$1/
+	scp -P 222 $WWW/$1/VERSION.txt $1@$domain:/home/$1/
+fi

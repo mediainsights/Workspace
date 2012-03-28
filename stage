@@ -1,0 +1,49 @@
+#!/bin/bash 
+
+############################################################################# 
+# Source files
+#############################################################################
+
+source ~/.bash_profile
+source includes/config
+source includes/functions
+
+
+############################################################################# 
+# Check usage
+#############################################################################
+
+#Usage check
+: ${1?"Usage: $0 SITE"}
+
+#Check local status
+loc_status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
+
+if [ "$loc_status" != "Successful" ]; then
+	echo site $1 not found.
+	exit
+fi
+
+#Check remote status
+status=$(drush @$1.dev status|grep "Drupal bootstrap"|awk '{ print $4 }')
+if [ "$status" != "Successful" ]; then
+	echo Drupal site not found on @$1.dev, please use ./upload instead.
+	exit
+fi
+
+
+
+
+drush sql-sync @$1.live @$1.dev --no-cache -y
+
+drush rsync @$1.live $WWW/tmp --delete -y
+
+drush rsync $WWW/tmp @$1.dev --delete -y
+
+drush @$1.dev vset --always-set site_offline 1 
+
+drush -v rsync @$1 @$1.dev -y
+
+drush @$1.dev updb -y
+
+drush @$1.dev cc all

@@ -8,39 +8,6 @@ source ~/.bash_profile
 source includes/config
 source includes/functions
 
-
-############################################################################# 
-# Get Opts
-#############################################################################
-
-while getopts ":mz" opt; do
-  case $opt in
-    m)
-		echo "Manual install mode" >&2
-		MANUAL_INSTALL=1
-		shift $((OPTIND-1))
-	;;
-	
-    z)
-		echo "Skip drupal (install only Apache, Mysql, Drush alias & Host alias)" >&2
-		SKIP_DRUPAL=1
-		shift $((OPTIND-1))
-	;;
-		
-    \?)
-		echo "Invalid option: -$OPTARG" >&2
-		exit 1
-	;;
-  esac
-done
-
-############################################################################# 
-# Check usage
-#############################################################################
-
-#Usage check
-: ${1?"Usage: $0 SITE"}
-
 ############################################################################# 
 # Functions
 #############################################################################
@@ -67,17 +34,69 @@ if [ $1 = puship ]; then
 	exit
 fi
 
-
-# puship_test
-if [ $1 = puship_test ]; then
+# Flush ipcache
+if [ $1 = flush_ipcache ]; then
 	
-	#Usage check
-	: ${2?"Usage: $0 $1 SITE version-number"}
-	
-	puship_test $2 $3
+	flush_ipcache
 	
 	exit
 fi
+
+############################################################################# 
+# Get Opts
+#############################################################################
+usage()
+{
+cat << EOF
+usage: $0 options
+
+OPTIONS:
+   -h      Show this message.
+   -i      Define installation profile, default to ip if not specify.
+   -m      Manual install mode (skip drush install).
+   -z      Setup only Apache, Mysql, Drush alias & Host alias.
+EOF
+}
+while getopts ":hi:mz" opt; do
+  case $opt in
+
+  	h)
+		usage
+		exit 1
+	;;
+	
+    i)
+		PROFILE=$OPTARG
+		shift $((OPTIND-1))
+	;;
+	
+    m)
+		echo "Manual install mode" >&2
+		MANUAL_INSTALL=1
+		shift $((OPTIND-1))
+	;;
+
+	
+    z)
+		echo "Skip drupal (setup only Apache, Mysql, Drush alias & Host alias)" >&2
+		SKIP_DRUPAL=1
+		shift $((OPTIND-1))
+	;;
+		
+    \?)
+		echo "Invalid option: -$OPTARG" >&2
+		exit 1
+	;;
+  esac
+done
+
+
+############################################################################# 
+# Check usage
+#############################################################################
+
+#Usage check
+: ${1?"Usage: $0 SITE"}
 
 
 ############################################################################# 
@@ -105,8 +124,17 @@ fi
 
 #Check drush settings
 if [ ! -d /Users/$USER/.drush ]; then
-	echo ".drush folder not found"
-	exit
+	mkdir /Users/$USER/.drush
+fi
+
+#Check sql-dump exist
+if [ ! -d $WWW/sql_dump ]; then
+	mkdir $WWW/sql_dump
+fi
+
+#Check tmp exist
+if [ ! -d $WWW/tmp ]; then
+	mkdir $WWW/tmp
 fi
 
 #Check db exist
@@ -133,9 +161,9 @@ fi
 
 #Add vhost
  echo "<VirtualHost *:80>
-    DocumentRoot $WWW/$1 
+    DocumentRoot $WWW/$1/www
     ServerName $1.localhost
-    <Directory $WWW/$1>
+    <Directory $WWW/$1/www>
         AllowOverride All
     </Directory>
 </VirtualHost>
@@ -152,7 +180,10 @@ fi
 echo "<?php
 \$aliases['$1'] = array(
     'uri' => '$1.$SERVER',
-    'root' => '$WWW/$1',
+    'root' => '$WWW/$1/www',
+	'path-aliases' => array(
+		'%dump-dir' => '$WWW/sql_dump',
+     ),
   );
 
 \$aliases['$1.dev'] = array(
@@ -234,31 +265,40 @@ if [ ! -d $WWW/ipcache ]; then
 	cd $WWW/ipcache
 	git remote rename origin in
 else
-
+	
 	cd $WWW/ipcache
+	
+	git fetch in
+	
+	git co -b $branch in/$branch
 	git co $branch
-	git pull
+	git pull in $branch
 
 fi
 
 if [ -n "$2" ]; then
 	
-	if [ "$2" = "dev" ]; then
-		branch=master
-	else
-		branch=$2
-	fi
+	branch=$2
 	
 	#kw repos
 	repo=${REPOS[1]}
 		
 	cd $WWW/ipcache
 	git remote add kw $repo
-	git pull kw
-	git co -b $branch kw/$branch
 	
+		
+	git fetch kw
+	
+	git pull kw $branch
+	git co -b $branch kw/$branch
 	git co $branch
-	git pull kw	
+	
+	git pull kw $branch
+	
+#	git submodule init
+	
+#	git submodule update
+	
 fi
 
 
@@ -267,7 +307,7 @@ cp -pRa $WWW/ipcache $WWW/$1
 ############################################################################# 
 # Check ip version
 #############################################################################
-infofile=$WWW/$1/profiles/ip/ip.info
+infofile=$WWW/$1/www/profiles/ip/ip.info
 version=$(cat $infofile | grep "version"| awk '{ print $3 }')
 version=$(echo $version | tr -d '"')
 
@@ -278,15 +318,15 @@ version=$(echo $version | tr -d '"')
 #############################################################################
 
 # Get ready for Drupal installation
-chmod 755 $WWW/$1/sites/default
+chmod 755 $WWW/$1/www/sites/default
 
 manual_install=$MANUAL_INSTALL
 if [ $manual_install = 1 ]; then
-	mkdir $WWW/$1/sites/default/files
-	chmod 777 $WWW/$1/sites/default/files
-	cp $WWW/$1/sites/default/default.settings.php $WWW/$1/sites/default/settings.php
-	chmod 777 $WWW/$1/sites/default/settings.php
-	chmod 777 $WWW/$1/sites/default/themes
+	mkdir $WWW/$1/www/sites/default/files
+	chmod 777 $WWW/$1/www/sites/default/files
+	cp $WWW/$1/www/sites/default/default.settings.php $dd/sites/default/settings.php
+	chmod 777 $WWW/$1/www/sites/default/settings.php
+	chmod 777 $WWW/$1/www/sites/default/themes
 	
 	echo "Manual install"
 	echo "$1.localhost"
@@ -299,14 +339,11 @@ fi
 
 #Drush install
 if [ -n "$2" ]; then
-	if [ "$2" = "dev" ]; then
-		drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass --site-name="$1 ($2)" -y
-	else
-		drush @$1 site-install $2 --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass --site-name="$1 ($2)" -y
-	fi
-else
-	drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass --site-name="$1 ($version)" -y
+	version=$2
 fi
+
+
+drush @$1 site-install $PROFILE --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass --site-name="$1 - $version ($PROFILE)" -y
 
 #Check if Drupal install successfully
 status=$(drush @$1 status|grep "Drupal bootstrap"|awk '{ print $4 }')
@@ -360,7 +397,7 @@ if [ "$status" = "Successful" ]; then
 
 		#4. Pre-defined styles
 		#_variables.scss
-		mv $dd/profiles/ip/themes/scss/_variables.scss $dd/sites/default/themes/$1/sass/
+		cp $dd/profiles/ip/themes/scss/_variables.scss $dd/sites/default/themes/$1/sass/
 
 		# add scaffold.scss
 		cat $dd/profiles/ip/themes/scss/global.scss >> $dd/sites/default/themes/$1/sass/global.scss
