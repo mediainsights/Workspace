@@ -287,9 +287,9 @@ if [ -n "$2" ]; then
 	git co -b $branch $repo/$branch
 	git pull $repo $branch
 	
-	git submodule init
+#	git submodule init
 	
-	git submodule update
+#	git submodule update
 	
 fi
 
