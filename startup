@@ -264,8 +264,11 @@ if [ ! -d $WWW/ipcache ]; then
 	cd $WWW/ipcache
 	git remote rename origin in
 else
-
+	
 	cd $WWW/ipcache
+	
+	fit fetch $repo
+	
 	git co -b $branch $repo/$branch
 	git pull $repo $branch
 
