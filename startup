@@ -267,7 +267,7 @@ else
 	
 	cd $WWW/ipcache
 	
-	fit fetch $repo
+	git fetch $repo
 	
 	git co -b $branch $repo/$branch
 	git pull $repo $branch
@@ -284,7 +284,7 @@ if [ -n "$2" ]; then
 		
 	cd $WWW/ipcache
 	
-	fit fetch $repo
+	git fetch $repo
 	
 	git remote add kw $repo
 	git pull kw $branch
