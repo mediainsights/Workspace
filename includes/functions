@@ -24,6 +24,9 @@ function pushws {
 	
 		git co dev
 		git push kw dev
+	
+		git co dev
+		git push kw dev
 		
 		git co stage		
 		git pull kw stage
@@ -87,6 +90,9 @@ function puship {
 				
 	elif [ "$2" = "stage" ]; then
 		
+		git co dev
+		git push kw dev
+		
 		git co stage		
 		git pull kw stage
 		
@@ -99,7 +105,7 @@ function puship {
 
 		git commit
 		
-		git push kw stage
+		git push -f kw stage
 		
 		git co dev
 		
@@ -132,7 +138,7 @@ function puship {
 		
 		git merge stage
 		
-		git push in $PRESET_BRANCH
+		git push -f in $PRESET_BRANCH
 
 		git push --tags in
 
@@ -163,7 +169,7 @@ function update_info_version {
 
 function update_ip_update_info_version {
 	
-	infofile=$(drush @$1 dd)/profiles/ip/modules/developer/ip_update/ip_update.info
+	infofile=$(drush @$1 dd)/profiles/ip/modules/ip_update/ip_update.info
 
 	version=$(cat $infofile | grep "version"| awk '{ print $3 }')
 	
@@ -175,7 +181,7 @@ function update_ip_update_info_version {
 
 function update_ip_config_info_version {
 	
-	infofile=$(drush @$1 dd)/profiles/ip/modules/developer/ip_config/ip_config.info
+	infofile=$(drush @$1 dd)/profiles/ip/modules/ip_config/ip_config.info
 
 	version=$(cat $infofile | grep "version"| awk '{ print $3 }')
 	
@@ -203,7 +209,13 @@ function flush_ipcache {
 	
 	git remote add kw git@github.com:KelvinWong/IP.git
 	
-	git pull kw
+	git fetch kw
+	
+	git co -b dev kw/dev
+	
+	git co -b $PRESET_BRANCH in/$PRESET_BRANCH
+	
+	
 }
 
 
