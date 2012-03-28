@@ -81,7 +81,7 @@ function puship {
 		
 		git push kw stage
 		
-		git co master
+		git co dev
 		
 		git merge stage
 		
