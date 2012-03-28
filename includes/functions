@@ -123,6 +123,11 @@ function puship {
 
 		git commit -am 'VERSION '$2
 
+		git tag -d $2
+		
+		git push in :refs/tags/$2
+		git push kw :refs/tags/$2
+
 		git tag -a $2 -m 'VERSION $2'
 
 		git push kw stage
@@ -150,14 +155,17 @@ function puship {
 
 function version_update {
 
-	#1 ip.info
+	#1 VERSION.txt
+	echo $2 > $(drush @$1 dd)/../VERSION.txt	
+
+	#2 ip.info
 	infofile=$(drush @$1 dd)/profiles/ip/ip.info
 	version=$(cat $infofile | grep "version"| awk '{ print $3 }')
 	
 	sed 's/'$version'/"'$2'"/g' $infofile > tmp
 	mv tmp $infofile
 		
-	#2 ip_config.info
+	#3 ip_config.info
 	infofile=$(drush @$1 dd)/profiles/ip/modules/ip_config/ip_config.info
 
 	version=$(cat $infofile | grep "version"| awk '{ print $3 }')
@@ -165,10 +173,15 @@ function version_update {
 	sed 's/'$version'/"'$2'"/g' $infofile > tmp
 	mv tmp $infofile
 	
+	#4 uom_config.info
+	infofile=$(drush @$1 dd)/profiles/unimelb/modules/uom_config/uom_config.info
+
+	version=$(cat $infofile | grep "version"| awk '{ print $3 }')
 	
-	#3 VERSION.txt
-	echo $2 > $(drush @$1 dd)/../VERSION.txt
+	sed 's/'$version'/"'$2'"/g' $infofile > tmp
+	mv tmp $infofile	
 	
+	#remove tmp
 	rm -f tmp
 
 }
