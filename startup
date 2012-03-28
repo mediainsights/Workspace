@@ -277,7 +277,6 @@ fi
 if [ -n "$2" ]; then
 	
 	branch=$2
-
 	
 	#kw repos
 	repo=${REPOS[1]}
