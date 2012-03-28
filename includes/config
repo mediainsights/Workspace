@@ -11,7 +11,7 @@ REPOS[0]=git@github.com:mediainsights/IP.git
 REPOS[1]=git@github.com:KelvinWong/IP.git
 
 
-REPOS_SHORTNAME[0]=mi
+REPOS_SHORTNAME[0]=in
 REPOS_SHORTNAME[1]=kw
 
 #preset
