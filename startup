@@ -267,10 +267,10 @@ else
 	
 	cd $WWW/ipcache
 	
-	git fetch $repo
+	git fetch in
 	
-	git co -b $branch $repo/$branch
-	git pull $repo $branch
+	git co -b $branch in/$branch
+	git pull in $branch
 
 fi
 
@@ -285,12 +285,12 @@ if [ -n "$2" ]; then
 	git remote add kw $repo
 	
 		
-	git fetch $repo
+	git fetch kw
 	
-	git pull $repo $branch
-	git co -b $branch $repo/$branch
+	git pull kw $branch
+	git co -b $branch kw/$branch
 	
-	git pull $repo $branch
+	git pull kw $branch
 	
 #	git submodule init
 	
