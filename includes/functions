@@ -15,7 +15,6 @@ function check_db_exist {
 
 #push workspace
 function pushws {
-
 	
 	if [ "$1" = "dev" ]; then
 		git co dev
