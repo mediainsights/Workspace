@@ -267,7 +267,7 @@ else
 
 	cd $WWW/ipcache
 	git co -b $branch repo
-	git pull
+	git pull repo/$branch
 
 fi
 
