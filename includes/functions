@@ -23,7 +23,7 @@ function pushws {
 	
 	#git commit
 	
-	git tag -a $1 -m 'version $1'
+	git tag -a $1 -m 'VERSION $1'
 	
 	git push kw kelvin
 
