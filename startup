@@ -275,9 +275,6 @@ else
 fi
 
 if [ -n "$2" ]; then
-
-echo $2
-exit
 	
 	branch=$2
 	
