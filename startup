@@ -270,6 +270,7 @@ else
 	git fetch in
 	
 	git co -b $branch in/$branch
+	git co $branch
 	git pull in $branch
 
 fi
@@ -289,6 +290,7 @@ if [ -n "$2" ]; then
 	
 	git pull kw $branch
 	git co -b $branch kw/$branch
+	git co $branch
 	
 	git pull kw $branch
 	
