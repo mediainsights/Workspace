@@ -315,7 +315,7 @@ manual_install=$MANUAL_INSTALL
 if [ $manual_install = 1 ]; then
 	mkdir $WWW/$1/www/sites/default/files
 	chmod 777 $WWW/$1/www/sites/default/files
-	cp $WWW/$1/www/sites/default/default.settings.php $dd/sites/default/settings.php
+	cp $WWW/$1/www/sites/default/default.settings.php $WWW/$1/www/sites/default/settings.php
 	chmod 777 $WWW/$1/www/sites/default/settings.php
 	chmod 777 $WWW/$1/www/sites/default/themes
 	
@@ -463,7 +463,7 @@ echo "Drupal was installed successfully: "
 drush @$1 user-login;
 
 
-if [ $install_profile == '"ip"' ]; then
+if [ $install_profile = '"ip"' ]; then
 	cd $dd/sites/default/themes/$1
 	compass watch
 fi

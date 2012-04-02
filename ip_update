@@ -18,13 +18,11 @@ source includes/functions
 
 cd $(drush @$1 dd)
 
-if [ -n "$2" ] then
+if [ -n "$2" ]; then
 	git co $2
-	
 	git pull kw $2
-	
-else 
-	git pull in
+else
+	git pull in master
 fi
 
 drush @$1 updb -y
