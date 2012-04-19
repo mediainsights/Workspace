@@ -402,19 +402,23 @@ if [ "$status" = "Successful" ]; then
 
 		#4. Pre-defined styles
 		#_variables.scss
-		cp $dd/profiles/ip/themes/scss/_variables.scss $dd/sites/default/themes/$1/sass/
+		cp $dd/profiles/ip/themes/theme_settings/_variables.scss $dd/sites/default/themes/$1/sass/
 
 		# add scaffold.scss
-		cat $dd/profiles/ip/themes/scss/global.scss >> $dd/sites/default/themes/$1/sass/global.scss
-		cat $dd/profiles/ip/themes/scss/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.scss
-		cat $dd/profiles/ip/themes/scss/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-normal.scss
-		cat $dd/profiles/ip/themes/scss/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-wide.scss
-		cat $dd/profiles/ip/themes/scss/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default.scss
+		cat $dd/profiles/ip/themes/theme_settings/global.scss >> $dd/sites/default/themes/$1/sass/global.scss
+		cat $dd/profiles/ip/themes/theme_settings/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-narrow.scss
+		cat $dd/profiles/ip/themes/theme_settings/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-normal.scss
+		cat $dd/profiles/ip/themes/theme_settings/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default-wide.scss
+		cat $dd/profiles/ip/themes/theme_settings/scaffold.scss >> $dd/sites/default/themes/$1/sass/$1-alpha-default.scss
 		
 		#5. Replace the log and site_name variable with delta blocks
 		
 		#theme settings: disable variable logo and site_name 
-		drush @$1 ipconfig_theme_settings
+		
+		cat $dd/profiles/ip/themes/theme_settings/info_settings.txt >> $dd/sites/default/themes/$1/$1.info
+		
+		drush @$1 cc all
+		
 		#enable site_block module: 
 		drush @$1 ipconfig_enable_site_blocks
 		
