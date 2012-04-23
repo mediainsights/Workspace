@@ -58,6 +58,8 @@ else
 	rsync -az -e "ssh -p 222" $1@$domain:~/dev/ $WWW/$1/www
 fi
 
+chmod 755 $WWW/$1/www
+
 remote_dbname=$(drush @$1.$2 status --show-passwords|grep "Database name"|awk '{ print $4 }')
 remote_dbuser=$(drush @$1.$2 status --show-passwords|grep "Database username"|awk '{ print $4 }')
 remote_dbpass=$(drush @$1.$2 status --show-passwords|grep "Database password"|awk '{ print $4 }')
