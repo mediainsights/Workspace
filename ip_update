@@ -26,3 +26,5 @@ else
 fi
 
 drush @$1 updb -y
+
+drush @$1 cc all
