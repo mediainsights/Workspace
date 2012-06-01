@@ -86,6 +86,11 @@ function puship {
 	
 	if [ "$2" = "dev" ]; then
 		git co dev
+		
+		git add .
+		git add -u
+		git commit -m 'update'
+		
 		git push kw dev
 				
 	elif [ "$2" = "stage" ]; then

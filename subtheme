@@ -97,7 +97,7 @@ if [ $THEME == 'omega' ]; then
 	
 	drush @$1 cc all
 	
-	#enable site_block module: 
+	#enable in_site_block module: 
 	drush @$1 ipconfig_enable_site_blocks
 	
 	#6. Run compass watch at the end. (script is located at the bottom of the file)
