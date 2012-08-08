@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function check_db_exist {
-	DBS=`mysql -uroot -p$2 -Bse 'show databases'| egrep -v 'information_schema|mysql'`
+	DBS=`mysql -uvagrant -Bse 'show databases'| egrep -v 'information_schema|mysql'`
 	for db in $DBS; do
 		if [ "$db" = $1 ]; then
 			return 1
@@ -96,6 +96,11 @@ function puship {
 	elif [ "$2" = "stage" ]; then
 		
 		git co dev
+		
+		git add .
+		git add -u
+		git commit -m 'update'
+		
 		git push kw dev
 		
 		git co stage		
@@ -116,7 +121,7 @@ function puship {
 		
 		git merge stage
 		
-	else
+	else	
 		git co stage
 		
 		version_update $1 $2
@@ -133,7 +138,7 @@ function puship {
 		git push in :refs/tags/$2
 		git push kw :refs/tags/$2
 
-		git tag -a $2 -m 'VERSION $2'
+		git tag -a $2 -m 'VERSION $version'
 
 		git push kw stage
 		
@@ -152,8 +157,6 @@ function puship {
 		git merge stage
 		
 		git push kw dev
-
-		
 	fi
 		
 }

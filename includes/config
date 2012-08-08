@@ -1,21 +1,24 @@
-SERVER=localhost
+############################################################################# 
+# Check Platform
+#############################################################################
+if [ -e /etc/issue ]; then
+	test1=$(cat /etc/issue | grep 'Debian')
+fi
+if [ ! -z "$test1" ]; then
+	OS=debian
+fi
 
-#DocumentRoot
-WWW=/Users/$USER/Sites
+test2=$(sw_vers -productVersion)
+if [ ! -z "$test2" ]; then
+	OS=mac
+fi
 
-#Apache directory
-APACHEDIR=/etc/apache2
+if [ -z "$OS" ]; then
+	echo Your OS is not supportted
+	exit 1
+fi
 
-#dev git repository
-REPOS[0]=git@github.com:mediainsights/IP.git
-REPOS[1]=git@github.com:KelvinWong/IP.git
-
-
-REPOS_SHORTNAME[0]=in
-REPOS_SHORTNAME[1]=kw
-
-#preset
-PRESET_BRANCH=7.x-3.x
-MANUAL_INSTALL=0
-SKIP_DRUPAL=0
-PROFILE=ip
+source includes/config_$OS
+source includes/functions
+VHOST_FILE=vhost_$OS
+DRUSH_FILE=drush_$OS

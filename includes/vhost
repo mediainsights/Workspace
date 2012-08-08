@@ -1,0 +1,27 @@
+<VirtualHost *:8080>
+        ServerAdmin webmaster@insights.net.au
+        ServerName SERVER_NAME
+
+        DocumentRoot DOC_ROOT
+        <Directory DOC_ROOT>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride All
+                Order allow,deny
+                allow from all
+                AuthType Basic
+                AuthName "Restricted Site"
+                AuthBasicProvider file
+                AuthUserFile /etc/apache2/passwd/password
+                Require valid-user
+        </Directory>
+
+        ErrorLog /var/log/apache2/error-dev.policyonline.org.au.log
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel warn
+        LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" proxy
+
+        CustomLog /var/log/apache2/access-dev.policyonline.org.au.log proxy
+
+</VirtualHost>

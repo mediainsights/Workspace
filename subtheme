@@ -8,7 +8,7 @@ source ~/.bash_profile
 source includes/config
 source includes/functions
 
-THEME='omega'
+THEME="omega"
 
 ############################################################################# 
 # Get Opts
@@ -23,7 +23,7 @@ OPTIONS:
    -t      Define a parent theme, default to omega if not specify.
 EOF
 }
-while getopts ":hp" opt; do
+while getopts ":ht:" opt; do
   case $opt in
 
   	h)
@@ -51,15 +51,15 @@ done
 #Usage check
 : ${1?"Usage: $0 SITE"}
 
+if [ "$THEME" = "omega" ]; then
 
-dd=$(drush @$1 dd)
-
-if [ $THEME == 'omega' ]; then		
+	dd=$(drush @$1 dd)
+	
 	#1. Enable omega_tools
 	drush @$1 pm-enable omega_tools -y
 	
 	#2. Create new sub theme
-	drush @$1 ipconfig_create_theme $1	
+	drush @$1 ipconfig_create_theme $1 $2
 
 	#3. Settings for SCSS
 	#copy config.rb
@@ -102,5 +102,73 @@ if [ $THEME == 'omega' ]; then
 	
 	#6. Run compass watch at the end. (script is located at the bottom of the file)
 	cd $dd/sites/default/themes/$1
+	compass watch
+	
+elif [ "$THEME" = "unimelb" ]; then	
+	
+	SITE=$1
+	
+	dd=$(drush @$SITE dd)
+	
+
+	STARTKITS_DIR=$dd/profiles/ip/themes/omega/starterkits
+	UNIMELB_STARTKIT=$STARTKITS_DIR/omega-html5-unimelb
+	THEME_SETTINGS_UNIMELB=$dd/profiles/ip/themes/theme_settings/unimelb
+	INFO_FILENAME=starterkit_omega_html5_unimelb.info
+
+	#1. Create unimelb startkit from omega-html5 startkit
+	rm -rf $UNIMELB_STARTKIT	
+	cp -pRa $STARTKITS_DIR/omega-html5 $UNIMELB_STARTKIT
+	mv $UNIMELB_STARTKIT/starterkit_omega_html5.info $UNIMELB_STARTKIT/$INFO_FILENAME
+	
+	#2. Stylesheets (CSS & SCSS)
+	
+	#SCSS config.rb
+	cp $dd/profiles/ip/themes/theme_settings/unimelb/config.rb $UNIMELB_STARTKIT
+	
+	#mv *.css to *.scss
+	mv $UNIMELB_STARTKIT/css $UNIMELB_STARTKIT/sass
+	mv $UNIMELB_STARTKIT/sass/global.css $UNIMELB_STARTKIT/sass/global.scss	
+	mv $UNIMELB_STARTKIT/sass/YOURTHEME-alpha-default.css $UNIMELB_STARTKIT/sass/YOURTHEME-alpha-default.scss
+	mv $UNIMELB_STARTKIT/sass/YOURTHEME-alpha-default-narrow.css $UNIMELB_STARTKIT/sass/YOURTHEME-alpha-default-narrow.scss
+	mv $UNIMELB_STARTKIT/sass/YOURTHEME-alpha-default-normal.css $UNIMELB_STARTKIT/sass/YOURTHEME-alpha-default-normal.scss
+	mv $UNIMELB_STARTKIT/sass/YOURTHEME-alpha-default-wide.css $UNIMELB_STARTKIT/sass/YOURTHEME-alpha-default-wide.scss
+
+
+	mkdir $UNIMELB_STARTKIT/css
+	
+	#Other css
+	#_variables.scss
+	cp $THEME_SETTINGS_UNIMELB/sass/_variables.scss $UNIMELB_STARTKIT/sass/
+	#custom.scss
+	cp $THEME_SETTINGS_UNIMELB/sass/custom.scss $UNIMELB_STARTKIT/sass/
+
+	#scaffold.scss
+	cat $THEME_SETTINGS_UNIMELB/sass/scaffold.scss >> $UNIMELB_STARTKIT/sass/global.scss
+	cat $THEME_SETTINGS_UNIMELB/sass/scaffold.scss >> $UNIMELB_STARTKIT/sass/YOURTHEME-alpha-default.scss	
+	cat $THEME_SETTINGS_UNIMELB/sass/scaffold.scss >> $UNIMELB_STARTKIT/sass/YOURTHEME-alpha-default-narrow.scss
+	cat $THEME_SETTINGS_UNIMELB/sass/scaffold.scss >> $UNIMELB_STARTKIT/sass/YOURTHEME-alpha-default-normal.scss
+	echo '/* Wide layout is disabled by default, you can enable wide layout in Layout configuration. */' >> $UNIMELB_STARTKIT/sass/YOURTHEME-alpha-default-wide.scss
+
+	
+	#3. Other theme files 
+	#javascript  
+	cp -pRa $THEME_SETTINGS_UNIMELB/js $UNIMELB_STARTKIT
+	#preprocess
+	cp $THEME_SETTINGS_UNIMELB/preprocess/*.inc $UNIMELB_STARTKIT/preprocess/
+	#theme-settings.php
+	cp $THEME_SETTINGS_UNIMELB/theme-settings.php $UNIMELB_STARTKIT/
+	
+	#4. Additional info file settings
+	cat $THEME_SETTINGS_UNIMELB/addition_info_settings.txt >> $UNIMELB_STARTKIT/$INFO_FILENAME
+	
+	#5. Enable omega_tools
+	drush @$SITE pm-enable omega_tools -y
+	
+	#6. Create new sub theme
+	drush @$SITE ipconfig_create_theme $SITE $THEME
+	
+	#7. Run compass watch at the end. (script is located at the bottom of the file)
+	cd $dd/sites/default/themes/$SITE
 	compass watch
 fi

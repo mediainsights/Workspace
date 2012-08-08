@@ -69,21 +69,21 @@ fi
 
 #echo $domain
 
-mkdir $WWW/$1
-mkdir $WWW/$1/www
+mkdir ~/Sites/$1
+mkdir ~/Sites/$1/www
 
 if [ "$2" = "live" ]; then
-	rsync -az -e "ssh -p 222" $1@$domain:~/public_html/ $WWW/$1/www
+	rsync -az -e "ssh -p 222" $1@$domain:~/public_html/ ~/Sites/$1/www
 	
-	scp -P 222 $1@$domain:/home/$1/CHANGELOG.txt $WWW/$1/ 
-	scp -P 222 $1@$domain:/home/$1/README.txt $WWW/$1/ 
-	scp -P 222 $1@$domain:/home/$1/VERSION.txt $WWW/$1/ 
+	scp -P 222 $1@$domain:/home/$1/CHANGELOG.txt ~/Sites/$1/ 
+	scp -P 222 $1@$domain:/home/$1/README.txt ~/Sites/$1/ 
+	scp -P 222 $1@$domain:/home/$1/VERSION.txt ~/Sites/$1/ 
 	
 else 
-	rsync -az -e "ssh -p 222" $1@$domain:~/dev/ $WWW/$1/www
+	rsync -az -e "ssh -p 222" $1@$domain:~/dev/ ~/Sites/$1/www
 fi
 
-chmod 755 $WWW/$1/www
+chmod 755 ~/Sites/$1/www
 
 remote_dbname=$(drush @$1.$2 status --show-passwords|grep "Database name"|awk '{ print $4 }')
 remote_dbuser=$(drush @$1.$2 status --show-passwords|grep "Database username"|awk '{ print $4 }')
@@ -91,7 +91,7 @@ remote_dbpass=$(drush @$1.$2 status --show-passwords|grep "Database password"|aw
 
 echo Remote: $remote_dbname, $remote_dbuser, $remote_dbpass
 
-settingsfile=$WWW/$1/www/sites/default/settings.php
+settingsfile=~/Sites/$1/www/sites/default/settings.php
 sed "s/$remote_dbname/$dbname/g" $settingsfile > tmp
 sed "s/$remote_dbuser/$dbuser/g" tmp > tmp2
 chmod 777 $settingsfile

@@ -1,0 +1,30 @@
+<?php
+$aliases['PROJECT_NAME'] = array(
+    'uri' => 'local.DOMAIN_NAME',
+    'root' => 'WWW/PROJECT_NAME/www',
+	'path-aliases' => array(
+		'%dump-dir' => 'WWW/sql_dump',
+     ),
+  );
+
+$aliases['PROJECT_NAME.dev'] = array(
+    'uri' => 'dev.DOMAIN_NAME',
+	'root' => '/home/PROJECT_NAME/dev',
+	'ssh-options' => '-p 222',
+    'remote-host' => 'dev.DOMAIN_NAME',
+	'remote-user' => 'PROJECT_NAME',
+	'path-aliases' => array(
+		'%dump-dir' => '/home/PROJECT_NAME/sql_dump',
+     ),
+  );
+
+$aliases['PROJECT_NAME.live'] = array(
+    'uri' => 'DOMAIN_NAME',
+	'root' => '/home/PROJECT_NAME/www',
+	'ssh-options' => '-p 222',
+    'remote-host' => 'DOMAIN_NAME',
+	'remote-user' => 'PROJECT_NAME',
+	'path-aliases' => array(
+		'%dump-dir' => '/home/PROJECT_NAME/sql_dump',
+     ),
+  );

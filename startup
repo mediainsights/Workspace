@@ -4,16 +4,15 @@
 # Source files
 #############################################################################
 
-source ~/.bash_profile
 source includes/config
-source includes/functions
+
 
 ############################################################################# 
 # Functions
 #############################################################################
 
 # Push Workspace to in repository
-if [ $1 = pushws ]; then
+if [ "$1" = "pushws" ]; then
 	
 	#Usage check
 	: ${2?"Usage: $0 $1 version-number"}
@@ -24,18 +23,28 @@ if [ $1 = pushws ]; then
 fi
 
 # Push ip to in repository
-if [ $1 = puship ]; then
+if [ "$1" = "puship" ]; then
 	
 	#Usage check
-	: ${2?"Usage: $0 $1 SITE version-number"}
+	: ${2?"Usage: $0 $1 SITE [dev | stage | live]"}
 	
-	puship $2 $3
+	if [[ "$3" != "dev" && "$3" != "stage" && "$3" != "live" ]]; then
+		echo "Usage: $0 $1 SITE [dev | stage | live]"
+		exit
+	fi
+	
+	if [ "$3" == "live" ]; then
+		read -p "Enter a version number: " version
+		puship $2 $version
+	else
+		puship $2 $3
+	fi
 	
 	exit
 fi
 
 # Flush ipcache
-if [ $1 = flush_ipcache ]; then
+if [ "$1" = "flush_ipcache" ]; then
 	
 	flush_ipcache
 	
@@ -105,26 +114,37 @@ done
 
 read -p "What is the actual domain of the website: " domain
 
+if [ -z "$domain" ]; then
+	domain=$1
+fi
+
+# Project directory
+if [ "$OS" = "debian" ]; then
+	PROJ_DIR=$WWW/local.$domain
+elif [ "$OS" = "mac" ]; then
+	PROJ_DIR=$WWW/$1
+fi
+
 ############################################################################# 
 # Check settings
 #############################################################################
 
 
 #Check vhost exist
-if [ -f $APACHEDIR/other/$1.$SERVER.conf ]; then
-  echo vhost $1.$SERVER is already existed
+if [ -f $VHOST/local.$domain.conf ]; then
+  echo vhost local.$domain is already existed
   exit
 fi
 
 #Check project directory exist
-if [ -d $WWW/$1 ]; then
-  echo Folder $1 is already existed
+if [ -d $PROJ_DIR ]; then
+  echo Folder $PROJ_DIR is already existed
   exit
 fi
 
 #Check drush settings
-if [ ! -d /Users/$USER/.drush ]; then
-	mkdir /Users/$USER/.drush
+if [ ! -d ~/.drush ]; then
+	mkdir ~/.drush
 fi
 
 #Check sql-dump exist
@@ -137,17 +157,21 @@ if [ ! -d $WWW/tmp ]; then
 	mkdir $WWW/tmp
 fi
 
+#Check host alias
+if [ ! -z "$(grep local.$domain $HOSTS)" ]; then
+	echo Host alias local.$domain already exist
+	exit 1
+fi
+
 #Check db exist
 
-read -s -p "Enter mysql root password: " rootpass
-
 #Test mysql connection
-while ! mysql -u root -p$rootpass  -e ";" ; do
-       read -s -p "Can't connect, please retry: " rootpass
-done
+if ! mysql -u $MYSQL_USER  -e ";" ; then
+	exit 1
+fi
 echo "";
 
-check_db_exist $1_db $rootpass
+check_db_exist $1_db
 db_exist=$?
 
 if [ $db_exist = 1 ]; then	
@@ -155,60 +179,34 @@ if [ $db_exist = 1 ]; then
 	exit
 fi
 
+
 ############################################################################# 
 # Setup vhost, host alias & drush alias
 #############################################################################
 
 #Add vhost
- echo "<VirtualHost *:80>
-    DocumentRoot $WWW/$1/www
-    ServerName $1.localhost
-    <Directory $WWW/$1/www>
-        AllowOverride All
-    </Directory>
-</VirtualHost>
-" | sudo tee -a $APACHEDIR/other/$1.$SERVER.conf
+sed s/SERVER_NAME/local.$domain/g includes/$VHOST_FILE > tmp
+sed s,DOC_ROOT,"$PROJ_DIR/www",g tmp | sudo tee -a $VHOST/local.$1.conf
 
-sudo apachectl restart
+if [ "$OS" = "debian" ]; then
+	sudo ln -s $VHOST/local.$1.conf $VHOST/../sites-enabled/local.$1.conf
+fi
+rm -rf tmp
+
+$APACHE_RESTART
 
 #Add host alias
-if [ ! $(grep -q "$1.$SERVER" /etc/hosts) ]; then
-  echo -e "127.0.0.1	$1.$SERVER" | sudo tee -a /etc/hosts
+if [ ! $(grep -q "local.$domain" $HOSTS) ]; then
+  echo -e "$SERVER_IP	local.$domain" | sudo tee -a $HOSTS
 fi
 
 #Add drush alias
-echo "<?php
-\$aliases['$1'] = array(
-    'uri' => '$1.$SERVER',
-    'root' => '$WWW/$1/www',
-	'path-aliases' => array(
-		'%dump-dir' => '$WWW/sql_dump',
-     ),
-  );
+sed s/DOMAIN_NAME/$domain/g includes/$DRUSH_FILE > tmp
+sed s/PROJECT_NAME/$1/g tmp > tmp2
+sed s,WWW,$WWW,g tmp2 > tmp
+cat tmp > ~/.drush/$1.aliases.drushrc.php
+rm -rf tmp tmp2
 
-\$aliases['$1.dev'] = array(
-    'uri' => 'dev.$domain',
-	'root' => '/home/$1/dev',
-	'ssh-options' => '-p 222',
-    'remote-host' => 'dev.$domain',
-	'remote-user' => '$1',
-	'path-aliases' => array(
-		'%dump-dir' => '/home/$1/sql_dump',
-     ),
-  );
-
-\$aliases['$1.live'] = array(
-    'uri' => '$domain',
-	'root' => '/home/$1/www',
-	'ssh-options' => '-p 222',
-    'remote-host' => '$domain',
-	'remote-user' => '$1',
-	'path-aliases' => array(
-		'%dump-dir' => '/home/$1/sql_dump',
-     ),
-  );
-
-" > /Users/$USER/.drush/$1.aliases.drushrc.php 
 
 ############################################################################# 
 # Create database & user
@@ -224,7 +222,7 @@ dbpass=$(perl -e 'print crypt($ARGV[0], "password")' $rand | sed 's/\///g')
 drupaluser='Site Admin'
 
 #CREATE DB
-mysqladmin -uroot -p$rootpass create $dbname;
+mysqladmin -u$MYSQL_USER create $dbname;
 
 echo domain: $domain
 echo dbname: $dbname 
@@ -236,7 +234,8 @@ Q1="GRANT USAGE ON * . * TO  '$dbuser'@'localhost' IDENTIFIED BY  '$dbpass';"
 Q2="GRANT ALL PRIVILEGES ON $dbname.* TO '$dbuser'@'localhost' IDENTIFIED BY '$dbpass';"
 SQL="${Q1}${Q2}"
 
-mysql -uroot -p$rootpass -e "$SQL"
+mysql -u$MYSQL_USER -e "$SQL"
+
 
 ############################################################################# 
 # Skip drupal
@@ -266,8 +265,8 @@ else
 	
 	git fetch in
 	
-	git co -b $branch in/$branch
-	git co $branch
+	git checkout -b $branch in/$branch
+	git checkout $branch
 	git reset --hard HEAD
 	git pull in $branch
 
@@ -285,8 +284,8 @@ if [ -n "$2" ]; then
 		
 	git fetch kw
 	
-	git co -b $branch kw/$branch
-	git co $branch
+	git checkout -b $branch kw/$branch
+	git checkout $branch
 	
 	git reset --hard HEAD	
 	git pull kw $branch
@@ -294,13 +293,13 @@ if [ -n "$2" ]; then
 	
 fi
 
+cp -pRa $WWW/ipcache $PROJ_DIR
 
-cp -pRa $WWW/ipcache $WWW/$1
 
 ############################################################################# 
 # Check ip version
 #############################################################################
-infofile=$WWW/$1/www/profiles/ip/ip.info
+infofile=$PROJ_DIR/www/profiles/ip/ip.info
 version=$(cat $infofile | grep "version"| awk '{ print $3 }')
 version=$(echo $version | tr -d '"')
 
@@ -311,18 +310,18 @@ version=$(echo $version | tr -d '"')
 #############################################################################
 
 # Get ready for Drupal installation
-chmod 755 $WWW/$1/www/sites/default
+chmod 755 $PROJ_DIR/www/sites/default
 
 manual_install=$MANUAL_INSTALL
 if [ $manual_install = 1 ]; then
-	mkdir $WWW/$1/www/sites/default/files
-	chmod 777 $WWW/$1/www/sites/default/files
-	cp $WWW/$1/www/sites/default/default.settings.php $WWW/$1/www/sites/default/settings.php
-	chmod 777 $WWW/$1/www/sites/default/settings.php
-	chmod 777 $WWW/$1/www/sites/default/themes
+	mkdir $PROJ_DIR/www/sites/default/files
+	chmod 777 $PROJ_DIR/www/sites/default/files
+	cp $PROJ_DIR/www/sites/default/default.settings.php $PROJ_DIR/www/sites/default/settings.php
+	chmod 777 $PROJ_DIR/www/sites/default/settings.php
+	chmod 777 $PROJ_DIR/www/sites/default/themes
 	
 	echo "Manual install"
-	echo "$1.localhost"
+	echo "localhost.$domain:8080"
 	echo "Database $dbname created, $dbuser - $dbpass"
 	
 	exit
@@ -338,7 +337,7 @@ fi
 if [ "$PROFILE" = "unimelb" ]; then
 	drush @$1 site-install ip --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass --site-name="$1 - $version ($PROFILE)" -y
 	
-elif [ -d $WWW/$1/www/profiles/$PROFILE ]; then
+elif [ -d $PROJ_DIR/www/profiles/$PROFILE ]; then
 	drush @$1 site-install $PROFILE --db-url=mysql://$dbuser:"$dbpass"@localhost/$dbname --account-name="$drupaluser" --account-pass=$dbpass --site-name="$1 - $version ($PROFILE)" -y
 fi
 
@@ -355,13 +354,12 @@ if [ "$status" = "Successful" ]; then
 	#Make files directory writable
 	chmod -R 777 `drush @$1 dd files`
 	chmod 755 $dd/sites/default
-	#chmod 755 $dd/sites/$1.$SERVER
 
 	#Make everthing in files directory writable
 	chmod -R 777 `drush @$1 dd files`
 
-	#cp $WWW/$1/sites/default/settings.php $WWW/$1/sites/default/settings.live
-	#sed 's/_db/_dev/' $WWW/$1/sites/default/settings.php > $WWW/$1/sites/default/settings.dev
+	#cp $PROJ_DIR/sites/default/settings.php $PROJ_DIR/sites/default/settings.live
+	#sed 's/_db/_dev/' $PROJ_DIR/sites/default/settings.php > $PROJ_DIR/sites/default/settings.dev
 
 	############################################################################# 
 	# Unimelb config
@@ -379,32 +377,36 @@ else
 	#if not manual install, remove everything has been setup
 	if [ $manual_install = 0 ]; then
 		#remove db
-		mysqladmin -uroot -p$rootpass -f DROP $dbname;
+		mysqladmin -u$MYSQL_USER -f DROP $dbname;
 		echo $dbname is removed;
 
 		#remove db user
-		mysql -uroot -p$rootpass -e "DROP USER $dbuser@localhost;";
+		mysql -u$MYSQL_USER -e "DROP USER $dbuser@localhost;";
 		echo User $dbuser is removed;	
 
 		#remove vhost file
-		sudo rm -f $APACHEDIR/other/$1.$SERVER.conf
+		sudo rm -f $VHOST/local.$1.conf
+		if [ "$OS" = "debian" ]; then
+			sudo rm -f $VHOST/../sites-enabled/local.$1.conf
+		fi
 		echo vhost removed.
 
 		#remove site directory
-		sudo rm -rf $WWW/$1
+		sudo rm -rf $PROJ_DIR
 		echo site directory removed.
 
 		#remove host alias
-		sed "/$1.$SERVER/d" /etc/hosts > tmp/hosts
-		sudo mv tmp/hosts /etc/hosts
+		echo $HOSTS
+		sed "/local.$1/d" $HOSTS | sudo tee $HOSTS > tmp
+		rm -f tmp
 		echo host alias removed.
 
 		#remove drush alias
-		rm -f /Users/$USER/.drush/$1.aliases.drushrc.php
+		rm -f ~/.drush/$1.aliases.drushrc.php
 		echo drush alias removed.
 
 		#restart apache
-		sudo apachectl restart
+		$APACHE_RESTART
 		echo apache restarted.
 		
 	fi

@@ -1,0 +1,26 @@
+<?php
+$aliases['PROJECT_NAME'] = array(
+    'uri' => 'local.DOMAIN_NAME',
+    'root' => 'WWW/local.DOMAIN_NAME/www',
+	'path-aliases' => array(
+		'%dump-dir' => 'WWW/sql_dump',
+     ),
+  );
+
+$aliases['PROJECT_NAME.dev'] = array(
+    'uri' => 'dev.DOMAIN_NAME',
+	'root' => 'WWW/dev.DOMAIN_NAME/www',
+    'remote-host' => 'dev.DOMAIN_NAME',
+	'path-aliases' => array(
+		'%dump-dir' => 'WWW/shared/mysql_dump',
+     ),
+  );
+
+$aliases['PROJECT_NAME.live'] = array(
+    'uri' => 'DOMAIN_NAME',
+	'root' => 'WWW/DOMAIN_NAME/www',
+    'remote-host' => 'DOMAIN_NAME',
+	'path-aliases' => array(
+		'%dump-dir' => 'WWW/shared/mysql_dump',
+     ),
+  );

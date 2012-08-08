@@ -1,0 +1,34 @@
+SERVER_IP=192.168.33.10
+
+
+#DocumentRoot
+WWW=/var/www
+
+#Apache directory
+APACHEDIR=/etc/apache2
+
+#Hosts file
+HOSTS=/mac_etc/hosts
+
+#Vhost directory
+VHOST=$APACHEDIR/sites-available
+
+#Apache restart command
+APACHE_RESTART="sudo /etc/init.d/apache2 restart"
+
+#MySQL user
+MYSQL_USER=workspace
+
+#dev git repository
+REPOS[0]=git@github.com:mediainsights/IP.git
+REPOS[1]=git@github.com:KelvinWong/IP.git
+
+
+REPOS_SHORTNAME[0]=in
+REPOS_SHORTNAME[1]=kw
+
+#preset
+PRESET_BRANCH=7.x-3.x
+MANUAL_INSTALL=0
+SKIP_DRUPAL=0
+PROFILE=ip

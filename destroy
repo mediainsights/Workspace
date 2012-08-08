@@ -3,10 +3,8 @@
 ############################################################################# 
 # Source files
 #############################################################################
-
-source ~/.bash_profile
 source includes/config
-source includes/functions
+
 
 ############################################################################# 
 # Check usage and platform settings
@@ -15,47 +13,51 @@ source includes/functions
 #Usage check
 : ${1?"Usage: $0 SITE"}
 
-
-# Mysql login
-read -s -p "Enter mysql root password: " rootpass
-
-#Test mysql connection
-while ! mysql -u root -p$rootpass  -e ";" ; do
-       read -s -p "Can't connect, please retry: " rootpass
-done
-
-echo "";
-
+#Check site exist on server
+local_domain=$(cat $VHOST/local.$1.conf | grep "ServerName"| awk '{ print $2 }')
+if [ -z $local_domain ]; then
+	echo Domain cannot be detected. Your site may not be running on this server
+	exit 1
+fi
 
 # Pass all tests
 
+# Project directory
+if [ "$OS" = "debian" ]; then
+	PROJ_DIR=$WWW/$local_domain
+elif [ "$OS" = "mac" ]; then
+	PROJ_DIR=$WWW/$1
+fi
 
 #Remove db
-mysqladmin -uroot -p$rootpass -f DROP $1_db;
+mysqladmin -u$MYSQL_USER -f DROP $1_db;
 echo $1_db deleted
 
 #Remove user
-mysql -uroot -p$rootpass -e "DROP USER $1_user@localhost;";
+mysql -u$MYSQL_USER -e "DROP USER $1_user@localhost;";
 echo User $1_user is removed.
 
 #remove vhost file
-sudo rm -f $APACHEDIR/other/$1.$SERVER.conf
-echo Remove vhost alias: $APACHEDIR/other/$1.$SERVER.conf
+sudo rm -f $VHOST/local.$1.conf
+
+if [ "$OS" = "debian" ]; then
+	sudo rm -f $VHOST/../sites-enabled/local.$1.conf
+fi
+echo Remove vhost alias: $VHOST/local.$1.conf
 
 #remove drush alias
-rm -f /Users/$USER/.drush/$1.aliases.drushrc.php
-echo Remove drush alias: /Users/$USER/.drush/$1.aliases.drushrc.php
+rm -f ~/.drush/$1.aliases.drushrc.php
+echo Remove drush alias: ~/.drush/$1.aliases.drushrc.php
 
 #remove site directory
-sudo rm -rf $WWW/$1
+sudo rm -rf $PROJ_DIR
 echo Remove site directory.
 
 #remove host alias
-sed "/$1.$SERVER/d" /etc/hosts > tmp
-sudo mv tmp /etc/hosts
+sed "/$local_domain/d" $HOSTS | sudo tee $HOSTS > tmp
 rm -f tmp
-echo Update etc/hosts.
+echo Update $HOSTS.
 
 #apache restart
-sudo apachectl restart
+$APACHE_RESTART
 echo apache restarted.

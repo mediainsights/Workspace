@@ -1,0 +1,7 @@
+<VirtualHost *:80>
+    DocumentRoot DOC_ROOT
+    ServerName SERVER_NAME
+    <Directory DOC_ROOT>
+        AllowOverride All
+    </Directory>
+</VirtualHost>
