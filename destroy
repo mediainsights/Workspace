@@ -7,14 +7,27 @@ source includes/config
 
 
 ############################################################################# 
-# Check usage and platform settings
+# Check usage
 #############################################################################
 
 #Usage check
 : ${1?"Usage: $0 SITE"}
 
+
 #Check site exist on server
-local_domain=$(cat $VHOST/local.$1.conf | grep "ServerName"| awk '{ print $2 }')
+if [ -f $VHOST/local.$1.conf ]; then
+	VHOST_FILE=$VHOST/local.$1.conf
+elif [ -f $VHOST/$1.localhost.conf ]; then
+	VHOST_FILE=$VHOST/$1.localhost.conf
+fi
+
+if [ -z $VHOST_FILE ]; then
+	echo Domain cannot be detected. Your site may not be running on this server
+	exit 1
+fi
+
+
+local_domain=$(cat $VHOST_FILE | grep "ServerName"| awk '{ print $2 }')
 if [ -z $local_domain ]; then
 	echo Domain cannot be detected. Your site may not be running on this server
 	exit 1
@@ -38,7 +51,7 @@ mysql -u$MYSQL_USER -e "DROP USER $1_user@localhost;";
 echo User $1_user is removed.
 
 #remove vhost file
-sudo rm -f $VHOST/local.$1.conf
+sudo rm -f $VHOST_FILE
 
 if [ "$OS" = "debian" ]; then
 	sudo rm -f $VHOST/../sites-enabled/local.$1.conf

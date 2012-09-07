@@ -22,26 +22,18 @@ if [ "$loc_status" != "Successful" ]; then
 	exit
 fi
 
-#Check remote status
-status=$(drush @$1.dev status|grep "Drupal bootstrap"|awk '{ print $4 }')
-if [ "$status" != "Successful" ]; then
-	echo Drupal site not found on @$1.dev, please use ./upload instead.
-	exit
+
+#drupal directory
+dd=$(drush @$1 dd)
+db_folder=$dd/../db
+
+#Check folder db exist
+if [ ! -d $db_folder ]; then
+	mkdir $db_folder
 fi
 
+drush @$1 sql-dump --result-file=$db_folder/$1.sql
 
+rm -f $db_folder/$1.sql.bz2
 
-
-drush sql-sync @$1.live @$1.dev --no-cache -y
-
-drush rsync @$1.live $WWW/tmp --delete -y
-
-drush rsync $WWW/tmp @$1.dev --delete -y
-
-drush @$1.dev vset --always-set site_offline 1 
-
-drush -v rsync @$1 @$1.dev -y
-
-drush @$1.dev updb -y
-
-drush @$1.dev cc all
+bzip2 $db_folder/$1.sql

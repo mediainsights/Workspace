@@ -3,9 +3,7 @@
 ############################################################################# 
 # Source files
 #############################################################################
-
 source includes/config
-
 
 ############################################################################# 
 # Functions
@@ -158,7 +156,7 @@ if [ ! -d $WWW/tmp ]; then
 fi
 
 #Check host alias
-if [ ! -z "$(grep local.$domain $HOSTS)" ]; then
+if [ ! -z "$(grep local.$domain$ $HOSTS)" ]; then
 	echo Host alias local.$domain already exist
 	exit 1
 fi
